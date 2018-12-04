@@ -21,7 +21,7 @@ public class MomentsRecordHelper {
      * @return
      */
     public static MomentsRecord getLastNewsRecord(String publisherUserId) {
-        return DataSupport.where("publisher_user_id=?", publisherUserId).findLast(MomentsRecord.class);
+        return DataSupport.where("publisherUserId=?", publisherUserId).findLast(MomentsRecord.class);
     }
 
     /**
@@ -57,7 +57,7 @@ public class MomentsRecordHelper {
         }
         //保存新的记录
         MomentsRecord newsRecord = new MomentsRecord(publisherUserId, page, json, System.currentTimeMillis());
-        newsRecord.saveOrUpdate("publisher_user_id = ? and page = ?", publisherUserId, String.valueOf(page));
+        newsRecord.saveOrUpdate("publisherUserId = ? and page = ?", publisherUserId, String.valueOf(page));
     }
 
 

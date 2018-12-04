@@ -69,7 +69,8 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
     @Override
     public void initData() {
-        publisherUserId = getArguments().getString(Constant.PUBLISHER_USER_ID);
+//        publisherUserId = getArguments().getString(Constant.PUBLISHER_USER_ID);
+        publisherUserId = "2018111514554801539";
     }
 
     @Override
@@ -96,7 +97,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         if (momentsRecord == null) {
             //找不到记录，拉取网络数据
             momentsRecord = new MomentsRecord();//创建一个没有数据的对象
-            mPresenter.getNewsList(publisherUserId);
+            mPresenter.getMomentsList(publisherUserId);
             return;
         }
 
@@ -106,11 +107,6 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mCommentAdapter.notifyDataSetChanged();//刷新adapter
 
         mStateView.showContent();//显示内容
-
-        //判断时间是否超过10分钟，如果是则自动刷新
-        if (momentsRecord.getTime() - System.currentTimeMillis() == 10 * 60 * 100) {
-            mRefreshLayout.beginRefreshing();
-        }
     }
 
     @Override

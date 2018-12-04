@@ -24,14 +24,14 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
     }
 
 
-    public void getNewsList(String channelCode) {
-        lastTime = PreUtils.getLong(channelCode, 0);//读取对应频道下最后一次刷新的时间戳
+    public void getMomentsList(String publisherUserId) {
+        lastTime = PreUtils.getLong(publisherUserId, 0);//读取对应频道下最后一次刷新的时间戳
         if (lastTime == 0) {
             //如果为空，则是从来没有刷新过，使用当前时间戳
             lastTime = System.currentTimeMillis() / 1000;
         }
 
-        addSubscription(mApiService.getNewsList(channelCode, lastTime, System.currentTimeMillis() / 1000), new Subscriber<NewsResponse>() {
+        addSubscription(mApiService.getNewsList(publisherUserId, lastTime, System.currentTimeMillis() / 1000), new Subscriber<NewsResponse>() {
             @Override
             public void onCompleted() {
 
@@ -46,7 +46,7 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
             @Override
             public void onNext(NewsResponse response) {
                 lastTime = System.currentTimeMillis() / 1000;
-                PreUtils.putLong(channelCode, lastTime);//保存刷新的时间戳
+                PreUtils.putLong(publisherUserId, lastTime);//保存刷新的时间戳
 
                 List<NewsData> data = response.data;
                 List<Moments> momentsList = new ArrayList<>();
