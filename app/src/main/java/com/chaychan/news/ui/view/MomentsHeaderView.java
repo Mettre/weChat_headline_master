@@ -15,20 +15,21 @@ public class MomentsHeaderView extends FrameLayout {
     private Context mContext;
 
     public MomentsHeaderView(@NonNull Context context) {
-        super(context);
+        this(context,null);
     }
 
     public MomentsHeaderView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs,0);
+        this(context, attrs,0);
     }
 
     public MomentsHeaderView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        initView();
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.header_news_detail, this);
+        inflate(getContext(), R.layout.header_moments, this);
         ButterKnife.bind(this, this);
     }
 }

@@ -30,7 +30,6 @@ public class TextNewsItemProvider extends BaseNewsItemProvider {
 
     @Override
     protected void setData(BaseViewHolder helper, News news) {
-        KLog.e("----------Mettre----------------        88888       "+ MomentsAdapter.CENTER_SINGLE_PIC_NEWS);
          //由于文本消息的逻辑目前已经在基类中封装，所以此处无须写
         //定义此类是提供文本消息的ItemProvider
     }

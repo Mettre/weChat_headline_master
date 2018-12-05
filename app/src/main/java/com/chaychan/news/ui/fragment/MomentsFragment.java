@@ -12,6 +12,7 @@ import com.chaychan.news.ui.adapter.MomentsAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.MomentsListPresenter;
 import com.chaychan.news.ui.view.MomentsHeaderView;
+import com.chaychan.news.utils.DisplayUtils;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.NetWorkUtils;
 import com.chaychan.news.utils.UIUtils;
@@ -77,6 +78,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     public void initView(View rootView) {
         mRefreshLayout.setDelegate(this);
         mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
+        mRvComment.addItemDecoration(new DisplayUtils.SpacesItemDecoration());
         // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
         BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(mActivity, false);
         // 设置下拉刷新
@@ -102,14 +104,14 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mCommentAdapter = new MomentsAdapter(momentsList);
         mRvComment.setAdapter(mCommentAdapter);
 
-//        mHeaderView = new MomentsHeaderView(mActivity);
-//        mCommentAdapter.addHeaderView(mHeaderView);
-//
-//        mCommentAdapter.setEnableLoadMore(true);
-//        mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
-//
-//        mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
-//        mCommentAdapter.setHeaderAndEmpty(true);
+        mHeaderView = new MomentsHeaderView(mActivity);
+        mCommentAdapter.addHeaderView(mHeaderView);
+
+        mCommentAdapter.setEnableLoadMore(true);
+        mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
+
+        mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
+        mCommentAdapter.setHeaderAndEmpty(true);
     }
 
     @Override
@@ -118,18 +120,17 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
         //查找该频道的最后一组记录
         momentsRecord = MomentsRecordHelper.getLastNewsRecord(publisherUserId);
-//        if (momentsRecord == null) {
-//            //找不到记录，拉取网络数据
-//            momentsRecord = new MomentsRecord();//创建一个没有数据的对象
-//            mPresenter.getMomentsList(publisherUserId);
-//            return;
-//        }
-        mPresenter.getMomentsList(publisherUserId);
+        if (momentsRecord == null) {
+            //找不到记录，拉取网络数据
+            momentsRecord = new MomentsRecord();//创建一个没有数据的对象
+            mPresenter.getMomentsList(publisherUserId);
+            return;
+        }
 
-//        //找到最后一组记录，转换成新闻集合并展示
-//        List<Moments> newsList = MomentsRecordHelper.convertToNewsList(momentsRecord.getJson());
-//        momentsList.addAll(newsList);//添加到集合中
-//        mCommentAdapter.notifyDataSetChanged();//刷新adapter
+        //找到最后一组记录，转换成新闻集合并展示
+        List<Moments> newsList = MomentsRecordHelper.convertToNewsList(momentsRecord.getJson());
+        momentsList.addAll(newsList);//添加到集合中
+        mCommentAdapter.notifyDataSetChanged();//刷新adapter
 
         mStateView.showContent();//显示内容
     }
@@ -160,7 +161,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mTipView.show(tipInfo);
         KLog.e("----------Request Start-----66-----------" + newList.size());
         //保存到数据库
-//        MomentsRecordHelper.save(publisherUserId, mGson.toJson(newList));
+        MomentsRecordHelper.save(publisherUserId, mGson.toJson(newList));
     }
 
     @Override
@@ -180,7 +181,41 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
     @Override
     public void onLoadMoreRequested() {
-//        mPresenter.getComment(mGroupId, mItemId, mCommentList.size() / Constant.COMMENT_PAGE_SIZE + 1);
+        // BaseRecyclerViewAdapterHelper的加载更多
+        if (momentsRecord.getPage() == 0 || momentsRecord.getPage() == 1) {
+            //如果记录的页数为0(即是创建的空记录)，或者页数为1(即已经是第一条记录了)
+            //mRefreshLayout.endLoadingMore();//结束加载更多
+            mCommentAdapter.loadMoreEnd();
+            return;
+        }
+
+        MomentsRecord preNewsRecord = MomentsRecordHelper.getPreNewsRecord(publisherUserId, momentsRecord.getPage());
+        if (preNewsRecord == null) {
+            // mRefreshLayout.endLoadingMore();//结束加载更多
+            mCommentAdapter.loadMoreEnd();
+            return;
+        }
+
+        momentsRecord = preNewsRecord;
+
+        long startTime = System.currentTimeMillis();
+
+        List<Moments> momentsList = MomentsRecordHelper.convertToNewsList(momentsRecord.getJson());
+        KLog.e(momentsList);
+
+        long endTime = System.currentTimeMillis();
+
+        //由于是读取数据库，如果耗时不足1秒，则1秒后才收起加载更多
+        if (endTime - startTime <= 1000) {
+            UIUtils.postTaskDelay(new Runnable() {
+                @Override
+                public void run() {
+                    mCommentAdapter.loadMoreComplete();
+                    momentsList.addAll(momentsList);//添加到集合下面
+                    mCommentAdapter.notifyDataSetChanged();//刷新adapter
+                }
+            }, (int) (1000 - (endTime - startTime)));
+        }
     }
 
     @Override

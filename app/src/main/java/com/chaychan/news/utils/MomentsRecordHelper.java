@@ -27,12 +27,12 @@ public class MomentsRecordHelper {
     /**
      * 获取某个频道上一组朋友圈记录
      *
-     * @param channelCode 频道
+     * @param publisherUserId 频道
      * @param page        页码
      * @return
      */
-    public static MomentsRecord getPreNewsRecord(String channelCode, int page) {
-        List<MomentsRecord> newsRecords = selectNewsRecords(channelCode, page - 1);
+    public static MomentsRecord getPreNewsRecord(String publisherUserId, int page) {
+        List<MomentsRecord> newsRecords = selectNewsRecords(publisherUserId, page - 1);
 
         if (ListUtils.isEmpty(newsRecords)) {
             return null;
@@ -48,7 +48,7 @@ public class MomentsRecordHelper {
      * @param publisherUserId
      * @param json
      */
-    public static void save(String publisherUserId, String json) {
+    public static void  save(String publisherUserId, String json) {
         int page = 1;
         MomentsRecord lastNewsRecord = getLastNewsRecord(publisherUserId);
         if (lastNewsRecord != null) {

@@ -36,7 +36,7 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
         }
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("page", "1");
-        map.put("size", "10");
+        map.put("size", "20");
         map.put("userId", publisherUserId);
 
         addSubscription(mApiService2.circleFriendsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {

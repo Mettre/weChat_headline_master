@@ -6,7 +6,7 @@
     <dimen name="bigNormal">16sp</dimen>
 
 
-    <dimen name="topMargin">4dp</dimen>
+    <dimen name="topMargin">5dp</dimen>
     <dimen name="smallNormalMargin">10dp</dimen>
     <dimen name="normalMargin">12dp</dimen>
     <dimen name="bigNormalMargin">14dp</dimen>
