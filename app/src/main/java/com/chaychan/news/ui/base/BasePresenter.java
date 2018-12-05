@@ -2,6 +2,7 @@ package com.chaychan.news.ui.base;
 
 import com.chaychan.news.api.ApiRetrofit;
 import com.chaychan.news.api.ApiService;
+import com.chaychan.news.api.ApiService2;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -12,6 +13,7 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BasePresenter<V> {
 
     protected ApiService mApiService = ApiRetrofit.getInstance().getApiService();
+    protected ApiService2 mApiService2 = ApiRetrofit.getInstance().getApiService2();
     protected V mView;
     private CompositeSubscription mCompositeSubscription;
 

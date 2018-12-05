@@ -80,7 +80,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     private String mChannelCode;
     private boolean isVideoList;
 
-
     /**
      * 是否是推荐频道
      */
@@ -146,12 +145,12 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Override
     public void initListener() {
-        if (isVideoList){
+        if (isVideoList) {
             //如果是视频列表
             mNewsAdapter = new VideoListAdapter(mNewsList);
-        }else{
+        } else {
             //其他新闻列表
-            mNewsAdapter = new NewsListAdapter(mChannelCode,mNewsList);
+            mNewsAdapter = new NewsListAdapter(mChannelCode, mNewsList);
         }
         mRvNews.setAdapter(mNewsAdapter);
 
@@ -457,7 +456,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         News news = mNewsList.get(position);
         news.comment_count = commentCount;
 
-        if (news.video_detail_info != null){
+        if (news.video_detail_info != null) {
             //如果有视频
             int progress = event.getProgress();
             news.video_detail_info.progress = progress;

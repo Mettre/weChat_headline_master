@@ -3,7 +3,9 @@ package com.chaychan.news.ui.adapter.provider.news;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.News;
+import com.chaychan.news.ui.adapter.MomentsAdapter;
 import com.chaychan.news.ui.adapter.NewsListAdapter;
+import com.socks.library.KLog;
 
 /**
  * @author ChayChan
@@ -28,6 +30,7 @@ public class TextNewsItemProvider extends BaseNewsItemProvider {
 
     @Override
     protected void setData(BaseViewHolder helper, News news) {
+        KLog.e("----------Mettre----------------        88888       "+ MomentsAdapter.CENTER_SINGLE_PIC_NEWS);
          //由于文本消息的逻辑目前已经在基类中封装，所以此处无须写
         //定义此类是提供文本消息的ItemProvider
     }

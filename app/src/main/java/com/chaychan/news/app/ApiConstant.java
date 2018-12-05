@@ -7,6 +7,13 @@ package com.chaychan.news.app;
  */
 
 public class ApiConstant {
-    /**接口根地址*/
+    /**
+     * 接口根地址
+     */
     public static final String BASE_SERVER_URL = "http://is.snssdk.com/";
+
+    /**
+     * 信息接口跟地址
+     */
+    public static final String BASE_INFORMATION_URL = "http://192.168.0.187:8762/";
 }

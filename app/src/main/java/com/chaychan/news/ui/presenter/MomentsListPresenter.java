@@ -1,7 +1,10 @@
 package com.chaychan.news.ui.presenter;
 
+import com.chaychan.news.api.SubscriberCallBack;
+import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.NewsData;
+import com.chaychan.news.model.entity.NewsDetail;
 import com.chaychan.news.model.response.NewsResponse;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.utils.ListUtils;
@@ -11,6 +14,7 @@ import com.google.gson.Gson;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import rx.Subscriber;
@@ -30,34 +34,27 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
             //如果为空，则是从来没有刷新过，使用当前时间戳
             lastTime = System.currentTimeMillis() / 1000;
         }
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("page", "1");
+        map.put("size", "10");
+        map.put("userId", publisherUserId);
 
-        addSubscription(mApiService.getNewsList(publisherUserId, lastTime, System.currentTimeMillis() / 1000), new Subscriber<NewsResponse>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                KLog.e(e.getLocalizedMessage());
-                mView.onError();
-            }
+        addSubscription(mApiService2.circleFriendsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
 
             @Override
-            public void onNext(NewsResponse response) {
+            protected void onSuccess(BasePageEntity<Moments> response) {
+                KLog.e("----------Request Start----------------");
                 lastTime = System.currentTimeMillis() / 1000;
                 PreUtils.putLong(publisherUserId, lastTime);//保存刷新的时间戳
 
-                List<NewsData> data = response.data;
-                List<Moments> momentsList = new ArrayList<>();
-                if (!ListUtils.isEmpty(data)) {
-                    for (NewsData newsData : data) {
-                        Moments moments = new Gson().fromJson(newsData.content, Moments.class);
-                        momentsList.add(moments);
-                    }
-                }
+                List<Moments> momentsList = response.getRecords();
                 KLog.e(momentsList);
-                mView.onGetNewsListSuccess(momentsList, response.tips.display_info);
+                mView.onGetNewsListSuccess(momentsList, "微信头条推荐引擎有15条更新");
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
             }
         });
     }

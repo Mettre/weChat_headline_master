@@ -7,10 +7,13 @@ import com.google.gson.GsonBuilder;
 import com.socks.library.KLog;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,7 +34,7 @@ public class ApiRetrofit {
     private final Retrofit mRetrofit;
     private OkHttpClient mClient;
     private ApiService mApiService;
-
+    private ApiService2 mApiService2;
 
     //缓存配置
     private Interceptor mCacheInterceptor = chain -> {
@@ -63,7 +66,9 @@ public class ApiRetrofit {
         }
     };
 
-    /**请求访问quest和response拦截器*/
+    /**
+     * 请求访问quest和response拦截器
+     */
     private Interceptor mLogInterceptor = chain -> {
         Request request = chain.request();
         long startTime = System.currentTimeMillis();
@@ -81,7 +86,9 @@ public class ApiRetrofit {
                 .build();
     };
 
-    /**增加头部信息的拦截器*/
+    /**
+     * 增加头部信息的拦截器
+     */
     private Interceptor mHeaderInterceptor = chain -> {
         Request.Builder builder = chain.request().newBuilder();
         builder.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.108 Safari/537.36 2345Explorer/8.0.0.13547");
@@ -103,6 +110,8 @@ public class ApiRetrofit {
         //        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//请求/响应行 + 头 + 体
 
         mClient = new OkHttpClient.Builder()
+                //处理多BaseUrl,添加应用拦截器
+                .addInterceptor(new MoreBaseUrlInterceptor())
                 .addInterceptor(mHeaderInterceptor)//添加头部信息拦截器
                 .addInterceptor(mLogInterceptor)//添加log拦截器
                 .cache(cache)
@@ -119,7 +128,49 @@ public class ApiRetrofit {
                 .build();
 
         mApiService = mRetrofit.create(ApiService.class);
+        mApiService2 = mRetrofit.create(ApiService2.class);
     }
+
+    public class MoreBaseUrlInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            //获取原始的originalRequest
+            Request originalRequest = chain.request();
+            //获取老的url
+            HttpUrl oldUrl = originalRequest.url();
+            //获取originalRequest的创建者builder
+            Request.Builder builder = originalRequest.newBuilder();
+            //获取头信息的集合如：manage,mdffx
+            List<String> urlnameList = originalRequest.headers("urlname");
+            if (urlnameList != null && urlnameList.size() > 0) {
+                //删除原有配置中的值,就是namesAndValues集合里的值
+                builder.removeHeader("urlname");
+                //获取头信息中配置的value,如：manage或者mdffx
+                String urlname = urlnameList.get(0);
+                HttpUrl baseURL=null;
+                //根据头信息中配置的value,来匹配新的base_url地址
+                if ("information".equals(urlname)) {
+                    baseURL = HttpUrl.parse(ApiConstant.BASE_INFORMATION_URL);
+                }else  if ("headlines".equals(urlname)) {
+                    baseURL = HttpUrl.parse(ApiConstant.BASE_SERVER_URL);
+                }
+                //重建新的HttpUrl，需要重新设置的url部分
+                HttpUrl newHttpUrl = oldUrl.newBuilder()
+                        .scheme(baseURL.scheme())//http协议如：http或者https
+                        .host(baseURL.host())//主机地址
+                        .port(baseURL.port())//端口
+                        .build();
+                //获取处理后的新newRequest
+                Request newRequest = builder.url(newHttpUrl).build();
+                return  chain.proceed(newRequest);
+            }else{
+                return chain.proceed(originalRequest);
+            }
+
+        }
+    }
+
+
 
     public static ApiRetrofit getInstance() {
         if (mApiRetrofit == null) {
@@ -134,5 +185,8 @@ public class ApiRetrofit {
 
     public ApiService getApiService() {
         return mApiService;
+    }
+    public ApiService2 getApiService2() {
+        return mApiService2;
     }
 }

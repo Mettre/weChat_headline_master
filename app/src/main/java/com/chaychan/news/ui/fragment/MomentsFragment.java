@@ -1,10 +1,11 @@
 package com.chaychan.news.ui.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
-import com.chaychan.news.constants.Constant;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
@@ -12,12 +13,13 @@ import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.MomentsListPresenter;
 import com.chaychan.news.ui.view.MomentsHeaderView;
 import com.chaychan.news.utils.ListUtils;
-import com.chaychan.news.utils.NewsRecordHelper;
+import com.chaychan.news.utils.NetWorkUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.utils.MomentsRecordHelper;
 import com.chaychan.news.view.lMomentsListView;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
+import com.chaychan.uikit.refreshlayout.BGANormalRefreshViewHolder;
 import com.chaychan.uikit.refreshlayout.BGARefreshLayout;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
@@ -33,7 +35,7 @@ import butterknife.Bind;
  * @date 2017/6/12  21:47
  */
 
-public class MomentsFragment extends BaseFragment<MomentsListPresenter> implements lMomentsListView, BaseQuickAdapter.RequestLoadMoreListener {
+public class MomentsFragment extends BaseFragment<MomentsListPresenter> implements lMomentsListView, BGARefreshLayout.BGARefreshLayoutDelegate, BaseQuickAdapter.RequestLoadMoreListener {
 
     private MomentsAdapter mCommentAdapter;
     protected MomentsHeaderView mHeaderView;
@@ -44,10 +46,14 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     @Bind(R.id.refresh_layout)
     BGARefreshLayout mRefreshLayout;
 
+
+    @Bind(R.id.fl_content)
+    FrameLayout mFlContent;
+
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
 
-    private List<Moments> momentsList= new ArrayList<>();
+    private List<Moments> momentsList = new ArrayList<>();
     private MomentsRecord momentsRecord;
     private Gson mGson = new Gson();
     private String publisherUserId;
@@ -58,13 +64,31 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     }
 
     @Override
+    public View getStateViewRoot() {
+        return mFlContent;
+    }
+
+    @Override
     protected int provideContentViewId() {
         return R.layout.fragment_micro;
     }
 
     @Override
     public void initView(View rootView) {
-        KLog.i("initView");
+        mRefreshLayout.setDelegate(this);
+        mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
+        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(mActivity, false);
+        // 设置下拉刷新
+        refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.color_F3F5F4);//背景色
+        refreshViewHolder.setPullDownRefreshText(UIUtils.getString(R.string.refresh_pull_down_text));//下拉的提示文字
+        refreshViewHolder.setReleaseRefreshText(UIUtils.getString(R.string.refresh_release_text));//松开的提示文字
+        refreshViewHolder.setRefreshingText(UIUtils.getString(R.string.refresh_ing_text));//刷新中的提示文字
+
+
+        // 设置下拉刷新和上拉加载更多的风格
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
+        mRefreshLayout.shouldHandleRecyclerViewLoadingMore(mRvComment);
     }
 
     @Override
@@ -78,14 +102,14 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mCommentAdapter = new MomentsAdapter(momentsList);
         mRvComment.setAdapter(mCommentAdapter);
 
-        mHeaderView = new MomentsHeaderView(mActivity);
-        mCommentAdapter.addHeaderView(mHeaderView);
-
-        mCommentAdapter.setEnableLoadMore(true);
-        mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
-
-        mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
-        mCommentAdapter.setHeaderAndEmpty(true);
+//        mHeaderView = new MomentsHeaderView(mActivity);
+//        mCommentAdapter.addHeaderView(mHeaderView);
+//
+//        mCommentAdapter.setEnableLoadMore(true);
+//        mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
+//
+//        mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
+//        mCommentAdapter.setHeaderAndEmpty(true);
     }
 
     @Override
@@ -94,17 +118,18 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
         //查找该频道的最后一组记录
         momentsRecord = MomentsRecordHelper.getLastNewsRecord(publisherUserId);
-        if (momentsRecord == null) {
-            //找不到记录，拉取网络数据
-            momentsRecord = new MomentsRecord();//创建一个没有数据的对象
-            mPresenter.getMomentsList(publisherUserId);
-            return;
-        }
+//        if (momentsRecord == null) {
+//            //找不到记录，拉取网络数据
+//            momentsRecord = new MomentsRecord();//创建一个没有数据的对象
+//            mPresenter.getMomentsList(publisherUserId);
+//            return;
+//        }
+        mPresenter.getMomentsList(publisherUserId);
 
-        //找到最后一组记录，转换成新闻集合并展示
-        List<Moments> newsList = MomentsRecordHelper.convertToNewsList(momentsRecord.getJson());
-        momentsList.addAll(newsList);//添加到集合中
-        mCommentAdapter.notifyDataSetChanged();//刷新adapter
+//        //找到最后一组记录，转换成新闻集合并展示
+//        List<Moments> newsList = MomentsRecordHelper.convertToNewsList(momentsRecord.getJson());
+//        momentsList.addAll(newsList);//添加到集合中
+//        mCommentAdapter.notifyDataSetChanged();//刷新adapter
 
         mStateView.showContent();//显示内容
     }
@@ -113,6 +138,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     public void onGetNewsListSuccess(List<Moments> newList, String tipInfo) {
         mRefreshLayout.endRefreshing();// 加载完毕后在 UI 线程结束下拉刷新
 
+        KLog.e("----------Request Start-----55-----------" + newList.size());
         //如果是第一次获取数据
         if (ListUtils.isEmpty(momentsList)) {
             if (ListUtils.isEmpty(newList)) {
@@ -132,9 +158,9 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mCommentAdapter.notifyDataSetChanged();
 
         mTipView.show(tipInfo);
-
+        KLog.e("----------Request Start-----66-----------" + newList.size());
         //保存到数据库
-        NewsRecordHelper.save(publisherUserId, mGson.toJson(newList));
+//        MomentsRecordHelper.save(publisherUserId, mGson.toJson(newList));
     }
 
     @Override
@@ -155,5 +181,23 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     @Override
     public void onLoadMoreRequested() {
 //        mPresenter.getComment(mGroupId, mItemId, mCommentList.size() / Constant.COMMENT_PAGE_SIZE + 1);
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        if (!NetWorkUtils.isNetworkAvailable(mActivity)) {
+            //网络不可用弹出提示
+            mTipView.show();
+            if (mRefreshLayout.getCurrentRefreshStatus() == BGARefreshLayout.RefreshStatus.REFRESHING) {
+                mRefreshLayout.endRefreshing();
+            }
+            return;
+        }
+        mPresenter.getMomentsList(publisherUserId);
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
     }
 }

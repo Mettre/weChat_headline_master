@@ -8,6 +8,7 @@ import com.chaychan.adapter.MultipleItemRvAdapter;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.ui.adapter.moments.PhotoMomentsProvider;
 import com.chaychan.news.ui.adapter.moments.PureMomentsProvider;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class MomentsAdapter extends MultipleItemRvAdapter<Moments, BaseViewHolde
 
     @Override
     protected int getViewType(Moments moments) {
-
-        return moments.getMomentsEnum().momentsType;
+        KLog.e("----------Mettre----------------        "+moments.getMomentsType().momentsType);
+        return moments.getMomentsType().momentsType;
     }
 
     @Override

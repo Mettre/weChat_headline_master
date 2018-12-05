@@ -35,12 +35,14 @@ public interface ApiService {
      * @param category 频道
      * @return
      */
+    @Headers({"urlName:headlines"})
     @GET(GET_ARTICLE_LIST)
     Observable<NewsResponse> getNewsList(@Query("category") String category, @Query("min_behot_time") long lastTime, @Query("last_refresh_sub_entrance_interval") long currentTime);
 
     /**
      * 获取新闻详情
      */
+    @Headers({"urlName:headlines"})
     @GET
     Observable<ResultResponse<NewsDetail>> getNewsDetail(@Url String url);
 
@@ -53,6 +55,7 @@ public interface ApiService {
      * @param count
      * @return
      */
+    @Headers({"urlName:headlines"})
     @GET(GET_COMMENT_LIST)
     Observable<CommentResponse> getComment(@Query("group_id") String groupId, @Query("item_id") String itemId, @Query("offset") String offset, @Query("count") String count);
 
@@ -62,6 +65,7 @@ public interface ApiService {
      * @param url
      * @return
      */
+    @Headers({"urlName:headlines"})
     @GET
     Observable<ResultResponse<VideoModel>> getVideoData(@Url String url);
 
