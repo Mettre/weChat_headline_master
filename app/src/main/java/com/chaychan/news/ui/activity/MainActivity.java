@@ -145,8 +145,6 @@ public class MainActivity extends BaseActivity {
         bottomItem.setStatus(true);//刷新图标
     }
 
-    ;
-
     @Override
     protected void onStart() {
         super.onStart();

@@ -14,7 +14,6 @@ public class PhotoMomentsProvider extends BaseMomentsItemProvider {
 
     @Override
     public int viewType() {
-        KLog.e("----------Mettre----------------        2       "+MomentsAdapter.CENTER_SINGLE_PIC_NEWS);
         return MomentsAdapter.CENTER_SINGLE_PIC_NEWS;
     }
 
@@ -25,7 +24,6 @@ public class PhotoMomentsProvider extends BaseMomentsItemProvider {
 
     @Override
     protected void setData(BaseViewHolder helper, Moments moments) {
-        KLog.e("----------Mettre----------------        33       "+MomentsAdapter.CENTER_SINGLE_PIC_NEWS);
         helper.setText(R.id.moments_word, moments.getMomentsTitle());
     }
 

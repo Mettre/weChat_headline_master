@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
+import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
@@ -107,7 +108,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mHeaderView = new MomentsHeaderView(mActivity);
         mCommentAdapter.addHeaderView(mHeaderView);
 
-        mCommentAdapter.setEnableLoadMore(true);
+        mCommentAdapter.setEnableLoadMore(false);
         mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
 
         mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
@@ -123,7 +124,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         if (momentsRecord == null) {
             //找不到记录，拉取网络数据
             momentsRecord = new MomentsRecord();//创建一个没有数据的对象
-            mPresenter.getMomentsList(publisherUserId);
+            mPresenter.getRefreshMomentsList(publisherUserId);
             return;
         }
 
@@ -136,32 +137,42 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     }
 
     @Override
-    public void onGetNewsListSuccess(List<Moments> newList, String tipInfo) {
+    public void onGetNewsListSuccess(BasePageEntity<Moments> response) {
         mRefreshLayout.endRefreshing();// 加载完毕后在 UI 线程结束下拉刷新
 
-        KLog.e("----------Request Start-----55-----------" + newList.size());
-        //如果是第一次获取数据
-        if (ListUtils.isEmpty(momentsList)) {
-            if (ListUtils.isEmpty(newList)) {
-                //获取不到数据,显示空布局
-                mStateView.showEmpty();
-                return;
-            }
-            mStateView.showContent();//显示内容
-        }
+        mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
 
-        if (ListUtils.isEmpty(newList)) {
+
+        momentsList = response.getRecords();
+        if (ListUtils.isEmpty(momentsList)) {
+            //获取不到数据,显示空布局
+            mStateView.showEmpty();
+            return;
+        }
+        mStateView.showContent();//显示内容
+
+        if (ListUtils.isEmpty(momentsList)) {
             //已经获取不到新闻了，处理出现获取不到新闻的情况
             UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
-        momentsList.addAll(0, newList);
+        momentsList.addAll(0, momentsList);
         mCommentAdapter.notifyDataSetChanged();
-
-        mTipView.show(tipInfo);
-        KLog.e("----------Request Start-----66-----------" + newList.size());
         //保存到数据库
-        MomentsRecordHelper.save(publisherUserId, mGson.toJson(newList));
+        MomentsRecordHelper.save(publisherUserId, mGson.toJson(momentsList));
+    }
+
+
+    @Override
+    public void onMoreMomentsSuccess(BasePageEntity<Moments> response) {
+
+        mCommentAdapter.loadMoreComplete();
+        if (!ListUtils.isEmpty(response.getRecords())) {
+            momentsList.addAll(0, response.getRecords());
+            mCommentAdapter.notifyDataSetChanged();
+            //保存到数据库
+            MomentsRecordHelper.save(publisherUserId, mGson.toJson(response.getRecords()));
+        }
     }
 
     @Override
@@ -179,43 +190,12 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         }
     }
 
+
     @Override
     public void onLoadMoreRequested() {
         // BaseRecyclerViewAdapterHelper的加载更多
-        if (momentsRecord.getPage() == 0 || momentsRecord.getPage() == 1) {
-            //如果记录的页数为0(即是创建的空记录)，或者页数为1(即已经是第一条记录了)
-            //mRefreshLayout.endLoadingMore();//结束加载更多
-            mCommentAdapter.loadMoreEnd();
-            return;
-        }
-
-        MomentsRecord preNewsRecord = MomentsRecordHelper.getPreNewsRecord(publisherUserId, momentsRecord.getPage());
-        if (preNewsRecord == null) {
-            // mRefreshLayout.endLoadingMore();//结束加载更多
-            mCommentAdapter.loadMoreEnd();
-            return;
-        }
-
-        momentsRecord = preNewsRecord;
-
-        long startTime = System.currentTimeMillis();
-
-        List<Moments> momentsList = MomentsRecordHelper.convertToNewsList(momentsRecord.getJson());
-        KLog.e(momentsList);
-
-        long endTime = System.currentTimeMillis();
-
-        //由于是读取数据库，如果耗时不足1秒，则1秒后才收起加载更多
-        if (endTime - startTime <= 1000) {
-            UIUtils.postTaskDelay(new Runnable() {
-                @Override
-                public void run() {
-                    mCommentAdapter.loadMoreComplete();
-                    momentsList.addAll(momentsList);//添加到集合下面
-                    mCommentAdapter.notifyDataSetChanged();//刷新adapter
-                }
-            }, (int) (1000 - (endTime - startTime)));
-        }
+        page++;
+        mPresenter.getMoreMomentsList(publisherUserId, page);
     }
 
     @Override
@@ -228,7 +208,8 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
             }
             return;
         }
-        mPresenter.getMomentsList(publisherUserId);
+        page = 1;
+        mPresenter.getRefreshMomentsList(publisherUserId);
     }
 
     @Override

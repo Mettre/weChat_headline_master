@@ -1,7 +1,7 @@
 package com.chaychan.news.utils;
 
 import com.chaychan.news.model.entity.Moments;
-import com.chaychan.news.model.entity.MomentsRecord;
+import com.chaychan.news.model.entity.PersonalMomentsRecord;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
@@ -9,8 +9,7 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-
-public class MomentsRecordHelper {
+public class PersonalMomentsRecordHelper {
 
     private static Gson mGson = new Gson();
 
@@ -20,8 +19,8 @@ public class MomentsRecordHelper {
      * @param publisherUserId 频道
      * @return
      */
-    public static MomentsRecord getLastNewsRecord(String publisherUserId) {
-        return DataSupport.where("publisherUserId=?and page = ?", publisherUserId, String.valueOf(1)).findFirst(MomentsRecord.class);
+    public static PersonalMomentsRecord getLastNewsRecord(String publisherUserId) {
+        return DataSupport.where("publisherUserId=?and page = ?", publisherUserId, String.valueOf(1)).findFirst(PersonalMomentsRecord.class);
     }
 
     /**
@@ -31,8 +30,8 @@ public class MomentsRecordHelper {
      * @param page            页码
      * @return
      */
-    public static MomentsRecord getPreNewsRecord(String publisherUserId, int page) {
-        List<MomentsRecord> newsRecords = selectNewsRecords(publisherUserId, page - 1);
+    public static PersonalMomentsRecord getPreNewsRecord(String publisherUserId, int page) {
+        List<PersonalMomentsRecord> newsRecords = selectNewsRecords(publisherUserId, page - 1);
 
         if (ListUtils.isEmpty(newsRecords)) {
             return null;
@@ -51,7 +50,7 @@ public class MomentsRecordHelper {
     public static void save(String publisherUserId, String json) {
         int page = 1;
         //保存新的记录
-        MomentsRecord newsRecord = new MomentsRecord(publisherUserId, page, json, System.currentTimeMillis());
+        PersonalMomentsRecord newsRecord = new PersonalMomentsRecord(publisherUserId, page, json, System.currentTimeMillis());
         newsRecord.saveOrUpdate("publisherUserId = ? and page = ?", publisherUserId, String.valueOf(page));
     }
 
@@ -63,10 +62,10 @@ public class MomentsRecordHelper {
      * @param page
      * @return
      */
-    private static List<MomentsRecord> selectNewsRecords(String publisherUserId, int page) {
+    private static List<PersonalMomentsRecord> selectNewsRecords(String publisherUserId, int page) {
         return DataSupport
                 .where("publisherUserId = ? and page = ?", publisherUserId, String.valueOf(page))
-                .find(MomentsRecord.class);
+                .find(PersonalMomentsRecord.class);
     }
 
     /**

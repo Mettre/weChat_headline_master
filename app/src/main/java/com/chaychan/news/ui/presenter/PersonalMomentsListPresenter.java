@@ -4,19 +4,17 @@ import com.chaychan.news.api.SubscriberCallBack;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.ui.base.BasePresenter;
-import com.chaychan.news.view.lMomentsListView;
+import com.chaychan.news.view.PersonalMomentsListView;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.List;
 
+public class PersonalMomentsListPresenter extends BasePresenter<PersonalMomentsListView> {
 
-public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
-
-    public MomentsListPresenter(lMomentsListView view) {
+    public PersonalMomentsListPresenter(PersonalMomentsListView view) {
         super(view);
     }
-
 
     public void getRefreshMomentsList(String publisherUserId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -41,13 +39,14 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
         });
     }
 
+
     public void getMoreMomentsList(String publisherUserId, int page) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("userId", publisherUserId);
+        map.put("publisherUserId", publisherUserId);
         map.put("page", page);
         map.put("size", 20);
 
-        addSubscription(mApiService2.circleFriendsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
+        addSubscription(mApiService2.PersonalMomentsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
 
             @Override
             protected void onSuccess(BasePageEntity<Moments> response) {
@@ -59,7 +58,7 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
 
             @Override
             protected void onError() {
-//                mView.onError();
+                mView.onError();
             }
         });
     }

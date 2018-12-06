@@ -42,7 +42,6 @@ public interface ApiService {
     /**
      * 获取新闻详情
      */
-    @Headers({"urlName:headlines"})
     @GET
     Observable<ResultResponse<NewsDetail>> getNewsDetail(@Url String url);
 

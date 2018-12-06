@@ -30,14 +30,14 @@ public interface ApiService2 {
      */
     @Headers({"urlName:information"})
     @POST("/circleFriendsList")
-    Observable<ResultResponse<BasePageEntity<Moments>>> circleFriendsList(@Body HashMap<String, String> map);
+    Observable<ResultResponse<BasePageEntity<Moments>>> circleFriendsList(@Body HashMap<String, Object> map);
 
     /**
-     * 获取新闻详情
+     * 个人朋友圈
      */
-    @Headers({"urlName:headlines"})
-    @GET
-    Observable<ResultResponse<NewsDetail>> getNewsDetail(@Url String url);
+    @Headers({"urlName:information"})
+    @POST("/findMomentsList")
+    Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Body HashMap<String, Object> map);
 
     /**
      * 获取评论列表数据

@@ -1,6 +1,7 @@
 package com.chaychan.news.ui.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +46,7 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     private static final String TAG = ImageViewPagerActivity.class.getSimpleName();
     public static final String IMG_URLS = "mImageUrls";
     public static final String POSITION = "position";
+    public static final String HIDE_INDICATOR = "hideIndicator";
 
     @Bind(R.id.vp_pics)
     ViewPager mVpPics;
@@ -54,10 +57,12 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     @Bind(R.id.tv_save)
     TextView mTvSave;
 
+    boolean hideIndicator = false;
+
     private List<String> mImageUrls = new ArrayList<String>();
     private List<BigImageFragment> mFragments = new ArrayList<BigImageFragment>();
     private int mCurrentPosition;
-    private Map<Integer,Boolean> mDownloadingFlagMap = new HashMap<>();//用于保存对应位置图片是否在下载的标识
+    private Map<Integer, Boolean> mDownloadingFlagMap = new HashMap<>();//用于保存对应位置图片是否在下载的标识
 
     @Override
     protected BasePresenter createPresenter() {
@@ -74,14 +79,30 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
         Eyes.translucentStatusBar(this);
     }
 
+    public static void startAlineActivity(ArrayList<String> mUrls, int position, Context mContext) {
+        Intent intent = new Intent(mContext, ImageViewPagerActivity.class);
+        intent.putExtra(ImageViewPagerActivity.POSITION, position);
+        intent.putStringArrayListExtra(ImageViewPagerActivity.IMG_URLS, (ArrayList<String>) mUrls);
+        mContext.startActivity(intent);
+    }
+
+    public static void startAlineActivity(ArrayList<String> mUrls, int position, Context mContext, boolean hideIndicator) {
+        Intent intent = new Intent(mContext, ImageViewPagerActivity.class);
+        intent.putExtra(ImageViewPagerActivity.POSITION, position);
+        intent.putStringArrayListExtra(ImageViewPagerActivity.IMG_URLS, (ArrayList<String>) mUrls);
+        intent.putExtra(ImageViewPagerActivity.HIDE_INDICATOR, hideIndicator);
+        mContext.startActivity(intent);
+    }
+
     @Override
     public void initData() {
         Intent intent = getIntent();
         mImageUrls = intent.getStringArrayListExtra(IMG_URLS);
+        hideIndicator = intent.getBooleanExtra(HIDE_INDICATOR, false);
         int position = intent.getIntExtra(POSITION, 0);
         mCurrentPosition = position;
 
-        for (int i=0;i<mImageUrls.size();i++) {
+        for (int i = 0; i < mImageUrls.size(); i++) {
             String url = mImageUrls.get(i);
             BigImageFragment imageFragment = new BigImageFragment();
 
@@ -90,7 +111,7 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
             imageFragment.setArguments(bundle);
 
             mFragments.add(imageFragment);//添加到fragment集合中
-            mDownloadingFlagMap.put(i,false);//初始化map，一开始全部的值都为false
+            mDownloadingFlagMap.put(i, false);//初始化map，一开始全部的值都为false
         }
 
         mVpPics.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -99,6 +120,7 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
 
         mVpPics.setCurrentItem(mCurrentPosition);// 设置当前所在的位置
         setIndicator(mCurrentPosition);//设置当前位置指示
+        hideTvIndicator();
     }
 
     @Override
@@ -109,7 +131,7 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     @Override
     public void onPageSelected(int position) {
         mCurrentPosition = position;
-        ;//页面变化时，设置当前的指示
+        //页面变化时，设置当前的指示
         setIndicator(mCurrentPosition);
     }
 
@@ -120,6 +142,10 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
 
     private void setIndicator(int position) {
         mTvIndicator.setText(position + 1 + "/" + mImageUrls.size());//设置当前的指示
+    }
+
+    private void hideTvIndicator() {
+        mTvIndicator.setVisibility(hideIndicator ? View.GONE : View.VISIBLE);
     }
 
 
@@ -142,74 +168,74 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     private void downloadImg() {
         String imgUrl = mImageUrls.get(mCurrentPosition);
         Boolean isDownlading = mDownloadingFlagMap.get(mCurrentPosition);
-        if (!isDownlading){
+        if (!isDownlading) {
             //如果不是正在下载，则开始下载
-            mDownloadingFlagMap.put(mCurrentPosition,true);//更改标识为下载中
+            mDownloadingFlagMap.put(mCurrentPosition, true);//更改标识为下载中
             new DownloadImgTask(mCurrentPosition).execute(imgUrl);
         }
     }
 
- class DownloadImgTask extends AsyncTask<String,Integer,Void>{
+    class DownloadImgTask extends AsyncTask<String, Integer, Void> {
 
-     private int mPosition;
+        private int mPosition;
 
-     public  DownloadImgTask(int position){
-         mPosition = position;
-     }
+        public DownloadImgTask(int position) {
+            mPosition = position;
+        }
 
-     @Override
-     protected Void doInBackground(String... params) {
-         String imgUrl = params[0];
-         File file = null;
-         try {
-             FutureTarget<File>  future = Glide
-                     .with(ImageViewPagerActivity.this)
-                     .load(imgUrl)
-                     .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-             file = future.get();
+        @Override
+        protected Void doInBackground(String... params) {
+            String imgUrl = params[0];
+            File file = null;
+            try {
+                FutureTarget<File> future = Glide
+                        .with(ImageViewPagerActivity.this)
+                        .load(imgUrl)
+                        .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+                file = future.get();
 
-             String filePath = file.getAbsolutePath();
+                String filePath = file.getAbsolutePath();
 
-             String destFileName = System.currentTimeMillis() + FileUtils.getImageFileExt(filePath);
-             File destFile = new File(FileUtils.getDir(""), destFileName);
+                String destFileName = System.currentTimeMillis() + FileUtils.getImageFileExt(filePath);
+                File destFile = new File(FileUtils.getDir(""), destFileName);
 
-             FileUtils.copy(file, destFile);// 保存图片
+                FileUtils.copy(file, destFile);// 保存图片
 
-             // 最后通知图库更新
-             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                     Uri.fromFile(new File(destFile.getPath()))));
-         } catch (Exception e) {
-             KLog.e(TAG, e.getMessage());
-         }
-         return null;
-     }
+                // 最后通知图库更新
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        Uri.fromFile(new File(destFile.getPath()))));
+            } catch (Exception e) {
+                KLog.e(TAG, e.getMessage());
+            }
+            return null;
+        }
 
-     @Override
-     protected void onPostExecute(Void aVoid) {
-         mDownloadingFlagMap.put(mPosition,false);//下载完成后更改对应的flag
-         UIUtils.showToast("保存成功，图片所在文件夹:SD卡根路径/TouTiao");
-     }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mDownloadingFlagMap.put(mPosition, false);//下载完成后更改对应的flag
+            UIUtils.showToast("保存成功，图片所在文件夹:SD卡根路径/TouTiao");
+        }
 
-     @Override
-     protected void onProgressUpdate(Integer... values) {
-         KLog.i(TAG,"progress: " + values[0]);
-     }
- }
-
-class MyPagerAdapter extends FragmentPagerAdapter {
-
-    public MyPagerAdapter(FragmentManager fm) {
-        super(fm);
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            KLog.i(TAG, "progress: " + values[0]);
+        }
     }
 
-    @Override
-    public Fragment getItem(int position) {
-        return mFragments.get(position);
-    }
+    class MyPagerAdapter extends FragmentPagerAdapter {
 
-    @Override
-    public int getCount() {
-        return mFragments.size();
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
     }
-}
 }

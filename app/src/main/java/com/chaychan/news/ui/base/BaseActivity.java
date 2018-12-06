@@ -45,6 +45,8 @@ public abstract class BaseActivity<T extends BasePresenter>  extends AppCompatAc
     protected StateView mStateView;
     public PermissionListener mPermissionListener;
 
+    protected int page = 1;
+
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

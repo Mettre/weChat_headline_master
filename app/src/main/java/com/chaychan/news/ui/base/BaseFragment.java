@@ -24,6 +24,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
 
     protected T mPresenter;
     private View rootView;
+    protected int page = 1;
     protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     protected Activity mActivity;
 
