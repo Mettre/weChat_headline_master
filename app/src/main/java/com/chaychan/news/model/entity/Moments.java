@@ -2,6 +2,8 @@ package com.chaychan.news.model.entity;
 
 import com.chaychan.news.enum_.MomentsEnum;
 
+import java.util.Date;
+
 public class Moments {
 
     /**
@@ -17,8 +19,17 @@ public class Moments {
     private String momentsTitle;
     private long creationTime;
     private String momentsImage;
+    private Date date;//日期  2019-12-12
     private UserBeanBean userBean;
     private MomentsEnum momentsType;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getMomentsId() {
         return momentsId;

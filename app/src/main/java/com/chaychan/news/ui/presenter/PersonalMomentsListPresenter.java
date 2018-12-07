@@ -18,11 +18,11 @@ public class PersonalMomentsListPresenter extends BasePresenter<PersonalMomentsL
 
     public void getRefreshMomentsList(String publisherUserId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("userId", publisherUserId);
+        map.put("publisherUserId", publisherUserId);
         map.put("page", 1);
         map.put("size", 20);
 
-        addSubscription(mApiService2.circleFriendsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
+        addSubscription(mApiService2.PersonalMomentsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
 
             @Override
             protected void onSuccess(BasePageEntity<Moments> response) {

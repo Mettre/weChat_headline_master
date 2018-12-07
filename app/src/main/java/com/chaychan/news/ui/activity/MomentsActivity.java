@@ -2,18 +2,18 @@ package com.chaychan.news.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.PersonalMomentsRecord;
+import com.chaychan.news.model.entity.UserHeadInfo;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
+import com.chaychan.news.ui.adapter.PersonalMomentsAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.PersonalMomentsListPresenter;
 import com.chaychan.news.ui.view.MomentsHeaderView;
@@ -26,19 +26,23 @@ import com.chaychan.news.view.PersonalMomentsListView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
 import com.github.nukc.stateview.StateView;
 import com.google.gson.Gson;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> implements PersonalMomentsListView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static final String PUBLISHER_USER = "publisherUserId";
 
-    private MomentsAdapter mCommentAdapter;
+    private PersonalMomentsAdapter mCommentAdapter;
     protected MomentsHeaderView mHeaderView;
+
+
+    @Bind(R.id.iv_back)
+    ImageView mIvBack;
 
     @Bind(R.id.fl_content)
     FrameLayout mFlContent;
@@ -55,7 +59,7 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
 
     public static void startAlineActivity(String publisherUserId, Context mContext) {
-        Intent intent = new Intent(mContext, ImageViewPagerActivity.class);
+        Intent intent = new Intent(mContext, MomentsActivity.class);
         intent.putExtra(MomentsActivity.PUBLISHER_USER, publisherUserId);
         mContext.startActivity(intent);
     }
@@ -115,7 +119,8 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
     @Override
     public void initListener() {
-        mCommentAdapter = new MomentsAdapter(momentsList);
+        mCommentAdapter = new PersonalMomentsAdapter(momentsList);
+
         mRvComment.setAdapter(mCommentAdapter);
 
         mHeaderView = new MomentsHeaderView(this);
@@ -148,10 +153,14 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
     @Override
     public void onGetNewsListSuccess(BasePageEntity<Moments> response) {
 
-        mHeaderView.setDetail(response);
+        UserHeadInfo userHeadInfo = new UserHeadInfo();
+        userHeadInfo.setBackGroundWall("http://image.biaobaiju.com/uploads/20180918/15/1537256494-ZnSKMzEoBI.jpeg");
+        userHeadInfo.setUserId("2018111514554801539");
+        userHeadInfo.setHeadAvatar("http://img4.duitang.com/uploads/item/201407/16/20140716132526_TcyTY.thumb.600_0.jpeg");
+        userHeadInfo.setUserName("安德拉");
+        mHeaderView.setDetail(userHeadInfo);
 
         mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
-
 
         momentsList = response.getRecords();
         if (ListUtils.isEmpty(momentsList)) {
@@ -188,5 +197,10 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
             mCommentAdapter.notifyDataSetChanged();
             MomentsRecordHelper.save(publisherUserId, mGson.toJson(response.getRecords()));
         }
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onViewClicked() {
+        finish();
     }
 }

@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/user_name"
         android:layout_below="@id/user_name"
+        android:includeFontPadding="false"
         android:layout_marginBottom="@dimen/topMargin"
         android:layout_marginTop="@dimen/topMargin"
         android:ellipsize="end"

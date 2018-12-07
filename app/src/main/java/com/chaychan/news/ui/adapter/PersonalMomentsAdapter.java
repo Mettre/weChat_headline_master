@@ -1,21 +1,16 @@
 package com.chaychan.news.ui.adapter;
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.MultipleItemRvAdapter;
 import com.chaychan.news.model.entity.Moments;
-import com.chaychan.news.ui.adapter.moments.PhotoMomentsProvider;
-import com.chaychan.news.ui.adapter.moments.PureMomentsProvider;
-import com.socks.library.KLog;
+import com.chaychan.news.ui.adapter.personalMoments.PhotoPersonalMomentsProvider;
+import com.chaychan.news.ui.adapter.personalMoments.PurePersonalMomentsProvider;
 
 import java.util.List;
 
-/**
- * 朋友圈
- */
-public class MomentsAdapter extends MultipleItemRvAdapter<Moments, BaseViewHolder> {
+public class PersonalMomentsAdapter extends MultipleItemRvAdapter<Moments, BaseViewHolder> {
 
     /**
      * 纯文字布局
@@ -26,8 +21,11 @@ public class MomentsAdapter extends MultipleItemRvAdapter<Moments, BaseViewHolde
      */
     public static final int CENTER_SINGLE_PIC_NEWS = 200;
 
-    public MomentsAdapter(@Nullable List<Moments> data) {
+    private List<Moments> data;
+
+    public PersonalMomentsAdapter(@Nullable List<Moments> data) {
         super(data);
+        this.data = data;
         finishInitialize();
     }
 
@@ -39,9 +37,7 @@ public class MomentsAdapter extends MultipleItemRvAdapter<Moments, BaseViewHolde
     @Override
     public void registerItemProvider() {
         //注册itemProvider
-        mProviderDelegate.registerProvider(new PhotoMomentsProvider());
-        mProviderDelegate.registerProvider(new PureMomentsProvider());
+        mProviderDelegate.registerProvider(new PhotoPersonalMomentsProvider(data));
+        mProviderDelegate.registerProvider(new PurePersonalMomentsProvider(data));
     }
-
-
 }

@@ -13,6 +13,7 @@ import com.chaychan.news.R;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.NewsDetail;
+import com.chaychan.news.model.entity.UserHeadInfo;
 import com.chaychan.news.ui.activity.ImageViewPagerActivity;
 import com.chaychan.news.utils.GlideUtils;
 
@@ -51,15 +52,15 @@ public class MomentsHeaderView extends FrameLayout {
 
     }
 
-    public void setDetail(BasePageEntity<Moments> response) {
-        userName.setText(response.getCurrent());
-        GlideUtils.load(mContext, response.getPages() + "", iconHeader);
+    public void setDetail(UserHeadInfo userHeadInfo) {
+        userName.setText(userHeadInfo.getUserName());
+        GlideUtils.load(mContext, userHeadInfo.getHeadAvatar() + "", iconHeader);
         iconHeader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> mUrls = new ArrayList<String>();
-                mUrls.add(response.getPages() + "");
-                ImageViewPagerActivity.startAlineActivity(mUrls, 0, mContext,true);
+                mUrls.add(userHeadInfo.getHeadAvatar());
+                ImageViewPagerActivity.startAlineActivity(mUrls, 0, mContext, true);
             }
         });
     }

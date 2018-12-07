@@ -102,16 +102,18 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
         int position = intent.getIntExtra(POSITION, 0);
         mCurrentPosition = position;
 
-        for (int i = 0; i < mImageUrls.size(); i++) {
-            String url = mImageUrls.get(i);
-            BigImageFragment imageFragment = new BigImageFragment();
+        if (mImageUrls.size() > 0) {
+            for (int i = 0; i < mImageUrls.size(); i++) {
+                String url = mImageUrls.get(i);
+                BigImageFragment imageFragment = new BigImageFragment();
 
-            Bundle bundle = new Bundle();
-            bundle.putString(BigImageFragment.IMG_URL, url);
-            imageFragment.setArguments(bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString(BigImageFragment.IMG_URL, url);
+                imageFragment.setArguments(bundle);
 
-            mFragments.add(imageFragment);//添加到fragment集合中
-            mDownloadingFlagMap.put(i, false);//初始化map，一开始全部的值都为false
+                mFragments.add(imageFragment);//添加到fragment集合中
+                mDownloadingFlagMap.put(i, false);//初始化map，一开始全部的值都为false
+            }
         }
 
         mVpPics.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));

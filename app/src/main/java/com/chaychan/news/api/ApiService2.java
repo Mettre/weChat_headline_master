@@ -2,21 +2,16 @@ package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
-import com.chaychan.news.model.entity.NewsDetail;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
-import com.chaychan.news.model.response.NewsResponse;
 import com.chaychan.news.model.response.ResultResponse;
 
 import java.util.HashMap;
 
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
@@ -36,7 +31,7 @@ public interface ApiService2 {
      * 个人朋友圈
      */
     @Headers({"urlName:information"})
-    @POST("/findMomentsList")
+    @POST("/findMomentsListWithPublisherUserId")
     Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Body HashMap<String, Object> map);
 
     /**
