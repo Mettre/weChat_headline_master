@@ -48,6 +48,30 @@ public class TimeUtils {
     }
 
     /**
+     * 获取短时间格式
+     *
+     * @return
+     */
+    public static String getShortTime2(long millis) {
+        Date date = new Date(millis);
+        Date curDate = new Date();
+
+        String str = "";
+        int dayStatus = calculateDayStatus(date, new Date());
+
+        if (dayStatus == 0) {
+            str = "今天";
+        } else if (dayStatus == -1) {
+            str = "昨天";
+        } else if (isSameYear(date, curDate) && dayStatus < -1) {
+            str = DateFormat.format("MM月dd日", date).toString();
+        } else {
+            str = DateFormat.format("yyyy年MM月dd", date).toString();
+        }
+        return str;
+    }
+
+    /**
      * 判断是否是同一年
      * @param targetTime
      * @param compareTime

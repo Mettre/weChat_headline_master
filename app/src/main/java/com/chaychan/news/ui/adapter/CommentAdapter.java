@@ -34,6 +34,6 @@ public class CommentAdapter extends BaseQuickAdapter<CommentData, BaseViewHolder
         helper.setText(R.id.tv_name, commentData.comment.user_name)
                 .setText(R.id.tv_like_count, String.valueOf(commentData.comment.digg_count))
                 .setText(R.id.tv_content, commentData.comment.text)
-                .setText(R.id.tv_time, TimeUtils.getShortTime(commentData.comment.create_time * 1000));
+                .setText(R.id.tv_time, TimeUtils.getShortTime(commentData.comment.create_time));
     }
 }

@@ -1,56 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/normalMargin">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/icon_head"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignBottom="@+id/back_line"
-        android:layout_marginRight="@dimen/normalMargin"
-        android:src="@mipmap/my_avatar" />
-
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/iv_back"
-        android:layout_alignTop="@id/icon_head"
-        android:layout_toRightOf="@id/icon_head"
-        android:ellipsize="end"
-        android:gravity="top"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:text="ChayChan"
-        android:textColor="@color/color_406599"
-        android:textSize="@dimen/normal" />
-
-    <TextView
-        android:id="@+id/moments_word"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/user_name"
-        android:layout_below="@id/user_name"
-        android:includeFontPadding="false"
-        android:layout_marginBottom="@dimen/topMargin"
-        android:layout_marginTop="@dimen/topMargin"
-        android:ellipsize="end"
-        android:lineSpacingExtra="3dp"
-        android:maxLines="5"
-        android:text="心力交瘁 真爱生命 远离房地产心"
-        android:textColor="@color/color_222222"
-        android:textSize="@dimen/normal" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/user_name"
-        android:layout_below="@id/moments_word"
-        android:layout_marginTop="1dp">
+        android:layout_margin="@dimen/normalMargin"
+        android:orientation="horizontal">
 
-        <include layout="@layout/include_moments_bottom" />
+        <ImageView
+            android:id="@+id/icon_head"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@+id/back_line"
+            android:layout_marginRight="@dimen/normalMargin"
+            android:src="@mipmap/my_avatar" />
 
-    </LinearLayout>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon_head"
+            android:layout_alignBottom="@id/iv_back"
+            android:layout_toRightOf="@id/icon_head"
+            android:ellipsize="end"
+            android:gravity="top"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="ChayChan"
+            android:textColor="@color/color_406599"
+            android:textSize="@dimen/normal" />
+
+        <TextView
+            android:id="@+id/moments_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_alignLeft="@id/user_name"
+            android:layout_marginTop="@dimen/topMargin"
+            android:layout_marginBottom="@dimen/topMargin"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="5"
+            android:text="心力交瘁 真爱生命 远离房地产心"
+            android:textColor="@color/color_222222"
+            android:textSize="@dimen/normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/moments_word"
+            android:layout_alignLeft="@id/user_name"
+            android:layout_marginTop="1dp">
+
+            <include layout="@layout/include_moments_bottom" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="@color/color_d8d8d8"></View>
+
+</LinearLayout>

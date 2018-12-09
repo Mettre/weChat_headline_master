@@ -1,6 +1,7 @@
 package com.chaychan.news.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.MultipleItemRvAdapter;

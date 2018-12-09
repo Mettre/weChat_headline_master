@@ -34,6 +34,14 @@ public interface ApiService2 {
     @POST("/findMomentsListWithPublisherUserId")
     Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Body HashMap<String, Object> map);
 
+
+    /**
+     * 说说详情
+     */
+    @Headers({"urlName:information"})
+    @POST("/findMomentsListWithPublisherUserId")
+    Observable<ResultResponse<BasePageEntity<Moments>>> MomentsDetails(@Body HashMap<String, Object> map);
+
     /**
      * 获取评论列表数据
      *

@@ -2,8 +2,8 @@ package com.chaychan.news.utils;
 
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.litepal.crud.DataSupport;
 

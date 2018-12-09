@@ -31,7 +31,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
         if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
             throw new IllegalArgumentException("Orientation is invalidate");
         }
-        if (dividerSize <= 0) {
+        if (dividerSize < 0) {
             throw new IllegalArgumentException("DividerSize must be greated than 0");
         }
 

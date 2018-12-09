@@ -1,8 +1,13 @@
 package com.chaychan.news.utils;
 
+import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.chaychan.news.R;
 
 public class DisplayUtils {
 
@@ -34,4 +39,39 @@ public class DisplayUtils {
 
 
                 }}
-}}}
+}}
+
+
+
+
+    public static class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int mDividerHeight;  //分割线高度
+
+        public SimpleDividerItemDecoration(int mDividerHeight) {
+            this.mDividerHeight = mDividerHeight;
+        }
+
+        //获取分割线尺寸
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+
+            int childAdapterPosition = parent.getChildAdapterPosition(view);
+
+            int lastCount = parent.getAdapter().getItemCount() - 1;
+
+            if (childAdapterPosition == 0) {
+                outRect.set(0, 0, 0, 0);
+                return;
+            }
+
+            if (childAdapterPosition == lastCount) {
+                outRect.set(0, 0, 0, 0);
+                return;
+            }
+            outRect.set(0, 0, 0, mDividerHeight);
+
+        }
+    }
+}

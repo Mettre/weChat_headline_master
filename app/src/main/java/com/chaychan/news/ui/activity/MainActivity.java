@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setStatusBarColor(int position) {
-        if (position == 3){
+        if (position == 3||position == 2){
             //如果是我的页面，状态栏设置为透明状态栏
             Eyes.translucentStatusBar(MainActivity.this,true);
         }else{

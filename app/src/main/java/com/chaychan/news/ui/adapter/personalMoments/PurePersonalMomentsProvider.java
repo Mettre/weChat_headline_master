@@ -1,5 +1,7 @@
 package com.chaychan.news.ui.adapter.personalMoments;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.Moments;
@@ -27,5 +29,11 @@ public class PurePersonalMomentsProvider extends BasePersonalMomentsProvider {
     protected void setData(BaseViewHolder helper, Moments moments) {
 
         helper.setText(R.id.moments_word, moments.getMomentsTitle());
+        helper.setOnClickListener(R.id.theme_view, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

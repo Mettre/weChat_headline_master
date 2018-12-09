@@ -13,7 +13,7 @@ public class PersonalMomentsRecordHelper {
 
     private static Gson mGson = new Gson();
 
-    /**
+    /**`
      * 获取数据库保存的某个频道的最后一条记录
      *
      * @param publisherUserId 频道

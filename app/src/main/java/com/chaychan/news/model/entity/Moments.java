@@ -2,8 +2,6 @@ package com.chaychan.news.model.entity;
 
 import com.chaychan.news.enum_.MomentsEnum;
 
-import java.util.Date;
-
 public class Moments {
 
     /**
@@ -19,15 +17,15 @@ public class Moments {
     private String momentsTitle;
     private long creationTime;
     private String momentsImage;
-    private Date date;//日期  2019-12-12
-    private UserBeanBean userBean;
+    private long date;//日期  2019-12-12
+    private UserBean userBean;
     private MomentsEnum momentsType;
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -63,11 +61,11 @@ public class Moments {
         this.momentsImage = momentsImage;
     }
 
-    public UserBeanBean getUserBean() {
+    public UserBean getUserBean() {
         return userBean;
     }
 
-    public void setUserBean(UserBeanBean userBean) {
+    public void setUserBean(UserBean userBean) {
         this.userBean = userBean;
     }
 
@@ -77,41 +75,5 @@ public class Moments {
 
     public void setMomentsType(MomentsEnum momentsType) {
         this.momentsType = momentsType;
-    }
-
-    public static class UserBeanBean {
-        /**
-         * publisherUserName : 阿凡达
-         * publisherHeadAvatar : string
-         * publisherUserId : 2018112209485799882
-         */
-
-        private String publisherUserName;
-        private String publisherHeadAvatar;
-        private String publisherUserId;
-
-        public String getPublisherUserName() {
-            return publisherUserName;
-        }
-
-        public void setPublisherUserName(String publisherUserName) {
-            this.publisherUserName = publisherUserName;
-        }
-
-        public String getPublisherHeadAvatar() {
-            return publisherHeadAvatar;
-        }
-
-        public void setPublisherHeadAvatar(String publisherHeadAvatar) {
-            this.publisherHeadAvatar = publisherHeadAvatar;
-        }
-
-        public String getPublisherUserId() {
-            return publisherUserId;
-        }
-
-        public void setPublisherUserId(String publisherUserId) {
-            this.publisherUserId = publisherUserId;
-        }
     }
 }

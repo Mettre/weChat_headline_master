@@ -3,6 +3,7 @@ package com.chaychan.news.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -32,6 +33,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import flyn.Eyes;
 
 public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> implements PersonalMomentsListView, BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -83,9 +85,9 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
     @Override
     public void initView() {
+        Eyes.translucentStatusBar(this);
         layoutManager = (LinearLayoutManager) mRvComment.getLayoutManager();
         mRvComment.setLayoutManager(layoutManager);
-        mRvComment.addItemDecoration(new DisplayUtils.SpacesItemDecoration());
 
     }
 
@@ -162,20 +164,19 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
         mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
 
-        momentsList = response.getRecords();
-        if (ListUtils.isEmpty(momentsList)) {
+        if (ListUtils.isEmpty(response.getRecords())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
         mStateView.showContent();//显示内容
-
-        if (ListUtils.isEmpty(momentsList)) {
+        if (ListUtils.isEmpty(response.getRecords())) {
             //已经获取不到新闻了，处理出现获取不到新闻的情况
             UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
-        momentsList.addAll(0, momentsList);
+        momentsList.clear();
+        momentsList.addAll(response.getRecords());
         mCommentAdapter.notifyDataSetChanged();
         //保存到数据库
         MomentsRecordHelper.save(publisherUserId, mGson.toJson(momentsList));
@@ -193,9 +194,9 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
     public void onMoreMomentsSuccess(BasePageEntity<Moments> response) {
         mCommentAdapter.loadMoreComplete();
         if (!ListUtils.isEmpty(response.getRecords())) {
-            momentsList.addAll(0, response.getRecords());
+            momentsList.addAll(response.getRecords());
             mCommentAdapter.notifyDataSetChanged();
-            MomentsRecordHelper.save(publisherUserId, mGson.toJson(response.getRecords()));
+            MomentsRecordHelper.save(publisherUserId, mGson.toJson(momentsList));
         }
     }
 

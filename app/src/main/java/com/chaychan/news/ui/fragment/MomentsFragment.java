@@ -79,7 +79,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     public void initView(View rootView) {
         mRefreshLayout.setDelegate(this);
         mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
-        mRvComment.addItemDecoration(new DisplayUtils.SpacesItemDecoration());
+        mRvComment.addItemDecoration(new DisplayUtils.SimpleDividerItemDecoration(1));
         // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
         BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(mActivity, false);
         // 设置下拉刷新
@@ -139,24 +139,23 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     @Override
     public void onGetNewsListSuccess(BasePageEntity<Moments> response) {
         mRefreshLayout.endRefreshing();// 加载完毕后在 UI 线程结束下拉刷新
-
         mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
 
 
-        momentsList = response.getRecords();
-        if (ListUtils.isEmpty(momentsList)) {
+        if (ListUtils.isEmpty(response.getRecords())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
         mStateView.showContent();//显示内容
 
-        if (ListUtils.isEmpty(momentsList)) {
+        if (ListUtils.isEmpty(response.getRecords())) {
             //已经获取不到新闻了，处理出现获取不到新闻的情况
             UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
-        momentsList.addAll(0, momentsList);
+        momentsList.clear();
+        momentsList.addAll(response.getRecords());
         mCommentAdapter.notifyDataSetChanged();
         //保存到数据库
         MomentsRecordHelper.save(publisherUserId, mGson.toJson(momentsList));
@@ -167,8 +166,9 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     public void onMoreMomentsSuccess(BasePageEntity<Moments> response) {
 
         mCommentAdapter.loadMoreComplete();
+        mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
         if (!ListUtils.isEmpty(response.getRecords())) {
-            momentsList.addAll(0, response.getRecords());
+            momentsList.addAll(response.getRecords());
             mCommentAdapter.notifyDataSetChanged();
             //保存到数据库
             MomentsRecordHelper.save(publisherUserId, mGson.toJson(response.getRecords()));
