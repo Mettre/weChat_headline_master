@@ -3,11 +3,13 @@ package com.chaychan.news.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.chaychan.news.R;
-import com.chaychan.news.model.entity.BaseEntity;
+import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
 import com.chaychan.news.model.entity.Reply;
 import com.chaychan.news.ui.adapter.MomentsDetailsAdapter;
@@ -16,6 +18,7 @@ import com.chaychan.news.ui.presenter.MomentsDetailsPresenter;
 import com.chaychan.news.ui.view.MomentsDetailsHeaderView;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.MomentsDetailsEntityHelper;
+import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.MomentsDetailsListener;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
 import com.github.nukc.stateview.StateView;
@@ -36,6 +39,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     protected MomentsDetailsHeaderView mHeaderView;
 
     private List<Reply> momentsList = new ArrayList<>();
+    private Moments moments;
     private MomentsDetailsEntity momentsRecord;
 
     @Bind(R.id.iv_back)
@@ -50,9 +54,9 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     private LinearLayoutManager layoutManager;
 
 
-    public static void startAlineActivity(String momentsId, Context mContext) {
+    public static void startAlineActivity(Moments moments, Context mContext) {
         Intent intent = new Intent(mContext, MomentsDetailsActivity.class);
-        intent.putExtra(MomentsDetailsActivity.MOMENTS_ID, momentsId);
+        intent.putExtra(MomentsDetailsActivity.MOMENTS_ID, moments);
         mContext.startActivity(intent);
     }
 
@@ -64,7 +68,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
 
     @Override
     public void initView() {
-        Eyes.setStatusBarColor(this, R.color.color_222222);
+        Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         layoutManager = (LinearLayoutManager) mRvComment.getLayoutManager();
         mRvComment.setLayoutManager(layoutManager);
     }
@@ -79,37 +83,39 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
 
         mStateView.showLoading();
         Intent intent = getIntent();
-        momentsId = intent.getStringExtra(MOMENTS_ID);
+        moments = (Moments) intent.getExtras().get(MomentsDetailsActivity.MOMENTS_ID);
+        if (moments == null || TextUtils.isEmpty(moments.getMomentsId())) {
+            return;
+        }
+        momentsId = moments.getMomentsId();
+        mCommentAdapter = new MomentsDetailsAdapter(this, R.layout.item_moment_reply, momentsList);
+        mRvComment.setAdapter(mCommentAdapter);
+        mHeaderView = new MomentsDetailsHeaderView(this);
+        mHeaderView.setDetail(moments);
+        mCommentAdapter.addHeaderView(mHeaderView);
+        mCommentAdapter.setEnableLoadMore(false);
+        mCommentAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
+        mCommentAdapter.setHeaderAndEmpty(true);
+
         momentsRecord = MomentsDetailsEntityHelper.getLastNewsRecord(momentsId);
         if (momentsRecord == null) {
             //找不到记录，拉取网络数据
             momentsRecord = new MomentsDetailsEntity();
-            mPresenter.getRefreshMomentsList(momentsId);
-            return;
+        } else {
+            List<Reply> newsList = momentsRecord.getReplyList();
+            if (newsList != null && newsList.size() > 0) {
+                momentsList.addAll(newsList);//添加到集合中
+                mCommentAdapter.notifyDataSetChanged();//刷新adapter
+            }
+            mStateView.showContent();//显示内容
         }
-
-        List<Reply> newsList = momentsRecord.getReply();
-        momentsList.addAll(newsList);//添加到集合中
-        mHeaderView.setDetail(momentsRecord.getMoments());
-        mCommentAdapter.notifyDataSetChanged();//刷新adapter
-
-        mStateView.showContent();//显示内容
+        mPresenter.getRefreshMomentsList(momentsId);
     }
 
 
     @Override
     public void initListener() {
-        mCommentAdapter = new MomentsDetailsAdapter(this, R.layout.item_moment_reply, momentsList);
 
-        mRvComment.setAdapter(mCommentAdapter);
-
-        mHeaderView = new MomentsDetailsHeaderView(this);
-        mCommentAdapter.addHeaderView(mHeaderView);
-
-        mCommentAdapter.setEnableLoadMore(false);
-
-        mCommentAdapter.setEmptyView(R.layout.pager_no_comment,mRvComment);
-        mCommentAdapter.setHeaderAndEmpty(true);
     }
 
 
@@ -119,14 +125,14 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     }
 
     @Override
-    public void onGetListSuccess(BaseEntity<MomentsDetailsEntity> response) {
+    public void onGetListSuccess(MomentsDetailsEntity response) {
 
         mStateView.showContent();//显示内容
         momentsList.clear();
-        momentsList.addAll(response.getData().getReply());
+        momentsList.addAll(response.getReplyList());
         mCommentAdapter.notifyDataSetChanged();
         //保存到数据库
-        MomentsDetailsEntityHelper.save(momentsId, response.getData().getMoments(), response.getData().getReply());
+        MomentsDetailsEntityHelper.save(momentsId, response.getMoments(), response.getReplyList());
     }
 
     @Override

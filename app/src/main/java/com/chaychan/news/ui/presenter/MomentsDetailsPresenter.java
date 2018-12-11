@@ -1,13 +1,10 @@
 package com.chaychan.news.ui.presenter;
 
 import com.chaychan.news.api.SubscriberCallBack;
-import com.chaychan.news.model.entity.BaseEntity;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.view.MomentsDetailsListener;
 import com.socks.library.KLog;
-
-import java.util.HashMap;
 
 public class MomentsDetailsPresenter extends BasePresenter<MomentsDetailsListener> {
 
@@ -15,18 +12,14 @@ public class MomentsDetailsPresenter extends BasePresenter<MomentsDetailsListene
         super(view);
     }
 
-    public void getRefreshMomentsList(String publisherUserId) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("publisherUserId", publisherUserId);
-        map.put("page", 1);
-        map.put("size", 20);
+    public void getRefreshMomentsList(String momentsId) {
 
-        addSubscription(mApiService2.PersonalMomentsList(map), new SubscriberCallBack<BaseEntity<MomentsDetailsEntity>>() {
+        addSubscription(mApiService2.momentsDetails(momentsId), new SubscriberCallBack<MomentsDetailsEntity>() {
 
             @Override
-            protected void onSuccess(BaseEntity<MomentsDetailsEntity> response) {
+            protected void onSuccess(MomentsDetailsEntity response) {
 
-                MomentsDetailsEntity momentsDetailsEntity = response.getData();
+                MomentsDetailsEntity momentsDetailsEntity = response;
                 KLog.e(momentsDetailsEntity);
                 mView.onGetListSuccess(response);
             }

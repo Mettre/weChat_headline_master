@@ -2,7 +2,9 @@ package com.chaychan.news.model.entity;
 
 import com.chaychan.news.enum_.MomentsEnum;
 
-public class Moments {
+import java.io.Serializable;
+
+public class Moments implements Serializable{
 
     /**
      * momentsId : 2018112312430700179

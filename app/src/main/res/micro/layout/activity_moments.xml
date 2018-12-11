@@ -26,6 +26,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/include_per_moments_top" />
+    <include layout="@layout/include_basics_trs" />
 
 </FrameLayout>

@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/eightMargin"
-    android:orientation="horizontal">
+    android:layout_marginLeft="@dimen/eightMargin"
+    android:layout_marginRight="@dimen/eightMargin"
+    android:background="@color/md_grey_200"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/normalMargin"
+    android:paddingRight="@dimen/normalMargin"
+    android:paddingTop="@dimen/sixMargin">
 
 
     <ImageView
         android:id="@+id/first_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/leftMargin"
-        android:layout_marginTop="@dimen/leftMargin"
         android:layout_marginRight="@dimen/smallNormalMargin"
+        android:layout_marginTop="@dimen/leftMargin"
         android:src="@mipmap/comment_icon" />
 
 
@@ -28,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/icon_head"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_alignBottom="@+id/back_line"
                 android:layout_marginRight="@dimen/eightMargin"
                 android:src="@mipmap/my_avatar" />
@@ -38,8 +42,8 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/icon_head"
                 android:layout_alignBottom="@id/iv_back"
+                android:layout_alignTop="@id/icon_head"
                 android:layout_toRightOf="@id/icon_head"
                 android:ellipsize="end"
                 android:gravity="top"
@@ -63,10 +67,10 @@
                 android:id="@+id/moments_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/user_name"
                 android:layout_alignLeft="@id/user_name"
+                android:layout_below="@id/user_name"
+                android:layout_marginBottom="@dimen/sixMargin"
                 android:layout_marginTop="@dimen/topMargin"
-                android:layout_marginBottom="@dimen/topMargin"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:lineSpacingExtra="3dp"
@@ -80,7 +84,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.6dp"
-            android:layout_marginTop="@dimen/smallNormalMargin"
+            android:layout_marginTop="@dimen/eightMargin"
             android:background="@color/color_d8d8d8"></View>
 
     </LinearLayout>

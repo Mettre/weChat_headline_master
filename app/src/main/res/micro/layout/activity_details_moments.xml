@@ -11,15 +11,15 @@
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/white">
 
         <com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView
             android:id="@+id/rv_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
-            app:dividerColor="@color/color_d8d8d8"
-            app:dividerSize="0.5dp" />
+            app:dividerSize="0dp" />
 
     </FrameLayout>
 

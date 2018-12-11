@@ -14,6 +14,7 @@ import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.UserBean;
 import com.chaychan.news.ui.activity.ImageViewPagerActivity;
 import com.chaychan.news.utils.GlideUtils;
+import com.chaychan.news.utils.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,9 @@ public class MomentsDetailsHeaderView extends FrameLayout {
 
     @Bind(R.id.moments_word)
     TextView momentsWord;
+
+    @Bind(R.id.tv_time)
+    TextView tvTime;
 
     public MomentsDetailsHeaderView(@NonNull Context context) {
         this(context, null);
@@ -55,6 +59,7 @@ public class MomentsDetailsHeaderView extends FrameLayout {
     public void setDetail(Moments moments) {
         userName.setText(moments.getUserBean().getPublisherUserName());
         momentsWord.setText(moments.getMomentsTitle());
+        tvTime.setText(TimeUtils.getShortTime(moments.getCreationTime()));
         GlideUtils.load(mContext, moments.getUserBean().getPublisherHeadAvatar(), iconHeader);
         iconHeader.setOnClickListener(new View.OnClickListener() {
             @Override

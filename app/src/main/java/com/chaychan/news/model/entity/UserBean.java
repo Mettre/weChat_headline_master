@@ -1,6 +1,8 @@
 package com.chaychan.news.model.entity;
 
-public class UserBean {
+import java.io.Serializable;
+
+public class UserBean implements Serializable{
 
     /**
      * publisherUserName : 阿凡达

@@ -126,6 +126,12 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
         mRvComment.setAdapter(mCommentAdapter);
 
         mHeaderView = new MomentsHeaderView(this);
+        UserHeadInfo userHeadInfo = new UserHeadInfo();
+        userHeadInfo.setBackGroundWall("http://image.biaobaiju.com/uploads/20180918/15/1537256494-ZnSKMzEoBI.jpeg");
+        userHeadInfo.setUserId("2018111514554801539");
+        userHeadInfo.setHeadAvatar("http://img4.duitang.com/uploads/item/201407/16/20140716132526_TcyTY.thumb.600_0.jpeg");
+        userHeadInfo.setUserName("安德拉");
+        mHeaderView.setDetail(userHeadInfo);
         mCommentAdapter.addHeaderView(mHeaderView);
 
         mCommentAdapter.setEnableLoadMore(false);
@@ -154,13 +160,6 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
     @Override
     public void onGetNewsListSuccess(BasePageEntity<Moments> response) {
-
-        UserHeadInfo userHeadInfo = new UserHeadInfo();
-        userHeadInfo.setBackGroundWall("http://image.biaobaiju.com/uploads/20180918/15/1537256494-ZnSKMzEoBI.jpeg");
-        userHeadInfo.setUserId("2018111514554801539");
-        userHeadInfo.setHeadAvatar("http://img4.duitang.com/uploads/item/201407/16/20140716132526_TcyTY.thumb.600_0.jpeg");
-        userHeadInfo.setUserName("安德拉");
-        mHeaderView.setDetail(userHeadInfo);
 
         mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
 

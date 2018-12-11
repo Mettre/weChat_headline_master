@@ -5,12 +5,9 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.Moments;
-import com.chaychan.news.ui.activity.ImageViewPagerActivity;
 import com.chaychan.news.ui.activity.MomentsDetailsActivity;
 import com.chaychan.news.ui.adapter.PersonalMomentsAdapter;
 import com.chaychan.news.utils.GlideUtils;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoPersonalMomentsProvider extends BasePersonalMomentsProvider {
@@ -42,7 +39,7 @@ public class PhotoPersonalMomentsProvider extends BasePersonalMomentsProvider {
 //                mUrls.add(moments.getMomentsImage());
 //                ImageViewPagerActivity.startAlineActivity(mUrls, 0, mContext);
 
-                MomentsDetailsActivity.startAlineActivity(moments.getMomentsId(), mContext);
+                MomentsDetailsActivity.startAlineActivity(moments, mContext);
             }
         });
     }

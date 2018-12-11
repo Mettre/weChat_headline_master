@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/twoMargin"
+    android:layout_marginLeft="@dimen/smallNormalMargin"
+    android:layout_marginRight="@dimen/smallNormalMargin"
+    android:layout_marginTop="@dimen/topMargin"
     android:orientation="vertical">
 
     <TextView
@@ -35,15 +37,16 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/theme_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:background="@color/md_grey_300"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/topMargin"
+            android:paddingBottom="@dimen/eightMargin"
             android:paddingLeft="@dimen/leftMargin"
             android:paddingRight="@dimen/normalMargin"
-            android:paddingTop="@dimen/topMargin">
+            android:paddingTop="@dimen/eightMargin">
 
             <TextView
                 android:id="@+id/moments_word"

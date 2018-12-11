@@ -11,16 +11,16 @@ public class MomentsDetailsEntity extends DataSupport {
 
     private String momentsId;
     private Moments moments;
-    private List<Reply> reply;
+    private List<Reply> replyList;
 
     public MomentsDetailsEntity() {
 
     }
 
-    public MomentsDetailsEntity(String momentsId, Moments moments, List<Reply> reply) {
+    public MomentsDetailsEntity(String momentsId, Moments moments, List<Reply> replyList) {
         this.momentsId = momentsId;
         this.moments = moments;
-        this.reply = reply;
+        this.replyList = replyList;
     }
 
     public String getMomentsId() {
@@ -39,11 +39,12 @@ public class MomentsDetailsEntity extends DataSupport {
         this.moments = moments;
     }
 
-    public List<Reply> getReply() {
-        return reply;
+
+    public List<Reply> getReplyList() {
+        return replyList;
     }
 
-    public void setReply(List<Reply> reply) {
-        this.reply = reply;
+    public void setReplyList(List<Reply> replyList) {
+        this.replyList = replyList;
     }
 }

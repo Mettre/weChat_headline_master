@@ -14,6 +14,6 @@
     <dimen name="smallNormalMargin">10dp</dimen>
     <dimen name="normalMargin">12dp</dimen>
     <dimen name="bigNormalMargin">14dp</dimen>
-    <dimen name="thirdMargin">14dp</dimen>
+    <dimen name="thirdMargin">13dp</dimen>
 
 </resources>
