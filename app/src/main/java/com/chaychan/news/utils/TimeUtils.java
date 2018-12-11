@@ -31,7 +31,7 @@ public class TimeUtils {
 
         int dayStatus = calculateDayStatus(date, new Date());
 
-        if (durTime <= 10 * ONE_MINUTE_MILLIONS) {
+        if (durTime <= 1 * ONE_MINUTE_MILLIONS) {
             str = "刚刚";
         } else if (durTime < ONE_HOUR_MILLIONS) {
             str = durTime / ONE_MINUTE_MILLIONS + "分钟前";

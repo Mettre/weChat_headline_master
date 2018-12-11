@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_d8d8d8" />
+
+    <LinearLayout
+        android:id="@+id/bottom_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/bigNormalMargin"
+            android:layout_weight="5"
+            android:background="@drawable/shape_moments_comment"
+            android:drawablePadding="6dp"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/normal"
+            android:text="@string/write_comment"
+            android:textColor="@color/color_999999"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/enjoy_icon" />
+
+    </LinearLayout>
+</LinearLayout>
