@@ -78,7 +78,6 @@
                 android:text="心力交瘁 真爱生命 远离房地产心"
                 android:textColor="@color/color_222222"
                 android:textSize="@dimen/normal" />
-
         </RelativeLayout>
 
         <View

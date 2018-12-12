@@ -20,6 +20,16 @@ public class Reply {
 
     private String headAvatar;//头像
 
+    private Boolean own;
+
+    public Boolean getOwn() {
+        return own;
+    }
+
+    public void setOwn(Boolean own) {
+        this.own = own;
+    }
+
     public String getHeadAvatar() {
         return headAvatar;
     }

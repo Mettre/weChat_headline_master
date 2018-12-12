@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
@@ -18,6 +22,7 @@ import com.chaychan.news.ui.presenter.MomentsDetailsPresenter;
 import com.chaychan.news.ui.view.MomentsDetailsHeaderView;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.MomentsDetailsEntityHelper;
+import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.MomentsDetailsListener;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
@@ -51,6 +56,12 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
 
+    @Bind(R.id.group_view)
+    LinearLayout groupView;
+
+    @Bind(R.id.editText_comment)
+    EditText editText;
+
     private LinearLayoutManager layoutManager;
 
 
@@ -71,6 +82,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         layoutManager = (LinearLayoutManager) mRvComment.getLayoutManager();
         mRvComment.setLayoutManager(layoutManager);
+        SoftUtils.setupUI(this, groupView);
     }
 
     @Override
@@ -96,6 +108,16 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         mCommentAdapter.setEnableLoadMore(false);
         mCommentAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
         mCommentAdapter.setHeaderAndEmpty(true);
+        mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                if (momentsList.get(i).getOwn()) {
+                    SoftUtils.showSoftKeyboard(editText);
+                } else {
+
+                }
+            }
+        });
 
         momentsRecord = MomentsDetailsEntityHelper.getLastNewsRecord(momentsId);
         if (momentsRecord == null) {
@@ -146,4 +168,5 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     public void onViewClicked() {
         finish();
     }
+
 }
