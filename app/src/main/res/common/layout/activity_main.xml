@@ -58,6 +58,21 @@
             android:layout_weight="1"
             app:iconNormal="@mipmap/tab_micro_normal"
             app:iconSelected="@mipmap/tab_micro_selected"
+            app:itemText="@string/tab_friends"
+            app:itemTextSize="8sp"
+            app:textColorNormal="@color/color_515051"
+            app:textColorSelected="@color/color_D33D3C"
+            app:itemMarginTop="-5dp"
+            app:openTouchBg="true"
+            app:touchDrawable="@drawable/selector_bottom_tab"
+            />
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@mipmap/tab_micro_normal"
+            app:iconSelected="@mipmap/tab_micro_selected"
             app:itemText="@string/tab_micro"
             app:itemTextSize="8sp"
             app:textColorNormal="@color/color_515051"

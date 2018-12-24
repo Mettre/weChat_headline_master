@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/eightMargin"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/icon_head"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignBottom="@+id/back_line"
+        android:layout_margin="@dimen/threeMargin"
+        android:src="@mipmap/my_avatar" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/eightMargin"
+        android:layout_toRightOf="@id/icon_head"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="姜文"
+        android:textColor="@color/color_222222"
+        android:textSize="@dimen/bigNormal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:layout_alignBottom="@id/icon_head"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_marginTop="@dimen/threeMargin"
+        android:background="@color/color_d8d8d8"></View>
+
+</RelativeLayout>

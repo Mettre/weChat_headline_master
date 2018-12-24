@@ -13,6 +13,15 @@ public class UserBean implements Serializable{
     private String publisherUserName;
     private String publisherHeadAvatar;
     private String publisherUserId;
+    private String publisherBackgroundWall;
+
+    public String getPublisherBackgroundWall() {
+        return publisherBackgroundWall;
+    }
+
+    public void setPublisherBackgroundWall(String publisherBackgroundWall) {
+        this.publisherBackgroundWall = publisherBackgroundWall;
+    }
 
     public String getPublisherUserName() {
         return publisherUserName;

@@ -11,6 +11,7 @@ import com.chaychan.news.ui.adapter.MainTabAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.base.BasePresenter;
+import com.chaychan.news.ui.fragment.FriendFragment;
 import com.chaychan.news.ui.fragment.HomeFragment;
 import com.chaychan.news.ui.fragment.MomentsFragment;
 import com.chaychan.news.ui.fragment.MineFragment;
@@ -62,9 +63,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mFragments = new ArrayList<>(4);
+        mFragments = new ArrayList<>(5);
         mFragments.add(new HomeFragment());
         mFragments.add(new VideoFragment());
+        mFragments.add(new FriendFragment());
         mFragments.add(new MomentsFragment());
         mFragments.add(new MineFragment());
     }
@@ -108,7 +110,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setStatusBarColor(int position) {
-        if (position == 3||position == 2){
+        if (position == 4||position == 3){
             //如果是我的页面，状态栏设置为透明状态栏
             Eyes.translucentStatusBar(MainActivity.this,true);
         }else{

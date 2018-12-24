@@ -2,12 +2,13 @@
 <litepal>
     <dbname value="news" ></dbname>
 
-    <version value="6" ></version>
+    <version value="7" ></version>
 
     <list>
         <mapping class="com.chaychan.news.model.entity.NewsRecord"></mapping>
         <mapping class="com.chaychan.news.model.entity.MomentsRecord"></mapping>
         <mapping class="com.chaychan.news.model.entity.PersonalMomentsRecord"></mapping>
         <mapping class="com.chaychan.news.model.entity.MomentsDetailsEntity"></mapping>
+        <mapping class="com.chaychan.news.model.entity.Friends"></mapping>
     </list>
 </litepal>

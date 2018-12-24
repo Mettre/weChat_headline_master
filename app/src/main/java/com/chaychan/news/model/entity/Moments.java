@@ -2,9 +2,11 @@ package com.chaychan.news.model.entity;
 
 import com.chaychan.news.enum_.MomentsEnum;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.Serializable;
 
-public class Moments implements Serializable{
+public class Moments extends DataSupport implements Serializable {
 
     /**
      * momentsId : 2018112312430700179

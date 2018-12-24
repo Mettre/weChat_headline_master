@@ -4,6 +4,7 @@
 
     <string name="tab_home">新闻</string>
     <string name="tab_video">贴吧</string>
+    <string name="tab_friends">好友</string>
     <string name="tab_micro">朋友圈</string>
     <string name="tab_me">我的</string>
 

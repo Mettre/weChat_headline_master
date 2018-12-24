@@ -147,11 +147,13 @@ public class ApiRetrofit {
                 builder.removeHeader("urlname");
                 //获取头信息中配置的value,如：manage或者mdffx
                 String urlname = urlnameList.get(0);
-                HttpUrl baseURL=null;
+                HttpUrl baseURL = null;
                 //根据头信息中配置的value,来匹配新的base_url地址
                 if ("information".equals(urlname)) {
                     baseURL = HttpUrl.parse(ApiConstant.BASE_INFORMATION_URL);
-                }else  if ("headlines".equals(urlname)) {
+                } else if ("account".equals(urlname)) {
+                    baseURL = HttpUrl.parse(ApiConstant.BASE_ACCOUNT_URL);
+                } else if ("headlines".equals(urlname)) {
                     baseURL = HttpUrl.parse(ApiConstant.BASE_SERVER_URL);
                 }
                 //重建新的HttpUrl，需要重新设置的url部分
@@ -162,14 +164,13 @@ public class ApiRetrofit {
                         .build();
                 //获取处理后的新newRequest
                 Request newRequest = builder.url(newHttpUrl).build();
-                return  chain.proceed(newRequest);
-            }else{
+                return chain.proceed(newRequest);
+            } else {
                 return chain.proceed(originalRequest);
             }
 
         }
     }
-
 
 
     public static ApiRetrofit getInstance() {
@@ -186,6 +187,7 @@ public class ApiRetrofit {
     public ApiService getApiService() {
         return mApiService;
     }
+
     public ApiService2 getApiService2() {
         return mApiService2;
     }

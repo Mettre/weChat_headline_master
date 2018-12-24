@@ -1,16 +1,20 @@
 package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.BasePageEntity;
+import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
+import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.ResultResponse;
 
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -50,6 +54,14 @@ public interface ApiService2 {
     @Headers({"urlName:information"})
     @POST("/findMomentsListWithPublisherUserId")
     Observable<ResultResponse<BasePageEntity<Moments>>> MomentsDetails(@Body HashMap<String, Object> map);
+
+
+    /**
+     * 好友列表
+     */
+    @Headers({"urlName:account"})
+    @GET("/loginEd/myFriendsList")
+    Observable<ResultResponse<ResultList>> FriendsList(@Header("authorities") String authorities);
 
     /**
      * 获取评论列表数据
