@@ -17,7 +17,7 @@ public class FriendsPresenter extends BasePresenter<IFriendsListView> {
 
             @Override
             protected void onSuccess(ResultList response) {
-                mView.onGetFriendsSuccess(response.getList());
+                mView.onGetFriendsSuccess(response);
             }
 
             @Override

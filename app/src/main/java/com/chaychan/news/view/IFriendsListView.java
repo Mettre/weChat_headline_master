@@ -1,12 +1,8 @@
 package com.chaychan.news.view;
 
-import com.chaychan.news.model.entity.Friends;
+public interface IFriendsListView<T> {
 
-import java.util.List;
-
-public interface IFriendsListView {
-
-    void onGetFriendsSuccess(List<Friends> response);
+    void onGetFriendsSuccess(T response);
 
     void onError();
 }

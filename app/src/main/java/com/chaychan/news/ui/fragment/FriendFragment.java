@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.Friends;
+import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.adapter.FriendAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.FriendsPresenter;
@@ -22,7 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import flyn.Eyes;
 
-public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListView {
+public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListView<ResultList> {
 
     private FriendAdapter friendAdapter;
 
@@ -70,7 +71,7 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
         mRvComment.setAdapter(friendAdapter);
         friendAdapter.setEnableLoadMore(false);
 
-        friendAdapter.setEmptyView(R.layout.pager_no_comment,mRvComment);
+        friendAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
         friendAdapter.setHeaderAndEmpty(true);
     }
 
@@ -92,22 +93,21 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
 
     @Override
-    public void onGetFriendsSuccess(List<Friends> response) {
-
-        if (ListUtils.isEmpty(response)) {
+    public void onGetFriendsSuccess(ResultList response) {
+        if (ListUtils.isEmpty(response.getList())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
         mStateView.showContent();//显示内容
 
-        if (ListUtils.isEmpty(response)) {
+        if (ListUtils.isEmpty(response.getList())) {
             //已经获取不到新闻了，处理出现获取不到新闻的情况
             UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
         momentsList.clear();
-        momentsList.addAll(response);
+        momentsList.addAll(response.getList());
         friendAdapter.notifyDataSetChanged();
         //保存到数据库
         FriendsRecordHelper.save(momentsList);

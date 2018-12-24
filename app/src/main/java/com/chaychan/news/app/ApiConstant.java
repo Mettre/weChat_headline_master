@@ -15,11 +15,13 @@ public class ApiConstant {
     /**
      * 信息接口跟地址
      */
-    public static final String BASE_INFORMATION_URL = "http://192.168.0.187:8762/";//公司
-//    public static final String BASE_INFORMATION_URL = "http://192.168.1.107:8762/";//家里
+//    public static final String BASE_INFORMATION_URL = "http://192.168.0.187:8762/";//公司
+    public static final String BASE_INFORMATION_URL = "http://192.168.1.107:8762/";//家里
 
 
-
-    public static final String BASE_ACCOUNT_URL = "http://192.168.0.187:8766/";//公司
-    //    public static final String BASE_ACCOUNT_URL = "http://192.168.1.107:8766/";//家里
+    /**
+     * 用户模块接口跟地址
+     */
+//    public static final String BASE_ACCOUNT_URL = "http://192.168.0.187:8766/";//公司
+    public static final String BASE_ACCOUNT_URL = "http://192.168.1.107:8766/";//家里
 }

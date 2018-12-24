@@ -34,7 +34,7 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onError(Throwable e) {
-        KLog.e(e.getLocalizedMessage());
+        KLog.e(e.getLocalizedMessage()+e.getMessage());
         onError();
     }
 
