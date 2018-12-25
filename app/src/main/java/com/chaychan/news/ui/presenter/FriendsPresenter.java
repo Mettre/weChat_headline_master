@@ -3,11 +3,11 @@ package com.chaychan.news.ui.presenter;
 import com.chaychan.news.api.SubscriberCallBack;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.base.BasePresenter;
-import com.chaychan.news.view.IFriendsListView;
+import com.chaychan.news.view.IFriendsListener;
 
-public class FriendsPresenter extends BasePresenter<IFriendsListView> {
+public class FriendsPresenter extends BasePresenter<IFriendsListener> {
 
-    public FriendsPresenter(IFriendsListView view) {
+    public FriendsPresenter(IFriendsListener view) {
         super(view);
     }
 

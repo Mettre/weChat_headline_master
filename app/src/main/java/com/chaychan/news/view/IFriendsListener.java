@@ -1,6 +1,6 @@
 package com.chaychan.news.view;
 
-public interface IFriendsListView<T> {
+public interface IFriendsListener<T> {
 
     void onGetFriendsSuccess(T response);
 

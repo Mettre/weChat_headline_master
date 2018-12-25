@@ -13,7 +13,7 @@ import com.chaychan.news.ui.presenter.FriendsPresenter;
 import com.chaychan.news.utils.FriendsRecordHelper;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.UIUtils;
-import com.chaychan.news.view.IFriendsListView;
+import com.chaychan.news.view.IFriendsListener;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
 
@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import flyn.Eyes;
 
-public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListView<ResultList> {
+public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<ResultList> {
 
     private FriendAdapter friendAdapter;
 
@@ -94,23 +94,23 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void onGetFriendsSuccess(ResultList response) {
-        if (ListUtils.isEmpty(response.getList())) {
-            //获取不到数据,显示空布局
-            mStateView.showEmpty();
-            return;
-        }
-        mStateView.showContent();//显示内容
-
-        if (ListUtils.isEmpty(response.getList())) {
-            //已经获取不到新闻了，处理出现获取不到新闻的情况
-            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
-            return;
-        }
-        momentsList.clear();
-        momentsList.addAll(response.getList());
-        friendAdapter.notifyDataSetChanged();
-        //保存到数据库
-        FriendsRecordHelper.save(momentsList);
+//        if (ListUtils.isEmpty(response.getList())) {
+//            //获取不到数据,显示空布局
+//            mStateView.showEmpty();
+//            return;
+//        }
+//        mStateView.showContent();//显示内容
+//
+//        if (ListUtils.isEmpty(response.getList())) {
+//            //已经获取不到新闻了，处理出现获取不到新闻的情况
+//            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
+//            return;
+//        }
+//        momentsList.clear();
+//        momentsList.addAll(response.getList());
+//        friendAdapter.notifyDataSetChanged();
+//        //保存到数据库
+//        FriendsRecordHelper.save(momentsList);
     }
 
     @Override
