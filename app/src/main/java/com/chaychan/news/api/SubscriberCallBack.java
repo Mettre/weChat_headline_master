@@ -3,9 +3,11 @@ package com.chaychan.news.api;
 import android.text.TextUtils;
 
 import com.chaychan.news.model.response.ResultResponse;
+import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.socks.library.KLog;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import rx.Subscriber;
 
 /**
@@ -22,7 +24,11 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
         if (isSuccess) {
             onSuccess((T) response.data);
         } else {
-            UIUtils.showToast(response.message);
+//            UIUtils.showToast(response.message);
+            new SweetAlertDialog(UIUtils.getContext(), SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("错误")
+                    .setContentText(response.message)
+                    .show();
             onFailure(response);
         }
     }
@@ -35,10 +41,16 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
     @Override
     public void onError(Throwable e) {
         KLog.e(e.getLocalizedMessage());
+//        UIUtils.showToast(e.getLocalizedMessage());
+        new SweetAlertDialog(UIUtils.getContext(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("错误")
+                .setContentText(e.getLocalizedMessage())
+                .show();
         onError();
     }
 
     protected abstract void onSuccess(T response);
+
     protected abstract void onError();
 
     protected void onFailure(ResultResponse response) {

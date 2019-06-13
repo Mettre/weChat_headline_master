@@ -24,7 +24,7 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
         map.put("page", 1);
         map.put("size", 20);
 
-        addSubscription(mApiService2.circleFriendsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
+        addSubscription(mApiService2.circleFriendsList("Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDE4MTExNTE0NTU0ODAxNTM5IiwiZXhwIjoxNTU5OTg3NzI3fQ.texHLv6-WzOktJ8Bv-RuFoA2KFbRnCkhkodat0oQDEc", map), new SubscriberCallBack<BasePageEntity<Moments>>() {
 
             @Override
             protected void onSuccess(BasePageEntity<Moments> response) {
@@ -47,7 +47,7 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
         map.put("page", page);
         map.put("size", 20);
 
-        addSubscription(mApiService2.circleFriendsList(map), new SubscriberCallBack<BasePageEntity<Moments>>() {
+        addSubscription(mApiService2.circleFriendsList("Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDE4MTExNTE0NTU0ODAxNTM5IiwiZXhwIjoxNTU5OTg3NzI3fQ.texHLv6-WzOktJ8Bv-RuFoA2KFbRnCkhkodat0oQDEc",map), new SubscriberCallBack<BasePageEntity<Moments>>() {
 
             @Override
             protected void onSuccess(BasePageEntity<Moments> response) {

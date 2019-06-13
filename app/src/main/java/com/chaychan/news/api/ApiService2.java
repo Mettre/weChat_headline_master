@@ -2,9 +2,11 @@ package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Friends;
+import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
 import com.chaychan.news.model.entity.ResultList;
+import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.ResultResponse;
@@ -30,15 +32,17 @@ public interface ApiService2 {
      * 好友的朋友圈
      */
     @Headers({"urlName:information"})
-    @POST("/circleFriendsList")
-    Observable<ResultResponse<BasePageEntity<Moments>>> circleFriendsList(@Body HashMap<String, Object> map);
+    @POST("/information/loginEd/circleFriendsList")
+    Observable<ResultResponse<BasePageEntity<Moments>>> circleFriendsList(
+            @Header("Authorization") String Authorization,
+            @Body HashMap<String, Object> map);
 
     /**
      * 个人朋友圈
      */
     @Headers({"urlName:information"})
-    @POST("/findMomentsListWithPublisherUserId")
-    Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Body HashMap<String, Object> map);
+    @POST("/information/loginEd/findMomentsListWithPublisherUserId")
+    Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Header("Authorization") String Authorization, @Body HashMap<String, Object> map);
 
     /**
      * 朋友圈详情
@@ -85,6 +89,20 @@ public interface ApiService2 {
     @Headers({"urlName:headlines"})
     @GET
     Observable<ResultResponse<VideoModel>> getVideoData(@Url String url);
+
+    /**
+     * 登陆
+     */
+    @Headers({"urlName:information"})
+    @POST("/account/login")
+    Observable<ResultResponse<LoginBean>> loginRequest(@Query("phone") String phone, @Query("password") String password);
+
+    /**
+     * 登陆
+     */
+    @Headers({"urlName:information"})
+    @GET("/loginEd/getUserInfo")
+    Observable<ResultResponse<UserInfo>> getUserInfo(@Header("authorities") String authorities);
 
 
 }

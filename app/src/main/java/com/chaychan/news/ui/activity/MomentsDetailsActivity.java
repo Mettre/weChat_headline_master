@@ -35,6 +35,9 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import flyn.Eyes;
 
+/**
+ * 说说详情
+ */
 public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter> implements MomentsDetailsListener<MomentsDetailsEntity> {
 
     private String momentsId;

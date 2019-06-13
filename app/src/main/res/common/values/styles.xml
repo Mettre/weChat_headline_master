@@ -20,4 +20,10 @@
         <item name="android:progressDrawable">@drawable/shape_progressbar_mini</item>
     </style>
 
+    <!--拍照dialog弹框-->
+    <style name="PopupAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+
 </resources>
