@@ -41,12 +41,12 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
     @Override
     public void onError(Throwable e) {
         KLog.e(e.getLocalizedMessage());
-//        UIUtils.showToast(e.getLocalizedMessage());
-        new SweetAlertDialog(UIUtils.getContext(), SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("错误")
-                .setContentText(e.getLocalizedMessage())
-                .show();
-        onError();
+        UIUtils.showToast(e.getLocalizedMessage());
+//        new SweetAlertDialog(UIUtils.getContext(), SweetAlertDialog.ERROR_TYPE)
+//                .setTitleText("错误")
+//                .setContentText(e.getLocalizedMessage())
+//                .show();
+//        onError();
     }
 
     protected abstract void onSuccess(T response);

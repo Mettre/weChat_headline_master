@@ -98,11 +98,33 @@ public interface ApiService2 {
     Observable<ResultResponse<LoginBean>> loginRequest(@Query("phone") String phone, @Query("password") String password);
 
     /**
-     * 登陆
+     * 注册
+     */
+    @Headers({"urlName:information"})
+    @POST("/account/register")
+    Observable<ResultResponse> registerRequest(@Body HashMap<String, Object> map);
+
+    /**
+     * 手机验证码
+     */
+    @Headers({"urlName:information"})
+    @POST("/account/sendMessage")
+    Observable<ResultResponse> sendMessageRequest(@Body HashMap<String, Object> map);
+
+    /**
+     * 忘记密码
+     */
+    @Headers({"urlName:information"})
+    @POST("/account/forgetPassword")
+    Observable<ResultResponse> forgetPasswordRequest(@Body HashMap<String, Object> map);
+
+
+    /**
+     * 获取用户信息
      */
     @Headers({"urlName:information"})
     @GET("/loginEd/getUserInfo")
-    Observable<ResultResponse<UserInfo>> getUserInfo(@Header("authorities") String authorities);
+    Observable<ResultResponse<Boolean>> getUserInfo(@Header("authorities") String authorities);
 
 
 }

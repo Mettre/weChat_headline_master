@@ -12,9 +12,8 @@ import com.chaychan.news.R;
 import com.chaychan.news.enum_.SmsTypeEnum;
 import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BaseActivity;
-import com.chaychan.news.ui.presenter.RegisterPresenter;
+import com.chaychan.news.ui.presenter.ForgetPasswordPresenter;
 import com.chaychan.news.utils.CountdownControl;
-import com.chaychan.news.utils.LoginUtils;
 import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.utils.UIUtils;
@@ -23,48 +22,50 @@ import com.chaychan.news.view.ISendRequestListener;
 import butterknife.Bind;
 import flyn.Eyes;
 
+import static com.chaychan.news.utils.LoginUtils.isMobileNO;
+
 /**
  * Created by app on 2017/7/26.
- * 注册
+ * 忘记密码
  */
-
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements View.OnClickListener, ISendRequestListener<ResultResponse> {
+public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<ResultResponse> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
 
-    @Bind(R.id.phone_num)
-    EditText phone;
+    @Bind(R.id.tv_author)
+    TextView mTvAuthor;
 
-    @Bind(R.id.verification_code_num)
+    @Bind(R.id.verification_code)
     EditText verificationCodeNum;
 
-    @Bind(R.id.password)
-    EditText password;
+    @Bind(R.id.new_password)
+    EditText newPassword;
+
+    @Bind(R.id.phone_num_text)
+    EditText phoneNumText;
 
     @Bind(R.id.verification_code)
     TextView verificationCode;
 
-    @Bind(R.id.register_btn)
-    TextView registerBtn;
-
-    @Bind(R.id.tv_author)
-    TextView mTvAuthor;
+    @Bind(R.id.submit_btn)
+    TextView submit_btn;
 
 
     public static void startActivity(Context mContext) {
-        Intent intent = new Intent(mContext, RegisterActivity.class);
+        Intent intent = new Intent(mContext, ForgetPasswordActivity.class);
         mContext.startActivity(intent);
     }
 
+
     private void onListener() {
-        registerBtn.setOnClickListener(this);
+        submit_btn.setOnClickListener(this);
         verificationCode.setOnClickListener(this);
     }
 
     @Override
     protected int provideContentViewId() {
-        return R.layout.activity_register;
+        return R.layout.activity_forget_password;
     }
 
 
@@ -72,52 +73,45 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     public void initView() {
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         SoftUtils.setupUI(this, groupView);
-        mTvAuthor.setText("注册");
+        mTvAuthor.setText("忘记密码");
         onListener();
     }
 
     @Override
+    protected ForgetPasswordPresenter createPresenter() {
+        return new ForgetPasswordPresenter(this);
+    }
+
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register_btn:
-                if (LoginUtils.getInstance().RegisterVerification(phone, verificationCodeNum, password)) {
-                    mPresenter.RegisterRequest(phone.getText().toString(), password.getText().toString(), verificationCodeNum.getText().toString());
-                }
+            case R.id.submit_btn:
+                SoftUtils.hideSoftKeyboard(this);
+                mPresenter.ForgetPasswordRequest(phoneNumText.getText().toString(), newPassword.getText().toString(),verificationCodeNum.getText().toString());
                 break;
             case R.id.verification_code:
-                if (TextUtils.isEmpty(phone.getText().toString())) {
+                if (TextUtils.isEmpty(phoneNumText.getText().toString())) {
                     ToastUtils.showShortToastSafe("手机号码不能为空！");
                     return;
-                } else if (!LoginUtils.isMobileNO(phone.getText().toString())) {
+                } else if (!isMobileNO(phoneNumText.getText().toString())) {
                     ToastUtils.showShortToastSafe("请输入正确的手机号码！");
                     return;
                 }
-                mPresenter.verificationRequest(phone.getText().toString(), SmsTypeEnum.REGISTER);
+                mPresenter.verificationRequest(phoneNumText.getText().toString(), SmsTypeEnum.FORGET_PASSWORD);
                 break;
         }
     }
 
     @Override
-    protected RegisterPresenter createPresenter() {
-        return new RegisterPresenter(this);
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onRequestFirstSuccess(ResultResponse response) {
-        ToastUtils.showShortToast("注册成功", 200);
+        ToastUtils.showShortToast("密码修改成功", 200);
     }
 
     @Override
     public void onRequestSecondSuccess(ResultResponse response) {
         ToastUtils.showShortToast("验证码已发送到手机，请注意查收", 200);
         CountdownControl.changeBtnGetCode(verificationCode, this);
-
     }
 
     @Override
