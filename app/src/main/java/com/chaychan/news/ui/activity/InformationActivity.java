@@ -23,19 +23,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaychan.news.R;
+import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.UserInfo;
+import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BaseActivity;
-import com.chaychan.news.ui.presenter.LoginPresenter;
+import com.chaychan.news.ui.presenter.FilePresster;
+import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.utils.LoginUtils;
+import com.chaychan.news.utils.UIUtils;
+import com.chaychan.news.view.IRequestListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import flyn.Eyes;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -44,7 +53,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * 个人信息编写
  */
 
-public class InformationActivity extends BaseActivity<LoginPresenter> implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
+public class InformationActivity extends BaseActivity<FilePresster> implements View.OnClickListener, EasyPermissions.PermissionCallbacks, IRequestListener<ResultResponse> {
 
     public static final String IMAGE_FILE_NAME = "clip_temp.jpg";
     private final int RC_SETTINGS_SCREEN = 126;
@@ -52,13 +61,14 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
     private final int LOCAL = 11;
     private final int CAMERA = 12;
     private final int CUT = 13;
-    private final int GENDER = 14;
-    private final int NICKNAME = 15;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Bind(R.id.icon_img)
     ImageView icon_img;
     private Bitmap photo;
+
+    @Bind(R.id.icon_linearLayout)
+    LinearLayout icon_linearLayout;
 
     private PopupWindow mPopupWindow;
     private Button ppBtnCamera;
@@ -71,6 +81,9 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
     private UserInfo userBean;
     @Bind(R.id.nickName)
     TextView nickNameText;
+
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
 
     @Bind(R.id.phone_text)
     TextView phoneText;
@@ -93,8 +106,12 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
     @Bind(R.id.gender_linearLayout)
     LinearLayout gender_linearLayout;
 
+    @Bind(R.id.group_view)
+    LinearLayout groupView;
+
     private String nickName;
     private String gender;
+    private List<File> fileList = new ArrayList<>();
     private String inputEdit;//修改个人信息startForResult-不为空即修改过
 
     public static void startActivity(Context mContext, UserInfo userBean) {
@@ -103,25 +120,27 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
         mContext.startActivity(intent);
     }
 
-
-    public void initView(View view) {
+    @Override
+    public void initView() {
         userBean = (UserInfo) getIntent().getSerializableExtra("userBean");
-        mTvAuthor.setText("我的资料");
+        mTvAuthor.setText("个人信息");
+        Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         getEditInformation();
     }
 
     @Override
     public void initListener() {
-        icon_img.setOnClickListener(this);
+        icon_linearLayout.setOnClickListener(this);
         out_btn.setOnClickListener(this);
         nickname_linearLayout.setOnClickListener(this);
         gender_linearLayout.setOnClickListener(this);
         right_btn.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
     }
 
     @Override
-    protected LoginPresenter createPresenter() {
-        return null;
+    protected FilePresster createPresenter() {
+        return new FilePresster(this);
     }
 
     @Override
@@ -139,20 +158,12 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
         nickName = userBean.getUserName();
         gender = userBean.getGender();
 
+        GlideUtils.loadRound(this, userBean.getHeadAvatar(), icon_img);
         phoneText.setText(userBean.getPhone());
         nickNameText.setText(TextUtils.isEmpty(nickName) ? "未设置" : nickName);
         nickNameText.setTextColor(TextUtils.isEmpty(nickName) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
         genderText.setText(TextUtils.isEmpty(gender) ? "未设置" : gender);
         genderText.setTextColor(TextUtils.isEmpty(gender) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
-    }
-
-    /**
-     * 信息
-     */
-    private UserInfo setEditInformation() {
-        userBean.setUserName(nickName);
-        userBean.setGender(gender);
-        return userBean;
     }
 
 
@@ -162,14 +173,13 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
         if (resultCode != RESULT_OK) {
             return;
         }
-        inputEdit = data.getStringExtra("inputEdit");
         switch (requestCode) {
-            case NICKNAME:
+            case EditNickNameActivity.NICKNAME:
                 nickName = inputEdit;
                 nickNameText.setText(inputEdit);
                 nickNameText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
                 break;
-            case GENDER:
+            case EditNickNameActivity.SEX:
                 gender = inputEdit;
                 genderText.setText(inputEdit);
                 genderText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
@@ -187,7 +197,6 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
                 cropRawPhoto(data.getData());
                 break;
             case CAMERA:
-
                 if (hasSdcard()) {
                     File tempFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
                     cropRawPhoto(Uri.fromFile(tempFile));
@@ -230,6 +239,11 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
             try {//打开输出流 将图片数据填入文件中
                 out = new FileOutputStream(f);
                 photo.compress(Bitmap.CompressFormat.PNG, 90, out);
+                icon_img.setImageBitmap(photo);
+                if (fileList != null && fileList.size() > 0) {
+                    fileList.clear();
+                }
+                fileList.add(nf);
                 try {
                     out.flush();
                     out.close();
@@ -270,6 +284,7 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
 
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -291,7 +306,7 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
-//                            setEditUserInfo(true);
+                            mPresenter.uploadFileRequest(fileList);
 
                         }
                     })
@@ -305,7 +320,10 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.icon_img:
+            case R.id.iv_back:
+                finish();
+                break;
+            case R.id.icon_linearLayout:
                 showPopupWindow(v);
                 break;
             case R.id.icon_img_right:
@@ -313,18 +331,18 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
                 break;
             case R.id.out_btn:
                 LoginUtils.getInstance().signOutRemoveToken();
-                setResult(RESULT_OK, new Intent().putExtra("name", "outLogin"));
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
                 finish();
                 break;
             case R.id.nickname_linearLayout:
-//                startForResult(EditNickNameFragment.newInstance(nickName, 1), 1000);
+                EditNickNameActivity.startActivity(this, userBean, EditNickNameActivity.NICKNAME);
                 break;
             case R.id.gender_linearLayout:
-//                startForResult(EditNickNameFragment.newInstance(gender, 4), 4000);
+                EditNickNameActivity.startActivity(this, userBean, EditNickNameActivity.SEX);
                 break;
             case R.id.right_btn:
-                if (!TextUtils.isEmpty(inputEdit)) {
-//                    setEditUserInfo(true);
+                if (fileList != null && fileList.size() > 0) {
+                    mPresenter.uploadFileRequest(fileList);
                 } else {
                     finish();
                 }
@@ -498,6 +516,23 @@ public class InformationActivity extends BaseActivity<LoginPresenter> implements
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getFile()));
         startActivityForResult(intent, CAMERA);
+    }
+
+    @Override
+    public void onRequestFirstSuccess(ResultResponse response) {
+        if (fileList != null && fileList.size() > 0) {
+            fileList.clear();
+        }
+        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("")
+                .setContentText("头像修改成功！")
+                .setConfirmText("关闭")
+                .show();
+    }
+
+    @Override
+    public void onError() {
+
     }
 
     /**

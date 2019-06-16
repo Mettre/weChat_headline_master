@@ -1,6 +1,7 @@
 package com.chaychan.news.ui.presenter;
 
 import com.chaychan.news.api.SubscriberCallBack;
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.enum_.SmsTypeEnum;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.response.ResultResponse;
@@ -17,6 +18,7 @@ public class ForgetPasswordPresenter extends BasePresenter<ISendRequestListener>
 
     /**
      * 忘记密码
+     *
      * @param phone
      * @param password
      * @param captchaCode
@@ -41,7 +43,33 @@ public class ForgetPasswordPresenter extends BasePresenter<ISendRequestListener>
     }
 
     /**
+     * 修改密码
+     *
+     * @param newPassword
+     * @param oldPassword
+     */
+    public void ModifyPasswordRequest(String oldPassword, String newPassword) {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("newPassword", newPassword);
+        map.put("oldPassword", oldPassword);
+        String authorities = MyApp.getInstances().getToken();
+        addSubscription(mApiService2.modifyPasswordRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+            @Override
+            protected void onSuccess(ResultResponse response) {
+                mView.onRequestFirstSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+        });
+    }
+
+    /**
      * 发送忘记密码验证码
+     *
      * @param phone
      * @param smsTypeEnum
      */

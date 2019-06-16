@@ -9,12 +9,14 @@ public class ResultResponse<T> {
 
     public String has_more;
     public String message;
-    public String success; 
+    public Boolean success;
+    public String code;
     public T data;
 
-    public ResultResponse(String more, String _message, T result) {
+    public ResultResponse(String more, String _message, T result,String code) {
         has_more = more;
         message = _message;
         data = result;
+        code = code;
     }
 }

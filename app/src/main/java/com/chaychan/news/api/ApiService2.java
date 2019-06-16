@@ -14,6 +14,7 @@ import com.chaychan.news.model.response.ResultResponse;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -118,13 +119,39 @@ public interface ApiService2 {
     @POST("/account/forgetPassword")
     Observable<ResultResponse> forgetPasswordRequest(@Body HashMap<String, Object> map);
 
+    /**
+     * 修改个人信息
+     */
+    @Headers({"urlName:information"})
+    @POST("/account/loginEd/modifyUserInfo")
+    Observable<ResultResponse> modifyUserInfoRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+    /**
+     * 修改密码
+     */
+    @Headers({"urlName:information"})
+    @POST("/account/loginEd/modifyPassword")
+    Observable<ResultResponse> modifyPasswordRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
 
     /**
      * 获取用户信息
      */
     @Headers({"urlName:information"})
-    @GET("/loginEd/getUserInfo")
-    Observable<ResultResponse<Boolean>> getUserInfo(@Header("authorities") String authorities);
+    @GET("/account/loginEd/getUserInfo")
+    Observable<ResultResponse<UserInfo>> getUserInfo(@Header("authorities") String authorities);
+
+    /**
+     * 上传文件
+     *
+     * @param Body
+     * @return
+     */
+    @Headers({"urlName:information"})
+    @POST("/usually/img/upload")
+    Observable<ResultResponse> upLoadFile(
+            @Header("Authorization") String Authorization,
+            @Body RequestBody Body);
 
 
 }

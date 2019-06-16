@@ -44,6 +44,19 @@ public class FileUtils {
     }
 
     /**
+     * 得到皮肤目录
+     *
+     * @return
+     */
+    public static File getSkinDir() {
+        File skinDir = new File(getCacheDir(), "skin");
+        if (skinDir.exists()) {
+            skinDir.mkdirs();
+        }
+        return skinDir;
+    }
+
+    /**
      * 获取下载目录
      */
     public static String getDownloadDir() {

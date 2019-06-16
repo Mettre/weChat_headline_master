@@ -16,6 +16,10 @@ public class PersonalMomentsListPresenter extends BasePresenter<PersonalMomentsL
         super(view);
     }
 
+    /**
+     * 获取朋友圈
+     * @param publisherUserId
+     */
     public void getRefreshMomentsList(String publisherUserId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("publisherUserId", publisherUserId);

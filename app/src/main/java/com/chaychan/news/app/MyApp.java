@@ -25,15 +25,6 @@ public class MyApp extends BaseApp {
     }
 
     private String token;
-    private Boolean mineUi = false;//我的页面 刷新
-
-    public Boolean getMineUi() {
-        return mineUi;
-    }
-
-    public void setMineUi(Boolean mineUi) {
-        this.mineUi = mineUi;
-    }
 
     public String getToken() {
         return token;

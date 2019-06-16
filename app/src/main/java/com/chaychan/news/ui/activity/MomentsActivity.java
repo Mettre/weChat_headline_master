@@ -35,6 +35,9 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import flyn.Eyes;
 
+/**
+ * 某人的朋友圈
+ */
 public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> implements PersonalMomentsListView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static final String PUBLISHER_USER = "publisherUserId";

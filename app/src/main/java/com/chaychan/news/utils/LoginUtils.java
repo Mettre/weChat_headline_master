@@ -127,14 +127,10 @@ public class LoginUtils {
      *
      * @return
      */
-    public Boolean ModifyPassword(TextView phone, EditText verificationCodeNum, EditText newPassword) {
+    public static Boolean ModifyPassword(EditText oldPassword, EditText newPassword) {
         Boolean type = false;
-        if (TextUtils.isEmpty(phone.getText().toString())) {
-            ToastUtils.showShortToastSafe("手机号码不能为空！");
-        } else if (!isMobileNO(phone.getText().toString())) {
-            ToastUtils.showShortToastSafe("请输入正确的手机号码");
-        } else if (TextUtils.isEmpty(verificationCodeNum.getText().toString())) {
-            ToastUtils.showShortToastSafe("验证码不能为空！");
+        if (TextUtils.isEmpty(oldPassword.getText().toString())) {
+            ToastUtils.showShortToastSafe("请输入旧密码");
         } else if (TextUtils.isEmpty(newPassword.getText().toString())) {
             ToastUtils.showShortToastSafe("请输入新密码");
         } else if (newPassword.getText().toString().length() < 6 || newPassword.getText().toString().length() > 16) {
@@ -150,7 +146,7 @@ public class LoginUtils {
      *
      * @return
      */
-    public Boolean ModifyPassword(EditText phone, EditText verificationCodeNum, EditText newPassword) {
+    public Boolean ForgetPassword(EditText phone, EditText verificationCodeNum, EditText newPassword) {
         Boolean type = false;
         if (TextUtils.isEmpty(phone.getText().toString())) {
             ToastUtils.showShortToastSafe("手机号码不能为空！");
@@ -250,10 +246,8 @@ public class LoginUtils {
      */
     public static void loginSaveToken(String phone, String access_token) {
         MyApp.getInstances().setToken(access_token);
-        MyApp.getInstances().setMineUi(true);
         SharedPrefsUtil.putValue(BaseApp.getContext(), "phone", phone);
         SharedPrefsUtil.putValue(BaseApp.getContext(), "token", access_token);
-        Log.e("mettre:   ", access_token + " - " + !MyApp.getInstances().NotLogged());
     }
 
 

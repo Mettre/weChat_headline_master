@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chaychan.news.R;
+import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.LoginPresenter;
@@ -16,6 +17,8 @@ import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.ui.view.ClearEditText;
 import com.chaychan.news.view.IRequestListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -98,6 +101,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
     @Override
     public void onRequestFirstSuccess(LoginBean response) {
         LoginUtils.loginSaveToken(phoneNum, response.getAccess_token());
+        EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
         finish();
     }
 

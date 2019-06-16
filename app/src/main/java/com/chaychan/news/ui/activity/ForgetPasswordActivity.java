@@ -36,7 +36,7 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     @Bind(R.id.tv_author)
     TextView mTvAuthor;
 
-    @Bind(R.id.verification_code)
+    @Bind(R.id.verification_code_num)
     EditText verificationCodeNum;
 
     @Bind(R.id.new_password)

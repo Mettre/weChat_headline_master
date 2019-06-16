@@ -34,6 +34,15 @@ public class UserInfo implements Serializable {
     private String backgroundWall;
     private long creationTime;
     private long updateTime;
+    private String e_mall;
+
+    public String getE_mall() {
+        return e_mall;
+    }
+
+    public void setE_mall(String e_mall) {
+        this.e_mall = e_mall;
+    }
 
     public String getUserId() {
         return userId;

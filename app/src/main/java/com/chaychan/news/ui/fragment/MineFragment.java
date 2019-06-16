@@ -1,24 +1,26 @@
 package com.chaychan.news.ui.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
-import com.chaychan.news.app.base.BaseApp;
+import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.ui.activity.InformationActivity;
 import com.chaychan.news.ui.activity.LoginActivity;
 import com.chaychan.news.ui.base.BaseFragment;
-import com.chaychan.news.ui.base.BasePresenter;
-import com.chaychan.news.ui.presenter.LoginPresenter;
 import com.chaychan.news.ui.presenter.UserInfoPresenter;
+import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.view.IRequestListener;
 import com.socks.library.KLog;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author ChayChan
@@ -30,6 +32,12 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
 
     @Bind(R.id.ll_top)
     LinearLayout ll_top;
+
+    @Bind(R.id.icon_imageView)
+    CircleImageView circleImageView;
+
+    @Bind(R.id.nickName_text)
+    TextView nickName_text;
 
     private UserInfo userBean;
 
@@ -51,6 +59,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Override
     public void initData() {
         KLog.i("initData");
+        if (!MyApp.getInstances().NotLogged()) {
+            mPresenter.getUserInfo(MyApp.getInstances().getToken());
+        }
     }
 
     @Override
@@ -64,20 +75,20 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
         KLog.i("loadData");
     }
 
-    @Override
-    protected void onFragmentVisibleChange(boolean isVisible) {
-        super.onFragmentVisibleChange(isVisible);
-        Log.e("mettre:   ", isVisible + " - " + MyApp.getInstances().getMineUi() + " - " + !MyApp.getInstances().NotLogged());
-
-        //登录获取用户信息
-        if (isVisible && MyApp.getInstances().getMineUi() && !MyApp.getInstances().NotLogged()) {
-            ToastUtils.showShortToast("刷新用户数据");
-            mPresenter.getUserInfo(MyApp.getInstances().getToken());
-            MyApp.getInstances().setMineUi(false);
-        } else {
-
+    /**
+     * start other BrotherFragment
+     */
+    @Subscribe
+    public void startBrother(StartBrotherEvent event) {
+        if (event.EventType == StartBrotherEvent.REFRESHTAGE) {
+            //登录获取用户信息
+            if (!MyApp.getInstances().NotLogged()) {
+                ToastUtils.showShortToast("登录成功刷新用户数据");
+                mPresenter.getUserInfo(MyApp.getInstances().getToken());
+            } else {
+                ToastUtils.showShortToast("退出登录清除用户信息");
+            }
         }
-
     }
 
     @Override
@@ -90,6 +101,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
             case R.id.ll_top:
                 if (userBean != null) {
                     InformationActivity.startActivity(mActivity, userBean);
+                } else {
+                    ToastUtils.showCenterToast("个人信息为空", 200);
                 }
                 break;
         }
@@ -98,7 +111,21 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Override
     public void onRequestFirstSuccess(UserInfo response) {
         userBean = response;
+        getInformation();
     }
+
+
+    /**
+     * 加载个人信息
+     */
+    private void getInformation() {
+        if (userBean == null) {
+            return;
+        }
+        GlideUtils.loadRound(mActivity, userBean.getHeadAvatar(), circleImageView);
+        nickName_text.setText(userBean.getUserName());
+    }
+
 
     @Override
     public void onError() {
