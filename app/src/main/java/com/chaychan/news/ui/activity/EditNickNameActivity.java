@@ -247,20 +247,18 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
     public void onRequestFirstSuccess(ResultResponse response) {
         if (type == SEX) {
             Intent intent = new Intent();
-            intent.putExtra("inputEdit", type);
             switch (radioGroup.getCheckedRadioButtonId()) {
                 case R.id.gender_male:
-                    intent.putExtra("inputEdit", GenderEnum.MAN.gender);
+                    intent.putExtra("inputEdit", GenderEnum.MAN.name());
                     break;
                 case R.id.gender_female:
-                    intent.putExtra("inputEdit", GenderEnum.WOMAN.gender);
+                    intent.putExtra("inputEdit", GenderEnum.WOMAN.name());
                     break;
             }
             setResult(RESULT_OK, intent);
             finish();
         } else {
             Intent intent = new Intent();
-            intent.putExtra("type", type);
             intent.putExtra("inputEdit", nicknameEdt.getText().toString());
             setResult(RESULT_OK, intent);
             finish();

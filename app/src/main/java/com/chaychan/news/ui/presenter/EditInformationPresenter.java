@@ -25,7 +25,7 @@ public class EditInformationPresenter extends BasePresenter<IRequestListener> {
             map.put("userName", userName);
         }
         if (gender != null) {
-            map.put("gender", gender.gender);
+            map.put("gender", gender.name());
         }
         if (age != null) {
             map.put("age", age);

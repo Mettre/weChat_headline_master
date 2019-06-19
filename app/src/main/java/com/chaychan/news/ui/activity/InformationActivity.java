@@ -33,6 +33,7 @@ import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.utils.LoginUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.IRequestListener;
+import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -116,7 +117,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
     private String nickName;
     private GenderEnum gender;
     private List<File> fileList = new ArrayList<>();
-    private String inputEdit;//修改个人信息startForResult-不为空即修改过
+    private String inputEdit;
 
     public static void startActivity(Context mContext, UserInfo userBean) {
         Intent intent = new Intent(mContext, InformationActivity.class);
@@ -184,11 +185,15 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
                 nickName = inputEdit;
                 nickNameText.setText(inputEdit);
                 nickNameText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
+                userBean.setUserName(inputEdit);
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
                 break;
             case EditNickNameActivity.SEX:
                 gender = GenderEnum.valueOf(inputEdit);
                 genderText.setText(gender.gender);
                 genderText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
+                userBean.setGender(gender);
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGEEDIT, userBean));
                 break;
             case CUT:
                 if (data != null) {
@@ -294,7 +299,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (!TextUtils.isEmpty(inputEdit)) {
+        if (fileList != null && fileList.size() > 0) {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("提示")
                     .setContentText("是否保存修改信息")
@@ -534,7 +539,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
         }
         new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("")
-                .setContentText("头像修改成功！")
+                .setContentText("个人信息修改成功！")
                 .setConfirmText("关闭")
                 .show();
     }

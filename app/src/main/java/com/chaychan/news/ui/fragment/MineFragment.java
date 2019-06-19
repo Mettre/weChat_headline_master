@@ -90,6 +90,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
             } else {
                 ToastUtils.showShortToast("退出登录清除用户信息");
             }
+        } else if (event.EventType == StartBrotherEvent.REFRESHTAGEEDIT) {
+            userBean = event.userBean;
+            getInformation();
         }
     }
 
