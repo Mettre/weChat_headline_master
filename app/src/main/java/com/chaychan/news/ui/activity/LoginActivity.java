@@ -17,6 +17,7 @@ import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.ui.view.ClearEditText;
 import com.chaychan.news.view.IRequestListener;
+import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -102,6 +103,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
     public void onRequestFirstSuccess(LoginBean response) {
         LoginUtils.loginSaveToken(phoneNum, response.getAccess_token());
         EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
+        KLog.i("EventBus发送");
         finish();
     }
 

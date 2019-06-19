@@ -60,6 +60,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     public void initData() {
         KLog.i("initData");
         if (!MyApp.getInstances().NotLogged()) {
+            KLog.i("获取个人信息接口请求");
             mPresenter.getUserInfo(MyApp.getInstances().getToken());
         }
     }
@@ -80,6 +81,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
      */
     @Subscribe
     public void startBrother(StartBrotherEvent event) {
+        KLog.i("EventBus接受");
         if (event.EventType == StartBrotherEvent.REFRESHTAGE) {
             //登录获取用户信息
             if (!MyApp.getInstances().NotLogged()) {
@@ -103,6 +105,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
                     InformationActivity.startActivity(mActivity, userBean);
                 } else {
                     ToastUtils.showCenterToast("个人信息为空", 200);
+                    LoginActivity.startLoginActivity(mActivity);
+
                 }
                 break;
         }
@@ -130,5 +134,17 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Override
     public void onError() {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        registerEventBus(MineFragment.this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterEventBus(MineFragment.this);
     }
 }

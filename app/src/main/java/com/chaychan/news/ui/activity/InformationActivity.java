@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaychan.news.R;
+import com.chaychan.news.enum_.GenderEnum;
 import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.response.ResultResponse;
@@ -109,8 +110,11 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
     @Bind(R.id.group_view)
     LinearLayout groupView;
 
+    @Bind(R.id.modify_LinearLayout)
+    LinearLayout modify_LinearLayout;
+
     private String nickName;
-    private String gender;
+    private GenderEnum gender;
     private List<File> fileList = new ArrayList<>();
     private String inputEdit;//修改个人信息startForResult-不为空即修改过
 
@@ -136,6 +140,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
         gender_linearLayout.setOnClickListener(this);
         right_btn.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        modify_LinearLayout.setOnClickListener(this);
     }
 
     @Override
@@ -162,8 +167,8 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
         phoneText.setText(userBean.getPhone());
         nickNameText.setText(TextUtils.isEmpty(nickName) ? "未设置" : nickName);
         nickNameText.setTextColor(TextUtils.isEmpty(nickName) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
-        genderText.setText(TextUtils.isEmpty(gender) ? "未设置" : gender);
-        genderText.setTextColor(TextUtils.isEmpty(gender) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
+        genderText.setText(gender == null ? "未设置" : gender.gender);
+        genderText.setTextColor(gender == null ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
     }
 
 
@@ -173,6 +178,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
         if (resultCode != RESULT_OK) {
             return;
         }
+        inputEdit = data.getStringExtra("inputEdit");
         switch (requestCode) {
             case EditNickNameActivity.NICKNAME:
                 nickName = inputEdit;
@@ -180,8 +186,8 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
                 nickNameText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
                 break;
             case EditNickNameActivity.SEX:
-                gender = inputEdit;
-                genderText.setText(inputEdit);
+                gender = GenderEnum.valueOf(inputEdit);
+                genderText.setText(gender.gender);
                 genderText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
                 break;
             case CUT:
@@ -322,6 +328,9 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.modify_LinearLayout:
+                ModifyPasswordActivity.startActivity(InformationActivity.this);
                 break;
             case R.id.icon_linearLayout:
                 showPopupWindow(v);

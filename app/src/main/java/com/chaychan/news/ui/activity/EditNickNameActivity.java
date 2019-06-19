@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -49,29 +50,32 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
     EditText nicknameEdt;
 
     @Bind(R.id.group_gender)
-    private RadioGroup radioGroup;
+    RadioGroup radioGroup;
 
     @Bind(R.id.len_num)
-    private TextView len_num;
+    TextView len_num;
 
     @Bind(R.id.prompt_text)
-    private TextView promptText;
+    TextView promptText;
 
     @Bind(R.id.right_btn)
-    private TextView right_btn;
+    TextView right_btn;
+
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
 
     /**
      * 个人信息
      */
     private UserInfo userBean;
     private String nickName;
-    private String gender;
+    private GenderEnum gender;
     private String e_mall;
     private Integer age;
     private int type;//1:昵称 2:性别 3：e-mall 4：年龄
 
     public static void startActivity(AppCompatActivity mContext, UserInfo userBean, int requestCode) {
-        Intent intent = new Intent(mContext, InformationActivity.class);
+        Intent intent = new Intent(mContext, EditNickNameActivity.class);
         intent.putExtra("userBean", userBean);
         intent.putExtra("requestCode", requestCode);
         mContext.startActivityForResult(intent, requestCode);
@@ -80,7 +84,7 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
     @Override
     public void initView() {
         userBean = (UserInfo) getIntent().getSerializableExtra("userBean");
-        type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("requestCode", 0);
         nickName = userBean.getUserName();
         age = userBean.getAge();
         gender = userBean.getGender();
@@ -96,7 +100,7 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
         }
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         switch (type) {
-            case 1:
+            case NICKNAME:
                 nicknameEdt.setText(nickName);
                 nicknameEdt.setHint("请输入昵称");
                 promptText.setText("限制4-10位字符");
@@ -105,17 +109,17 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
                     len_num.setText(nickName.length() + "/" + 10);
                 }
                 break;
-            case 2:
+            case SEX:
                 radioGroup.setVisibility(View.VISIBLE);
                 nicknameEdt.setVisibility(View.GONE);
                 promptText.setVisibility(View.GONE);
                 len_num.setVisibility(View.GONE);
-                if (!TextUtils.isEmpty(nickName)) {
+                if (gender != null) {
                     switch (gender) {
-                        case "男":
+                        case MAN:
                             radioGroup.check(R.id.gender_male);
                             break;
-                        case "女":
+                        case WOMAN:
                             radioGroup.check(R.id.gender_female);
                             break;
                     }
@@ -133,6 +137,7 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
     @Override
     public void initListener() {
         right_btn.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
     }
 
     @Override
@@ -189,6 +194,9 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
             case R.id.right_btn:
                 if (type == NICKNAME) {
                     if (TextUtils.isEmpty(nicknameEdt.getText().toString())) {
@@ -237,15 +245,15 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
 
     @Override
     public void onRequestFirstSuccess(ResultResponse response) {
-        if (type == 4) {
+        if (type == SEX) {
             Intent intent = new Intent();
-            intent.putExtra("type", type);
+            intent.putExtra("inputEdit", type);
             switch (radioGroup.getCheckedRadioButtonId()) {
                 case R.id.gender_male:
-                    intent.putExtra("inputEdit", "男");
+                    intent.putExtra("inputEdit", GenderEnum.MAN.gender);
                     break;
                 case R.id.gender_female:
-                    intent.putExtra("inputEdit", "女");
+                    intent.putExtra("inputEdit", GenderEnum.WOMAN.gender);
                     break;
             }
             setResult(RESULT_OK, intent);

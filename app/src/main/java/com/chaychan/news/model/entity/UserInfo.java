@@ -1,5 +1,7 @@
 package com.chaychan.news.model.entity;
 
+import com.chaychan.news.enum_.GenderEnum;
+
 import java.io.Serializable;
 
 /**
@@ -25,7 +27,7 @@ public class UserInfo implements Serializable {
     private String userId;
     private String userName;
     private String signature;
-    private String gender;
+    private GenderEnum gender;
     private String headAvatar;
     private String password;
     private String phone;
@@ -35,6 +37,10 @@ public class UserInfo implements Serializable {
     private long creationTime;
     private long updateTime;
     private String e_mall;
+
+    public GenderEnum getGender() {
+        return gender;
+    }
 
     public String getE_mall() {
         return e_mall;
@@ -68,11 +74,7 @@ public class UserInfo implements Serializable {
         this.signature = signature;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
+    public void setGender(GenderEnum gender) {
         this.gender = gender;
     }
 

@@ -6,6 +6,7 @@ import com.chaychan.news.api.SubscriberCallBack;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.enum_.GenderEnum;
 import com.chaychan.news.model.entity.LoginBean;
+import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.view.IRequestListener;
 
@@ -23,19 +24,19 @@ public class EditInformationPresenter extends BasePresenter<IRequestListener> {
         if (!TextUtils.isEmpty(userName)) {
             map.put("userName", userName);
         }
-        if (gender == null) {
+        if (gender != null) {
             map.put("gender", gender.gender);
         }
-        if (age == null) {
+        if (age != null) {
             map.put("age", age);
         }
         if (!TextUtils.isEmpty(e_mall)) {
             map.put("e_mall", e_mall);
         }
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.modifyUserInfoRequest("Bearer " + authorities, map), new SubscriberCallBack<LoginBean>() {
+        addSubscription(mApiService2.modifyUserInfoRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
             @Override
-            protected void onSuccess(LoginBean response) {
+            protected void onSuccess(ResultResponse response) {
                 mView.onRequestFirstSuccess(response);
             }
 

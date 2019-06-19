@@ -145,6 +145,50 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
+            android:background="@color/md_grey_100" />
+
+        <LinearLayout
+            android:id="@+id/modify_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:text="修改密码"
+                android:textColor="@color/oil3"
+                android:textSize="@dimen/normal" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:textColor="@color/monsoon"
+                android:textSize="@dimen/normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="12dp"
+                android:src="@mipmap/turn_right" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/md_grey_100" />
@@ -187,12 +231,6 @@
                 android:visibility="gone" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/md_grey_100" />
 
     </LinearLayout>
 
