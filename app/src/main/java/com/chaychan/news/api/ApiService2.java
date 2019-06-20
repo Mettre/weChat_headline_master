@@ -35,7 +35,7 @@ public interface ApiService2 {
     @Headers({"urlName:information"})
     @POST("/information/loginEd/circleFriendsList")
     Observable<ResultResponse<BasePageEntity<Moments>>> circleFriendsList(
-            @Header("Authorization") String Authorization,
+            @Header("authorities") String Authorization,
             @Body HashMap<String, Object> map);
 
     /**
@@ -43,13 +43,13 @@ public interface ApiService2 {
      */
     @Headers({"urlName:information"})
     @POST("/information/loginEd/findMomentsListWithPublisherUserId")
-    Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Header("Authorization") String Authorization, @Body HashMap<String, Object> map);
+    Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Header("authorities") String Authorization, @Body HashMap<String, Object> map);
 
     /**
      * 朋友圈详情
      */
     @Headers({"urlName:information"})
-    @GET("/selectMomentsDetails/{momentsId}")
+    @GET("/information/loginEd/selectMomentsDetails/{momentsId}")
     Observable<ResultResponse<MomentsDetailsEntity>> momentsDetails(@Path("momentsId") String momentsId);
 
 
@@ -57,7 +57,7 @@ public interface ApiService2 {
      * 说说详情
      */
     @Headers({"urlName:information"})
-    @POST("/findMomentsListWithPublisherUserId")
+    @POST("/information/findMomentsListWithPublisherUserId")
     Observable<ResultResponse<BasePageEntity<Moments>>> MomentsDetails(@Body HashMap<String, Object> map);
 
 
@@ -65,7 +65,7 @@ public interface ApiService2 {
      * 好友列表
      */
     @Headers({"urlName:account"})
-    @GET("/loginEd/myFriendsList")
+    @GET("/account/loginEd/myFriendsList")
     Observable<ResultResponse<ResultList>> FriendsList(@Header("authorities") String authorities);
 
     /**
@@ -148,9 +148,9 @@ public interface ApiService2 {
      * @return
      */
     @Headers({"urlName:information"})
-    @POST("/usually/img/upload")
+    @POST("/usually/qiniu/upload")
     Observable<ResultResponse> upLoadFile(
-            @Header("Authorization") String Authorization,
+            @Header("authorities") String Authorization,
             @Body RequestBody Body);
 
 

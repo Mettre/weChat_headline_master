@@ -186,7 +186,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
                 nickNameText.setText(inputEdit);
                 nickNameText.setTextColor(TextUtils.isEmpty(inputEdit) ? getResources().getColor(R.color.gray_light) : getResources().getColor(R.color.monsoon));
                 userBean.setUserName(inputEdit);
-                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGEEDIT, userBean));
                 break;
             case EditNickNameActivity.SEX:
                 gender = GenderEnum.valueOf(inputEdit);
@@ -345,7 +345,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
                 break;
             case R.id.out_btn:
                 LoginUtils.getInstance().signOutRemoveToken();
-                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.LOUGINOUT));
                 finish();
                 break;
             case R.id.nickname_linearLayout:

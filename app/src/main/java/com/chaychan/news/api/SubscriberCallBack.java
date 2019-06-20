@@ -30,7 +30,7 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
         } else {
             if ("401".equals(response.code)) {
                 LoginActivity.startLoginActivity(UIUtils.getContext());
-                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.LOUGINOUT));
             }
             UIUtils.showToast(response.message);
 //            new SweetAlertDialog(UIUtils.getContext(), SweetAlertDialog.ERROR_TYPE)
@@ -48,8 +48,8 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onError(Throwable e) {
-        KLog.e(e.getLocalizedMessage());
-        UIUtils.showToast(e.getLocalizedMessage());
+        KLog.e(e.getMessage());
+        UIUtils.showToast(e.getMessage());
 //        new SweetAlertDialog(UIUtils.getContext(), SweetAlertDialog.ERROR_TYPE)
 //                .setTitleText("错误")
 //                .setContentText(e.getLocalizedMessage())

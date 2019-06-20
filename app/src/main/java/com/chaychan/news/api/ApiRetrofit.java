@@ -78,7 +78,7 @@ public class ApiRetrofit {
         okhttp3.MediaType mediaType = response.body().contentType();
         String content = response.body().string();
         KLog.e("----------Request Start----------------");
-        KLog.e("| " + request.toString());
+        KLog.e("| " + request.body().toString());
         KLog.json("| Response:" + content);
         KLog.e("----------Request End:" + duration + "毫秒----------");
         return response.newBuilder()
@@ -112,8 +112,10 @@ public class ApiRetrofit {
         mClient = new OkHttpClient.Builder()
                 //处理多BaseUrl,添加应用拦截器
                 .addInterceptor(new MoreBaseUrlInterceptor())
-                .addInterceptor(mHeaderInterceptor)//添加头部信息拦截器
-                .addInterceptor(mLogInterceptor)//添加log拦截器
+//                .addInterceptor(mHeaderInterceptor)//添加头部信息拦截器
+//                .addInterceptor(mLogInterceptor)//添加log拦截器
+                .addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new LoggerInterceptor("HttpLog", true))
                 .cache(cache)
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)

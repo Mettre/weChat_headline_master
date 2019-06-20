@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/eightMargin"
+    android:layout_margin="@dimen/eightMargin"
     android:background="@color/white">
 
     <ImageView
         android:id="@+id/icon_head"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignBottom="@+id/back_line"
         android:layout_margin="@dimen/threeMargin"
         android:src="@mipmap/my_avatar" />
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/eightMargin"
+        android:layout_marginLeft="@dimen/normalMargin"
         android:layout_toRightOf="@id/icon_head"
         android:ellipsize="end"
         android:gravity="center"

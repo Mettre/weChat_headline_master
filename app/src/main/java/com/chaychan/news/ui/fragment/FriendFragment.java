@@ -3,8 +3,11 @@ package com.chaychan.news.ui.fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chaychan.news.R;
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.adapter.FriendAdapter;
@@ -16,6 +19,8 @@ import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.IFriendsListener;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
+import com.google.gson.Gson;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +28,15 @@ import java.util.List;
 import butterknife.Bind;
 import flyn.Eyes;
 
+/**
+ * 我的好友
+ */
 public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<ResultList> {
 
     private FriendAdapter friendAdapter;
+
+    @Bind(R.id.tv_author)
+    TextView mTvAuthor;
 
     @Bind(R.id.tip_view)
     TipView mTipView;
@@ -33,11 +44,14 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
     @Bind(R.id.fl_content)
     FrameLayout mFlContent;
 
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
+
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
 
     private List<Friends> momentsList = new ArrayList<>();
-    private String authorities;
+    private String authorities = MyApp.getInstances().getToken();
 
     @Override
     protected FriendsPresenter createPresenter() {
@@ -56,36 +70,40 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void initView(View rootView) {
+        iv_back.setVisibility(View.GONE);
+        mTvAuthor.setText("好友列表");
         Eyes.setStatusBarColor(mActivity, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
     }
 
     @Override
     public void initData() {
-        authorities = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDE4MTExNTE0NTU0ODAxNTM5IiwiZXhwIjoxNTQ1ODg2MDkwfQ.j2f4S8u8AIzJcNvqpsd-cP1WcduD0p2G_T5Va9AlvEU";
     }
 
     @Override
     public void initListener() {
-        friendAdapter = new FriendAdapter(mActivity, R.layout.item_friends, momentsList);
-        mRvComment.setAdapter(friendAdapter);
-        friendAdapter.setEnableLoadMore(false);
-
-        friendAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
-        friendAdapter.setHeaderAndEmpty(true);
+//        friendAdapter = new FriendAdapter(mActivity, R.layout.item_friends, momentsList);
+//        mRvComment.setAdapter(friendAdapter);
+//        friendAdapter.setEnableLoadMore(false);
+//
+//        friendAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
+//        friendAdapter.setHeaderAndEmpty(true);
     }
 
     @Override
     public void loadData() {
         mStateView.showLoading();
         momentsList = FriendsRecordHelper.selectFriendsRecords(authorities);
+
+        friendAdapter = new FriendAdapter(mActivity, R.layout.item_friends, momentsList);
+        mRvComment.setAdapter(friendAdapter);
+        friendAdapter.setEnableLoadMore(false);
+
         if (ListUtils.isEmpty(momentsList)) {
             //找不到记录，拉取网络数据
             mPresenter.getFriendsList(authorities);
             return;
         }
-        momentsList.addAll(momentsList);//添加到集合中
-        friendAdapter.notifyDataSetChanged();//刷新adapter
 
         mStateView.showContent();//显示内容
         mPresenter.getFriendsList(authorities);
@@ -94,23 +112,19 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void onGetFriendsSuccess(ResultList response) {
-//        if (ListUtils.isEmpty(response.getList())) {
-//            //获取不到数据,显示空布局
-//            mStateView.showEmpty();
-//            return;
-//        }
-//        mStateView.showContent();//显示内容
-//
-//        if (ListUtils.isEmpty(response.getList())) {
-//            //已经获取不到新闻了，处理出现获取不到新闻的情况
-//            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
-//            return;
-//        }
-//        momentsList.clear();
-//        momentsList.addAll(response.getList());
-//        friendAdapter.notifyDataSetChanged();
-//        //保存到数据库
-//        FriendsRecordHelper.save(momentsList);
+        KLog.e(new Gson().toJson(response));
+        if (ListUtils.isEmpty(response.getList())) {
+            //获取不到数据,显示空布局
+            mStateView.showEmpty();
+            return;
+        }
+        mStateView.showContent();//显示内容
+        KLog.e("我是有数据的");
+        momentsList.clear();
+        momentsList.addAll(response.getList());
+        friendAdapter.notifyDataSetChanged();
+        //保存到数据库
+        FriendsRecordHelper.save(momentsList);
     }
 
     @Override

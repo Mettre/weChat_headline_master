@@ -1,14 +1,27 @@
 package com.chaychan.news.model.entity;
 
+/**
+ * 朋友圈好友资料信息
+ */
 public class UserHeadInfo {
 
     private String userName;
+
+    private String signature;
 
     private String headAvatar;
 
     private String backGroundWall;
 
     private String UserId;
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
     public String getBackGroundWall() {
         return backGroundWall;

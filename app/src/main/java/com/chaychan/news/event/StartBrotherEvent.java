@@ -8,8 +8,9 @@ import com.chaychan.news.model.entity.UserInfo;
 
 public class StartBrotherEvent {
 
-    public final static int REFRESHTAGE = 1001;//登陆/退出  刷新我的--个人信息网络请求
-    public final static int REFRESHTAGEEDIT = 1002;//登陆/退出  刷新我的--个人信息
+    public final static int REFRESHTAGE = 1001;//登陆  刷新我的--个人信息网络请求
+    public final static int LOUGINOUT = 1003;//退出  刷新我的--个人信息网络请求
+    public final static int REFRESHTAGEEDIT = 1002;//修改个人信息 刷新我的--个人信息
 
     public UserInfo userBean;
     public int EventType;

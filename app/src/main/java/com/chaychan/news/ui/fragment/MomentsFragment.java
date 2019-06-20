@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
+import com.chaychan.news.app.MyApp;
+import com.chaychan.news.constants.Constant;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
@@ -58,7 +60,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     private List<Moments> momentsList = new ArrayList<>();
     private MomentsRecord momentsRecord;
     private Gson mGson = new Gson();
-    private String publisherUserId;
+    private String authorities = MyApp.getInstances().getToken();
 
     @Override
     protected MomentsListPresenter createPresenter() {
@@ -96,8 +98,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
     @Override
     public void initData() {
-//        publisherUserId = getArguments().getString(Constant.PUBLISHER_USER_ID);
-        publisherUserId = "2018111514554801539";
+
     }
 
     @Override
@@ -112,7 +113,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
 
         mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
-        mCommentAdapter.setHeaderAndEmpty(true);
+//        mCommentAdapter.setHeaderAndEmpty(true);
     }
 
     @Override
@@ -120,11 +121,11 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mStateView.showLoading();
 
         //查找该频道的最后一组记录
-        momentsRecord = MomentsRecordHelper.getLastNewsRecord(publisherUserId);
+        momentsRecord = MomentsRecordHelper.getLastNewsRecord(authorities);
         if (momentsRecord == null) {
             //找不到记录，拉取网络数据
             momentsRecord = new MomentsRecord();//创建一个没有数据的对象
-            mPresenter.getRefreshMomentsList(publisherUserId);
+            mPresenter.getRefreshMomentsList();
             return;
         }
 
@@ -158,7 +159,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         momentsList.addAll(response.getRecords());
         mCommentAdapter.notifyDataSetChanged();
         //保存到数据库
-        MomentsRecordHelper.save(publisherUserId, mGson.toJson(momentsList));
+        MomentsRecordHelper.save(authorities, mGson.toJson(momentsList));
     }
 
 
@@ -171,7 +172,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
             momentsList.addAll(response.getRecords());
             mCommentAdapter.notifyDataSetChanged();
             //保存到数据库
-            MomentsRecordHelper.save(publisherUserId, mGson.toJson(response.getRecords()));
+            MomentsRecordHelper.save(authorities, mGson.toJson(response.getRecords()));
         }
     }
 
@@ -195,7 +196,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     public void onLoadMoreRequested() {
         // BaseRecyclerViewAdapterHelper的加载更多
         page++;
-        mPresenter.getMoreMomentsList(publisherUserId, page);
+        mPresenter.getMoreMomentsList(page);
     }
 
     @Override
@@ -209,7 +210,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
             return;
         }
         page = 1;
-        mPresenter.getRefreshMomentsList(publisherUserId);
+        mPresenter.getRefreshMomentsList();
     }
 
     @Override

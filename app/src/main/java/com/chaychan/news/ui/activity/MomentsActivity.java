@@ -12,6 +12,7 @@ import com.chaychan.news.R;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.PersonalMomentsRecord;
+import com.chaychan.news.model.entity.UserBean;
 import com.chaychan.news.model.entity.UserHeadInfo;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
 import com.chaychan.news.ui.adapter.PersonalMomentsAdapter;
@@ -41,10 +42,10 @@ import flyn.Eyes;
 public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> implements PersonalMomentsListView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static final String PUBLISHER_USER = "publisherUserId";
+    public static final String USERBEAN = "UserBean";
 
     private PersonalMomentsAdapter mCommentAdapter;
     protected MomentsHeaderView mHeaderView;
-
 
     @Bind(R.id.iv_back)
     ImageView mIvBack;
@@ -59,13 +60,15 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
     private PersonalMomentsRecord momentsRecord;
     private Gson mGson = new Gson();
     private String publisherUserId;
+    private UserBean userBean;
 
     private LinearLayoutManager layoutManager;
 
 
-    public static void startAlineActivity(String publisherUserId, Context mContext) {
+    public static void startAlineActivity(String publisherUserId, Context mContext, UserBean userBean) {
         Intent intent = new Intent(mContext, MomentsActivity.class);
         intent.putExtra(MomentsActivity.PUBLISHER_USER, publisherUserId);
+        intent.putExtra(USERBEAN, userBean);
         mContext.startActivity(intent);
     }
 
@@ -106,6 +109,7 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
         mStateView.showLoading();
         Intent intent = getIntent();
         publisherUserId = intent.getStringExtra(PUBLISHER_USER);
+        userBean = (UserBean) intent.getSerializableExtra(USERBEAN);
         momentsRecord = PersonalMomentsRecordHelper.getLastNewsRecord(publisherUserId);
         if (momentsRecord == null) {
             //找不到记录，拉取网络数据
@@ -130,10 +134,11 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
         mHeaderView = new MomentsHeaderView(this);
         UserHeadInfo userHeadInfo = new UserHeadInfo();
-        userHeadInfo.setBackGroundWall("http://image.biaobaiju.com/uploads/20180918/15/1537256494-ZnSKMzEoBI.jpeg");
-        userHeadInfo.setUserId("2018111514554801539");
-        userHeadInfo.setHeadAvatar("http://img4.duitang.com/uploads/item/201407/16/20140716132526_TcyTY.thumb.600_0.jpeg");
-        userHeadInfo.setUserName("安德拉");
+        userHeadInfo.setBackGroundWall(userBean.getPublisherBackgroundWall());
+        userHeadInfo.setUserId(userBean.getPublisherUserId());
+        userHeadInfo.setHeadAvatar(userBean.getPublisherHeadAvatar());
+        userHeadInfo.setUserName(userBean.getPublisherUserName());
+        userHeadInfo.setSignature(userBean.getSignature());
         mHeaderView.setDetail(userHeadInfo);
         mCommentAdapter.addHeaderView(mHeaderView);
 

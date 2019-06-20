@@ -66,7 +66,8 @@ public class TimeUtils {
         } else if (isSameYear(date, curDate) && dayStatus < -1) {
             str = DateFormat.format("MM月dd日", date).toString();
         } else {
-            str = DateFormat.format("yyyy年MM月dd", date).toString();
+            str = DateFormat.format("MM月dd日", date).toString();
+//            str = DateFormat.format("yy年MM月dd", date).toString();
         }
         return str;
     }

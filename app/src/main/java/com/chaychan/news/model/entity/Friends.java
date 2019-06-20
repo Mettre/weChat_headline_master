@@ -17,7 +17,7 @@ public class Friends extends DataSupport implements Serializable {
 
     private String headAvatar;
 
-    private Date updateTime;
+    private Long updateTime;
 
     public String getMyUserId() {
         return myUserId;
@@ -59,11 +59,11 @@ public class Friends extends DataSupport implements Serializable {
         this.headAvatar = headAvatar;
     }
 
-    public Date getUpdateTime() {
+    public Long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
     }
 }

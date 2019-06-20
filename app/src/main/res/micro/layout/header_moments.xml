@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/iv_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="195dp"
         android:scaleType="fitXY"
         android:src="@mipmap/persion_back" />
 
@@ -25,7 +25,6 @@
         android:layout_alignBottom="@+id/back_line"
         android:layout_alignParentRight="true"
         android:layout_margin="12dp"
-        android:layout_marginLeft="16dp"
         android:src="@mipmap/my_avatar" />
 
     <TextView
@@ -40,5 +39,20 @@
         android:text="ChayChan"
         android:textColor="@color/white"
         android:textSize="16.0sp" />
+
+
+    <TextView
+        android:id="@+id/signature_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon_head"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:ellipsize="end"
+        android:maxWidth="180dp"
+        android:maxLines="2"
+        android:textColor="@color/oil3"
+        android:textSize="@dimen/smallNormal" />
 
 </RelativeLayout>

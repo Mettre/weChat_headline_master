@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
+import com.chaychan.news.utils.GlideUtils;
 import com.socks.library.KLog;
 
 public class PhotoMomentsProvider extends BaseMomentsItemProvider {
@@ -25,6 +26,7 @@ public class PhotoMomentsProvider extends BaseMomentsItemProvider {
     @Override
     protected void setData(BaseViewHolder helper, Moments moments) {
         helper.setText(R.id.moments_word, moments.getMomentsTitle());
+        GlideUtils.load(mContext, moments.getMomentsImage(), helper.getView(R.id.img_photo));
     }
 
 }

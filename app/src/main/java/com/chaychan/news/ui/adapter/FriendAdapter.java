@@ -24,7 +24,7 @@ public class FriendAdapter extends BaseQuickAdapter<Friends, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Friends friends) {
-        GlideUtils.loadRound(mContext, friends.getHeadAvatar(), helper.getView(R.id.iv_avatar));
+        GlideUtils.loadRound(mContext, friends.getHeadAvatar(), helper.getView(R.id.icon_head));
         helper.setText(R.id.tv_name, friends.getUserName());
 
     }

@@ -10,10 +10,19 @@ public class UserBean implements Serializable{
      * publisherUserId : 2018112209485799882
      */
 
+    private String signature;
     private String publisherUserName;
     private String publisherHeadAvatar;
     private String publisherUserId;
     private String publisherBackgroundWall;
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
     public String getPublisherBackgroundWall() {
         return publisherBackgroundWall;

@@ -16,6 +16,8 @@ import com.chaychan.news.model.entity.NewsDetail;
 import com.chaychan.news.model.entity.UserHeadInfo;
 import com.chaychan.news.ui.activity.ImageViewPagerActivity;
 import com.chaychan.news.utils.GlideUtils;
+import com.google.gson.Gson;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,12 @@ public class MomentsHeaderView extends FrameLayout {
 
     @Bind(R.id.user_name)
     TextView userName;
+
+    @Bind(R.id.signature_text)
+    TextView signatureText;
+
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
 
     public MomentsHeaderView(@NonNull Context context) {
         this(context, null);
@@ -53,8 +61,11 @@ public class MomentsHeaderView extends FrameLayout {
     }
 
     public void setDetail(UserHeadInfo userHeadInfo) {
+        KLog.a(new Gson().toJson(userHeadInfo));
         userName.setText(userHeadInfo.getUserName());
-        GlideUtils.load(mContext, userHeadInfo.getHeadAvatar() + "", iconHeader);
+        signatureText.setText(userHeadInfo.getSignature());
+        GlideUtils.load(mContext, userHeadInfo.getHeadAvatar(), iconHeader);
+        GlideUtils.load(mContext, userHeadInfo.getBackGroundWall(), iv_back);
         iconHeader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

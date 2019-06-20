@@ -12,6 +12,10 @@ public class MomentsDetailsPresenter extends BasePresenter<MomentsDetailsListene
         super(view);
     }
 
+    /**
+     * 说说详情
+     * @param momentsId
+     */
     public void getRefreshMomentsList(String momentsId) {
 
         addSubscription(mApiService2.momentsDetails(momentsId), new SubscriberCallBack<MomentsDetailsEntity>() {

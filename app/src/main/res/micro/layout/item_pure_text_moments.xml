@@ -16,7 +16,6 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/iv_back"
         android:layout_alignTop="@id/icon_head"
         android:layout_toRightOf="@id/icon_head"
         android:ellipsize="end"
@@ -47,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/user_name"
         android:layout_below="@id/moments_word"
-        android:layout_marginTop="1dp">
+        android:layout_marginTop="3dp">
 
         <include layout="@layout/include_moments_bottom" />
 

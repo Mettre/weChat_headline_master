@@ -87,12 +87,12 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
             if (!MyApp.getInstances().NotLogged()) {
                 ToastUtils.showShortToast("登录成功刷新用户数据");
                 mPresenter.getUserInfo(MyApp.getInstances().getToken());
-            } else {
-                ToastUtils.showShortToast("退出登录清除用户信息");
             }
         } else if (event.EventType == StartBrotherEvent.REFRESHTAGEEDIT) {
             userBean = event.userBean;
             getInformation();
+        } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
+            ToastUtils.showShortToast("退出登录清除用户信息");
         }
     }
 
