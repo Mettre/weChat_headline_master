@@ -11,6 +11,10 @@ public class FriendsPresenter extends BasePresenter<IFriendsListener> {
         super(view);
     }
 
+    /**
+     * 我的好友
+     * @param authorities
+     */
     public void getFriendsList(String authorities) {
 
         addSubscription(mApiService2.FriendsList("Bearer " + authorities), new SubscriberCallBack<ResultList>() {

@@ -50,7 +50,7 @@
 
         <ImageView
             android:id="@+id/img_photo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/moments_word"
             android:layout_alignLeft="@id/user_name"

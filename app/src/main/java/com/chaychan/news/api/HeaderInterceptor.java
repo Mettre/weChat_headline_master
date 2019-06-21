@@ -1,9 +1,5 @@
 package com.chaychan.news.api;
 
-import android.text.TextUtils;
-
-import com.chaychan.news.app.MyApp;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;

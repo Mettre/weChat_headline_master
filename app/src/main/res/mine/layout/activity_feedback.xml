@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/group_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_100"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_basics_right_text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:padding="10dp"
+        android:text="请填写反馈内容"
+        android:textColor="@color/oil2"
+        android:textSize="@dimen/smallNormal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/nickname_edt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="top"
+            android:hint="请输入不少于10个字的描述"
+            android:singleLine="true"
+            android:textColor="@color/oil"
+            android:textColorHint="@color/base"
+            android:textSize="@dimen/normal" />
+
+        <TextView
+            android:id="@+id/len_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="0/240"
+            android:textColor="@color/monsoon"
+            android:textSize="@dimen/size13" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/feedback_list_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="我的反馈列表"
+        android:textSize="@dimen/normal" />
+
+
+</LinearLayout>

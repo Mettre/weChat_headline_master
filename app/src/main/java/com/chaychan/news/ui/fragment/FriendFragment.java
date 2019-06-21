@@ -82,12 +82,7 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void initListener() {
-//        friendAdapter = new FriendAdapter(mActivity, R.layout.item_friends, momentsList);
-//        mRvComment.setAdapter(friendAdapter);
-//        friendAdapter.setEnableLoadMore(false);
-//
-//        friendAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
-//        friendAdapter.setHeaderAndEmpty(true);
+
     }
 
     @Override

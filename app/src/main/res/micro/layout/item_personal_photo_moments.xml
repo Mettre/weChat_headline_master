@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/smallNormalMargin"
-    android:layout_marginRight="@dimen/smallNormalMargin"
     android:layout_marginTop="@dimen/topMargin"
+    android:layout_marginRight="@dimen/smallNormalMargin"
+    android:layout_marginBottom="@dimen/topMargin"
     android:orientation="vertical">
 
     <TextView

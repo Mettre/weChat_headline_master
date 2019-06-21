@@ -2,12 +2,15 @@ package com.chaychan.news.ui.fragment;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.UserInfo;
+import com.chaychan.news.ui.activity.FeedbackActivity;
+import com.chaychan.news.ui.activity.FeedbackListActivity;
 import com.chaychan.news.ui.activity.InformationActivity;
 import com.chaychan.news.ui.activity.LoginActivity;
 import com.chaychan.news.ui.base.BaseFragment;
@@ -39,6 +42,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Bind(R.id.nickName_text)
     TextView nickName_text;
 
+    @Bind(R.id.feedback_RelativeLayout)
+    RelativeLayout feedback_RelativeLayout;
+
     private UserInfo userBean;
 
     @Override
@@ -68,8 +74,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Override
     public void initListener() {
         ll_top.setOnClickListener(this);
+        feedback_RelativeLayout.setOnClickListener(this);
     }
-
 
     @Override
     public void loadData() {
@@ -111,6 +117,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
                     LoginActivity.startLoginActivity(mActivity);
 
                 }
+                break;
+            case R.id.feedback_RelativeLayout:
+                FeedbackActivity.startActivity(mActivity);
                 break;
         }
     }

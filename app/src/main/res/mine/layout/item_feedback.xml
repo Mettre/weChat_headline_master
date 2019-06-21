@@ -4,20 +4,11 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/eightMargin"
     android:layout_marginRight="@dimen/eightMargin"
-    android:background="@color/md_grey_200"
+    android:background="@color/white"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/normalMargin"
     android:paddingRight="@dimen/normalMargin"
     android:paddingTop="@dimen/sixMargin">
-
-
-    <ImageView
-        android:id="@+id/first_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/smallNormalMargin"
-        android:layout_marginTop="@dimen/leftMargin"
-        android:src="@mipmap/comment_icon" />
 
 
     <LinearLayout

@@ -5,6 +5,7 @@
     android:layout_marginLeft="@dimen/smallNormalMargin"
     android:layout_marginRight="@dimen/smallNormalMargin"
     android:layout_marginTop="@dimen/topMargin"
+    android:layout_marginBottom="@dimen/topMargin"
     android:orientation="vertical">
 
     <TextView

@@ -1,6 +1,7 @@
 package com.chaychan.news.ui.presenter;
 
 import com.chaychan.news.api.SubscriberCallBack;
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.view.MomentsDetailsListener;
@@ -14,11 +15,12 @@ public class MomentsDetailsPresenter extends BasePresenter<MomentsDetailsListene
 
     /**
      * 说说详情
+     *
      * @param momentsId
      */
     public void getRefreshMomentsList(String momentsId) {
-
-        addSubscription(mApiService2.momentsDetails(momentsId), new SubscriberCallBack<MomentsDetailsEntity>() {
+        String authorities = MyApp.getInstances().getToken();
+        addSubscription(mApiService2.momentsDetails("Bearer " + authorities, momentsId), new SubscriberCallBack<MomentsDetailsEntity>() {
 
             @Override
             protected void onSuccess(MomentsDetailsEntity response) {

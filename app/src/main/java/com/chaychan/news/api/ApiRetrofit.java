@@ -154,7 +154,9 @@ public class ApiRetrofit {
                 if ("information".equals(urlname)) {
                     baseURL = HttpUrl.parse(ApiConstant.BASE_INFORMATION_URL);
                 } else if ("account".equals(urlname)) {
-                    baseURL = HttpUrl.parse(ApiConstant.BASE_ACCOUNT_URL);
+                    baseURL = HttpUrl.parse(ApiConstant.BASE_INFORMATION_URL);
+                } else if ("usually".equals(urlname)) {
+                    baseURL = HttpUrl.parse(ApiConstant.BASE_INFORMATION_URL);
                 } else if ("headlines".equals(urlname)) {
                     baseURL = HttpUrl.parse(ApiConstant.BASE_SERVER_URL);
                 }

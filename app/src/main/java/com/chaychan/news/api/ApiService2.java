@@ -50,7 +50,7 @@ public interface ApiService2 {
      */
     @Headers({"urlName:information"})
     @GET("/information/loginEd/selectMomentsDetails/{momentsId}")
-    Observable<ResultResponse<MomentsDetailsEntity>> momentsDetails(@Path("momentsId") String momentsId);
+    Observable<ResultResponse<MomentsDetailsEntity>> momentsDetails(@Header("authorities") String Authorization, @Path("momentsId") String momentsId);
 
 
     /**
@@ -140,6 +140,21 @@ public interface ApiService2 {
     @Headers({"urlName:information"})
     @GET("/account/loginEd/getUserInfo")
     Observable<ResultResponse<UserInfo>> getUserInfo(@Header("authorities") String authorities);
+
+    /**
+     * 用户反馈
+     */
+    @Headers({"urlName:usually"})
+    @POST("/usually/loginEd/addFeedback")
+    Observable<ResultResponse> FeedbackRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+
+    /**
+     * 用户反馈列表
+     */
+    @Headers({"urlName:usually"})
+    @POST("/usually/loginEd/FeedbackPageVo")
+    Observable<ResultResponse> findFeedbackListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
 
     /**
      * 上传文件

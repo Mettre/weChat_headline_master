@@ -189,6 +189,10 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         if (mRefreshLayout.getCurrentRefreshStatus() == BGARefreshLayout.RefreshStatus.REFRESHING) {
             mRefreshLayout.endRefreshing();
         }
+
+        if (mRefreshLayout.isLoadingMore()) {
+            mRefreshLayout.endLoadingMore();
+        }
     }
 
 
