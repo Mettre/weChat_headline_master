@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.chaychan.news.BuildConfig;
 import com.chaychan.news.app.base.BaseApp;
+import com.chaychan.news.model.entity.UserBean;
+import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.utils.SharedPrefsUtil;
 import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.socks.library.KLog;
@@ -26,6 +28,8 @@ public class MyApp extends BaseApp {
 
     private String token;
 
+    private UserInfo userInfo;
+
     public String getToken() {
         return token;
     }
@@ -40,6 +44,14 @@ public class MyApp extends BaseApp {
 
     public void removeToken() {
         this.token = "";
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @Override

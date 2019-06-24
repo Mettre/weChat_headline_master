@@ -2,7 +2,7 @@ package com.chaychan.news.view;
 
 import com.chaychan.news.model.entity.BasePageEntity;
 
-public interface IPageListListener<T> {
+public interface PageListListener<T> {
 
     void onGetRefreshListSuccess(BasePageEntity<T> response);
 

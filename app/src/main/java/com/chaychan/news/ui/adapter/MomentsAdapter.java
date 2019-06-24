@@ -33,7 +33,6 @@ public class MomentsAdapter extends MultipleItemRvAdapter<Moments, BaseViewHolde
 
     @Override
     protected int getViewType(Moments moments) {
-        KLog.e(moments.getMomentsType().name());
         return moments.getMomentsType().momentsType;
     }
 

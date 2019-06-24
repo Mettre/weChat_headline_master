@@ -35,7 +35,6 @@ public class PersonalMomentsListPresenter extends BasePresenter<PersonalMomentsL
             protected void onSuccess(BasePageEntity<Moments> response) {
 
                 List<Moments> momentsList = response.getRecords();
-                KLog.e(momentsList);
                 mView.onGetNewsListSuccess(response);
             }
 

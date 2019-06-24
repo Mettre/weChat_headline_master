@@ -30,6 +30,8 @@
             android:gravity="center|left"
             android:hint="@string/write_comment"
             android:paddingLeft="@dimen/sixMargin"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:textColor="@color/color_222222"
             android:textColorHint="@color/color_999999"
             android:textSize="@dimen/normal" />

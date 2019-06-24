@@ -31,8 +31,6 @@ public class MomentsListPresenter extends BasePresenter<lMomentsListView> {
             @Override
             protected void onSuccess(BasePageEntity<Moments> response) {
 
-                List<Moments> momentsList = response.getRecords();
-                KLog.e(momentsList);
                 mView.onGetNewsListSuccess(response);
             }
 

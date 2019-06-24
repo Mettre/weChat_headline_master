@@ -8,14 +8,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.constants.Constant;
+import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
+import com.chaychan.news.model.entity.UserHeadInfo;
+import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.MomentsListPresenter;
 import com.chaychan.news.ui.view.MomentsHeaderView;
 import com.chaychan.news.utils.DisplayUtils;
+import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.NetWorkUtils;
 import com.chaychan.news.utils.UIUtils;
@@ -27,6 +31,8 @@ import com.chaychan.uikit.refreshlayout.BGANormalRefreshViewHolder;
 import com.chaychan.uikit.refreshlayout.BGARefreshLayout;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +56,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     @Bind(R.id.refresh_layout)
     BGARefreshLayout mRefreshLayout;
 
+    public UserInfo userBean;
 
     @Bind(R.id.fl_content)
     FrameLayout mFlContent;
@@ -96,6 +103,33 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mRefreshLayout.shouldHandleRecyclerViewLoadingMore(mRvComment);
     }
 
+
+    /**
+     * start other BrotherFragment
+     */
+    @Subscribe
+    public void startBrother(StartBrotherEvent event) {
+        if (event.EventType == StartBrotherEvent.MOMENTSFRAGMENT) {
+            getInformation();
+        }
+    }
+
+    /**
+     * 加载个人信息
+     */
+    private void getInformation() {
+        userBean = MyApp.getInstances().getUserInfo();
+
+        UserHeadInfo userHeadInfo = new UserHeadInfo();
+        userHeadInfo.setBackGroundWall(userBean.getBackgroundWall());
+        userHeadInfo.setUserId(userBean.getUserId());
+        userHeadInfo.setHeadAvatar(userBean.getHeadAvatar());
+        userHeadInfo.setUserName(userBean.getUserName());
+        userHeadInfo.setSignature(userBean.getSignature());
+        mHeaderView.setDetail(userHeadInfo);
+    }
+
+
     @Override
     public void initData() {
 
@@ -107,6 +141,13 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mRvComment.setAdapter(mCommentAdapter);
 
         mHeaderView = new MomentsHeaderView(mActivity);
+        UserHeadInfo userHeadInfo = new UserHeadInfo();
+        userHeadInfo.setBackGroundWall(userBean.getBackgroundWall());
+        userHeadInfo.setUserId(userBean.getUserId());
+        userHeadInfo.setHeadAvatar(userBean.getHeadAvatar());
+        userHeadInfo.setUserName(userBean.getUserName());
+        userHeadInfo.setSignature(userBean.getSignature());
+        mHeaderView.setDetail(userHeadInfo);
         mCommentAdapter.addHeaderView(mHeaderView);
 
         mCommentAdapter.setEnableLoadMore(false);

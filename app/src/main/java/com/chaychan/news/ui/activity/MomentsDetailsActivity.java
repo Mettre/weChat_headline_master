@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
+import com.chaychan.news.enum_.DynamicTypeEnum;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
 import com.chaychan.news.model.entity.Reply;
@@ -33,6 +37,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import flyn.Eyes;
 
 /**
@@ -66,7 +71,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     EditText editText;
 
     private LinearLayoutManager layoutManager;
-
+    private String replyParentId;
 
     public static void startAlineActivity(Moments moments, Context mContext) {
         Intent intent = new Intent(mContext, MomentsDetailsActivity.class);
@@ -82,7 +87,8 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
 
     @Override
     public void initView() {
-        Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
+        Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色\
+        SoftUtils.setupUI(this, groupView);
         layoutManager = (LinearLayoutManager) mRvComment.getLayoutManager();
         mRvComment.setLayoutManager(layoutManager);
         SoftUtils.setupUI(this, groupView);
@@ -111,16 +117,6 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         mCommentAdapter.setEnableLoadMore(false);
         mCommentAdapter.setEmptyView(R.layout.pager_no_comment, mRvComment);
         mCommentAdapter.setHeaderAndEmpty(true);
-        mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                if (momentsList.get(i).getOwn()) {
-                    SoftUtils.showSoftKeyboard(editText);
-                } else {
-
-                }
-            }
-        });
 
         momentsRecord = MomentsDetailsEntityHelper.getLastNewsRecord(momentsId);
         if (momentsRecord == null) {
@@ -140,7 +136,62 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
 
     @Override
     public void initListener() {
+        mCommentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                if (momentsList.get(i).getOwn()) {
+                    SoftUtils.hideSoftKeyboard(MomentsDetailsActivity.this);
+                    new SweetAlertDialog(MomentsDetailsActivity.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("提示")
+                            .setContentText("确认删除该评论吗")
+                            .setCancelText("取消")
+                            .setConfirmText("确定")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            })
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                    mPresenter.deleteReplyMoments(momentsList.get(i).getReplyId());
 
+                                }
+                            })
+                            .show();
+                } else {
+                    SoftUtils.showSoftKeyboard(editText);
+                }
+                replyParentId = momentsList.get(i).getReplyId();
+                editText.setText("");
+                editText.setHint("回复" + momentsList.get(i).getUserName() + ":");
+            }
+        });
+
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Log.i("---", "搜索操作执行");
+                    if (!TextUtils.isEmpty(v.getText().toString())) {
+                        mPresenter.addReplyMoments(momentsId, v.getText().toString(), replyParentId, DynamicTypeEnum.MOMENTS);
+                    }
+                }
+                return false;
+            }
+        });
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("---", "setOnClickListener");
+                editText.setHint("评论");
+                replyParentId = "";
+            }
+        });
     }
 
 
@@ -158,6 +209,14 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         mCommentAdapter.notifyDataSetChanged();
         //保存到数据库
         MomentsDetailsEntityHelper.save(momentsId, response.getMoments(), response.getReplyList());
+    }
+
+    @Override
+    public void onAddReplySuccess(MomentsDetailsEntity response) {
+        mPresenter.getRefreshMomentsList(momentsId);
+//        UIUtils.showToast("评论成功");
+        editText.setHint("评论");
+        replyParentId = "";
     }
 
     @Override

@@ -33,12 +33,6 @@ public class FeedbackAdapter extends BaseQuickAdapter<FeedbackBean, BaseViewHold
         GlideUtils.load(mContext, feedbackBean.getHeadAvatar(), helper.getView(R.id.icon_head));
         helper.setText(R.id.moments_word, feedbackBean.getContent());
 
-        if (helper.getPosition() == 1) {
-            helper.setVisible(R.id.first_view, true);
-        } else {
-            helper.setVisible(R.id.first_view, false);
-        }
-
         helper.setText(R.id.user_name, feedbackBean.getUserName())
                 .setText(R.id.tv_time, TimeUtils.getShortTime(feedbackBean.getCreationTime()));
 

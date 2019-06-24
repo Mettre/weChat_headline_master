@@ -1,6 +1,5 @@
 package com.chaychan.news.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,12 +14,10 @@ import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.enum_.GenderEnum;
-import com.chaychan.news.enum_.SmsTypeEnum;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.EditInformationPresenter;
-import com.chaychan.news.ui.presenter.LoginPresenter;
 import com.chaychan.news.utils.LoginUtils;
 import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.utils.UIUtils;

@@ -20,6 +20,7 @@ import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.view.IRequestListener;
 import com.socks.library.KLog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
@@ -91,14 +92,13 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
         if (event.EventType == StartBrotherEvent.REFRESHTAGE) {
             //登录获取用户信息
             if (!MyApp.getInstances().NotLogged()) {
-                ToastUtils.showShortToast("登录成功刷新用户数据");
                 mPresenter.getUserInfo(MyApp.getInstances().getToken());
             }
         } else if (event.EventType == StartBrotherEvent.REFRESHTAGEEDIT) {
             userBean = event.userBean;
             getInformation();
         } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
-            ToastUtils.showShortToast("退出登录清除用户信息");
+            getInformation();
         }
     }
 
@@ -135,7 +135,11 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
      * 加载个人信息
      */
     private void getInformation() {
+        MyApp.getInstances().setUserInfo(userBean);
+        EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.MOMENTSFRAGMENT, userBean));
         if (userBean == null) {
+            GlideUtils.loadRound(mActivity, null, circleImageView);
+            nickName_text.setText("登录/注册");
             return;
         }
         GlideUtils.loadRound(mActivity, userBean.getHeadAvatar(), circleImageView);

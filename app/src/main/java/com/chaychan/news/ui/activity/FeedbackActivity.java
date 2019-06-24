@@ -2,7 +2,10 @@ package com.chaychan.news.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.Selection;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,9 +42,13 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
     @Bind(R.id.nickname_edt)
     EditText editText;
 
-    @Bind(R.id.feedback_list_btn)
-    Button feedback_list_btn;
+    @Bind(R.id.len_num)
+    TextView len_num;
 
+    @Bind(R.id.sub_btn)
+    TextView sub_btn;
+
+    private int maxNum = 240;
     private String faceBackContent;
 
     public static void startActivity(Context mContext) {
@@ -64,6 +71,7 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         SoftUtils.setupUI(this, groupView);
         mTvAuthor.setText("意见反馈");
+        right_btn.setText("我的反馈");
     }
 
 
@@ -71,7 +79,46 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
     public void initListener() {
         right_btn.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        feedback_list_btn.setOnClickListener(this);
+        sub_btn.setOnClickListener(this);
+        len_num.setText("0/" + maxNum);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Editable editable = editText.getText();
+                int len = editable.length();
+
+                len_num.setText(len + "/" + maxNum);
+                if (len > maxNum) {
+                    int selEndIndex = Selection.getSelectionEnd(editable);
+                    String str = editable.toString();
+                    //截取新字符串
+                    String newStr = str.substring(0, maxNum);
+                    editText.setText(newStr);
+                    editable = editText.getText();
+
+                    //新字符串的长度
+                    int newLen = editable.length();
+                    //旧光标位置超过字符串长度
+                    if (selEndIndex > newLen) {
+                        selEndIndex = editable.length();
+                    }
+                    //设置新光标所在的位置
+                    Selection.setSelection(editable, selEndIndex);
+
+                }
+            }
+        });
     }
 
     @Override
@@ -80,7 +127,7 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.right_btn:
+            case R.id.sub_btn:
                 if (TextUtils.isEmpty(editText.getText().toString())) {
                     UIUtils.showToast("请输入反馈内容");
                     return;
@@ -88,7 +135,7 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
                 faceBackContent = editText.getText().toString();
                 mPresenter.addFeedbackRequest(faceBackContent);
                 break;
-            case R.id.feedback_list_btn:
+            case R.id.right_btn:
                 FeedbackListActivity.startActivity(FeedbackActivity.this);
                 break;
         }

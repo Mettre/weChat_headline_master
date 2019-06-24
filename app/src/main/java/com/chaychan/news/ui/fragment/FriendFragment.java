@@ -107,14 +107,13 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void onGetFriendsSuccess(ResultList response) {
-        KLog.e(new Gson().toJson(response));
+//        KLog.e(new Gson().toJson(response));
         if (ListUtils.isEmpty(response.getList())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
         mStateView.showContent();//显示内容
-        KLog.e("我是有数据的");
         momentsList.clear();
         momentsList.addAll(response.getList());
         friendAdapter.notifyDataSetChanged();

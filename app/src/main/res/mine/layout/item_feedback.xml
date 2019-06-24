@@ -2,13 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/eightMargin"
-    android:layout_marginRight="@dimen/eightMargin"
     android:background="@color/white"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/normalMargin"
-    android:paddingRight="@dimen/normalMargin"
-    android:paddingTop="@dimen/sixMargin">
+    android:paddingTop="@dimen/sixMargin"
+    android:paddingRight="@dimen/normalMargin">
 
 
     <LinearLayout
@@ -57,10 +55,10 @@
                 android:id="@+id/moments_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/user_name"
                 android:layout_below="@id/user_name"
-                android:layout_marginBottom="@dimen/sixMargin"
+                android:layout_alignLeft="@id/user_name"
                 android:layout_marginTop="@dimen/topMargin"
+                android:layout_marginBottom="@dimen/sixMargin"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:lineSpacingExtra="3dp"

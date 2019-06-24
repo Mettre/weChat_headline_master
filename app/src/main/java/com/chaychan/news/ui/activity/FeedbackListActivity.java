@@ -3,7 +3,6 @@ package com.chaychan.news.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,7 +21,7 @@ import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.NetWorkUtils;
 import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.UIUtils;
-import com.chaychan.news.view.IPageListListener;
+import com.chaychan.news.view.PageListListener;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
 import com.chaychan.uikit.refreshlayout.BGANormalRefreshViewHolder;
@@ -36,7 +35,7 @@ import butterknife.Bind;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import flyn.Eyes;
 
-public class FeedbackListActivity extends BaseActivity<PageListPresenter> implements View.OnClickListener, IPageListListener<FeedbackBean>, BGARefreshLayout.BGARefreshLayoutDelegate, BaseQuickAdapter.RequestLoadMoreListener {
+public class FeedbackListActivity extends BaseActivity<PageListPresenter> implements View.OnClickListener, PageListListener<FeedbackBean>, BGARefreshLayout.BGARefreshLayoutDelegate, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;

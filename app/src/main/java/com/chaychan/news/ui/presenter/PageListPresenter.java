@@ -5,15 +5,15 @@ import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FeedbackBean;
 import com.chaychan.news.ui.base.BasePresenter;
-import com.chaychan.news.view.IPageListListener;
+import com.chaychan.news.view.PageListListener;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class PageListPresenter extends BasePresenter<IPageListListener> {
+public class PageListPresenter extends BasePresenter<PageListListener> {
 
-    public PageListPresenter(IPageListListener view) {
+    public PageListPresenter(PageListListener view) {
         super(view);
     }
 
@@ -31,8 +31,6 @@ public class PageListPresenter extends BasePresenter<IPageListListener> {
             @Override
             protected void onSuccess(BasePageEntity<FeedbackBean> response) {
 
-                List<FeedbackBean> momentsList = response.getRecords();
-                KLog.e(momentsList);
                 mView.onGetRefreshListSuccess(response);
             }
 

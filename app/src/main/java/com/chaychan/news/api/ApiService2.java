@@ -1,6 +1,7 @@
 package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.BasePageEntity;
+import com.chaychan.news.model.entity.FeedbackBean;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.entity.Moments;
@@ -153,8 +154,21 @@ public interface ApiService2 {
      */
     @Headers({"urlName:usually"})
     @POST("/usually/loginEd/FeedbackPageVo")
-    Observable<ResultResponse> findFeedbackListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+    Observable<ResultResponse<BasePageEntity<FeedbackBean>>> findFeedbackListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
+    /**
+     * 新增评论
+     */
+    @Headers({"urlName:information"})
+    @POST("/information/loginEd/addReply")
+    Observable<ResultResponse> addReply(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+    /**
+     * 删除评论
+     */
+    @Headers({"urlName:information"})
+    @GET("/information/loginEd/deleteReplyFromUser{replyId}")
+    Observable<ResultResponse<MomentsDetailsEntity>> deleteReplyMoments(@Header("authorities") String Authorization, @Path("replyId") String replyId);
 
     /**
      * 上传文件
