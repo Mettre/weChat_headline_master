@@ -86,6 +86,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
                     mPresenter.LoginRequest(phoneNum, passwordEdt.getText().toString());
                 }
                 break;
+            case R.id.register_btn:
+                RegisterActivity.startActivity((Context) mActivities);
+                break;
+            case R.id.forgot_password_btn:
+                ForgetPasswordActivity.startActivity((Context) mActivities);
+                break;
         }
     }
 

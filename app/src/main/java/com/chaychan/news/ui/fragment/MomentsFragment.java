@@ -110,7 +110,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     @Subscribe
     public void startBrother(StartBrotherEvent event) {
         if (event.EventType == StartBrotherEvent.MOMENTSFRAGMENT) {
-            getInformation();
+//            getInformation();
         }
     }
 
@@ -141,13 +141,13 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mRvComment.setAdapter(mCommentAdapter);
 
         mHeaderView = new MomentsHeaderView(mActivity);
-        UserHeadInfo userHeadInfo = new UserHeadInfo();
-        userHeadInfo.setBackGroundWall(userBean.getBackgroundWall());
-        userHeadInfo.setUserId(userBean.getUserId());
-        userHeadInfo.setHeadAvatar(userBean.getHeadAvatar());
-        userHeadInfo.setUserName(userBean.getUserName());
-        userHeadInfo.setSignature(userBean.getSignature());
-        mHeaderView.setDetail(userHeadInfo);
+//        UserHeadInfo userHeadInfo = new UserHeadInfo();
+//        userHeadInfo.setBackGroundWall(userBean.getBackgroundWall());
+//        userHeadInfo.setUserId(userBean.getUserId());
+//        userHeadInfo.setHeadAvatar(userBean.getHeadAvatar());
+//        userHeadInfo.setUserName(userBean.getUserName());
+//        userHeadInfo.setSignature(userBean.getSignature());
+//        mHeaderView.setDetail(userHeadInfo);
         mCommentAdapter.addHeaderView(mHeaderView);
 
         mCommentAdapter.setEnableLoadMore(false);

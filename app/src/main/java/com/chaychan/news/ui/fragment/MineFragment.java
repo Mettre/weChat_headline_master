@@ -11,8 +11,10 @@ import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.ui.activity.FeedbackActivity;
 import com.chaychan.news.ui.activity.FeedbackListActivity;
+import com.chaychan.news.ui.activity.FollowActivity;
 import com.chaychan.news.ui.activity.InformationActivity;
 import com.chaychan.news.ui.activity.LoginActivity;
+import com.chaychan.news.ui.activity.VisitorListActivity;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.UserInfoPresenter;
 import com.chaychan.news.utils.GlideUtils;
@@ -46,6 +48,12 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Bind(R.id.feedback_RelativeLayout)
     RelativeLayout feedback_RelativeLayout;
 
+    @Bind(R.id.visitor_LinearLayout)
+    LinearLayout visitorLinearLayout;
+
+    @Bind(R.id.follow_LinearLayout)
+    LinearLayout followLinearLayout;
+
     private UserInfo userBean;
 
     @Override
@@ -76,6 +84,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     public void initListener() {
         ll_top.setOnClickListener(this);
         feedback_RelativeLayout.setOnClickListener(this);
+        visitorLinearLayout.setOnClickListener(this);
+        followLinearLayout.setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +108,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
             userBean = event.userBean;
             getInformation();
         } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
+            userBean = null;
             getInformation();
         }
     }
@@ -113,13 +124,18 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
                 if (userBean != null) {
                     InformationActivity.startActivity(mActivity, userBean);
                 } else {
-                    ToastUtils.showCenterToast("个人信息为空", 200);
                     LoginActivity.startLoginActivity(mActivity);
 
                 }
                 break;
             case R.id.feedback_RelativeLayout:
                 FeedbackActivity.startActivity(mActivity);
+                break;
+            case R.id.visitor_LinearLayout:
+                VisitorListActivity.startActivity(mActivity);
+                break;
+            case R.id.follow_LinearLayout:
+                FollowActivity.startActivity(mActivity);
                 break;
         }
     }

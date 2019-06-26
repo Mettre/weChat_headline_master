@@ -91,7 +91,6 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         SoftUtils.setupUI(this, groupView);
         layoutManager = (LinearLayoutManager) mRvComment.getLayoutManager();
         mRvComment.setLayoutManager(layoutManager);
-        SoftUtils.setupUI(this, groupView);
     }
 
     @Override
@@ -189,6 +188,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
             public void onClick(View v) {
                 Log.i("---", "setOnClickListener");
                 editText.setHint("评论");
+                editText.setText("");
                 replyParentId = "";
             }
         });
@@ -216,6 +216,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         mPresenter.getRefreshMomentsList(momentsId);
 //        UIUtils.showToast("评论成功");
         editText.setHint("评论");
+        editText.setText("");
         replyParentId = "";
     }
 

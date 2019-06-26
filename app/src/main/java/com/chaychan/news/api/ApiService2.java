@@ -2,6 +2,7 @@ package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FeedbackBean;
+import com.chaychan.news.model.entity.FollowBean;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.entity.Moments;
@@ -9,6 +10,7 @@ import com.chaychan.news.model.entity.MomentsDetailsEntity;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
+import com.chaychan.news.model.entity.VisitorBean;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.ResultResponse;
 
@@ -107,6 +109,14 @@ public interface ApiService2 {
     Observable<ResultResponse> registerRequest(@Body HashMap<String, Object> map);
 
     /**
+     * 主人删除空间访问某个人记录
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/deletePersonalVisitor")
+    Observable<ResultResponse> deleteVisitorRequest(@Header("authorities") String authorities, @Query("visitorId") Long visitorId);
+
+
+    /**
      * 手机验证码
      */
     @Headers({"urlName:information"})
@@ -155,6 +165,32 @@ public interface ApiService2 {
     @Headers({"urlName:usually"})
     @POST("/usually/loginEd/FeedbackPageVo")
     Observable<ResultResponse<BasePageEntity<FeedbackBean>>> findFeedbackListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+
+    /**
+     * 我的访客记录
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/myVisitorList")
+    Observable<ResultResponse<BasePageEntity<VisitorBean>>> RefreshVisitorListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+
+    /**
+     * 我的关注
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/myFollowList")
+    Observable<ResultResponse<BasePageEntity<FollowBean>>> RefreshFollowListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+
+    /**
+     * 我的粉丝
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/myFansList")
+    Observable<ResultResponse<BasePageEntity<FollowBean>>> RefreshFansListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+
 
     /**
      * 新增评论

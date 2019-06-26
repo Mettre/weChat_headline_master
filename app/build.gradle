@@ -72,4 +72,5 @@ dependencies {
     compile 'cn.pedant.sweetalert:library:1.3'
     compile 'pub.devrel:easypermissions:1.0.1'
     compile 'org.greenrobot:eventbus:3.1.1'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
 }
