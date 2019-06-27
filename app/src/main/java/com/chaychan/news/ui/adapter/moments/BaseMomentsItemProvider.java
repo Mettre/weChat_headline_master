@@ -25,7 +25,7 @@ public abstract class BaseMomentsItemProvider extends BaseItemProvider<Moments, 
         helper.setOnClickListener(R.id.icon_head, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MomentsActivity.startAlineActivity(moments.getUserBean().getPublisherUserId(), mContext,moments.getUserBean());
+                MomentsActivity.startActivity(moments.getUserBean().getPublisherUserId(), mContext,moments.getUserBean());
             }
         });
 

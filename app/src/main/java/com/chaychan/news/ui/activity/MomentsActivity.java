@@ -65,7 +65,7 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
     private LinearLayoutManager layoutManager;
 
 
-    public static void startAlineActivity(String publisherUserId, Context mContext, UserBean userBean) {
+    public static void startActivity(String publisherUserId, Context mContext, UserBean userBean) {
         Intent intent = new Intent(mContext, MomentsActivity.class);
         intent.putExtra(MomentsActivity.PUBLISHER_USER, publisherUserId);
         intent.putExtra(USERBEAN, userBean);

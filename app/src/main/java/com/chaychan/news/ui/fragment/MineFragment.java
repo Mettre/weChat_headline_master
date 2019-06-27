@@ -10,7 +10,7 @@ import com.chaychan.news.app.MyApp;
 import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.ui.activity.FeedbackActivity;
-import com.chaychan.news.ui.activity.FeedbackListActivity;
+import com.chaychan.news.ui.activity.FindUserActivity;
 import com.chaychan.news.ui.activity.FollowActivity;
 import com.chaychan.news.ui.activity.InformationActivity;
 import com.chaychan.news.ui.activity.LoginActivity;
@@ -18,7 +18,6 @@ import com.chaychan.news.ui.activity.VisitorListActivity;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.UserInfoPresenter;
 import com.chaychan.news.utils.GlideUtils;
-import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.view.IRequestListener;
 import com.socks.library.KLog;
 
@@ -54,6 +53,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Bind(R.id.follow_LinearLayout)
     LinearLayout followLinearLayout;
 
+    @Bind(R.id.find_friend_LinearLayout)
+    LinearLayout findFriendLinearLayout;
+
     private UserInfo userBean;
 
     @Override
@@ -86,6 +88,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
         feedback_RelativeLayout.setOnClickListener(this);
         visitorLinearLayout.setOnClickListener(this);
         followLinearLayout.setOnClickListener(this);
+        findFriendLinearLayout.setOnClickListener(this);
     }
 
     @Override
@@ -125,7 +128,6 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
                     InformationActivity.startActivity(mActivity, userBean);
                 } else {
                     LoginActivity.startLoginActivity(mActivity);
-
                 }
                 break;
             case R.id.feedback_RelativeLayout:
@@ -136,6 +138,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
                 break;
             case R.id.follow_LinearLayout:
                 FollowActivity.startActivity(mActivity);
+                break;
+            case R.id.find_friend_LinearLayout:
+                FindUserActivity.startActivity(mActivity);
                 break;
         }
     }

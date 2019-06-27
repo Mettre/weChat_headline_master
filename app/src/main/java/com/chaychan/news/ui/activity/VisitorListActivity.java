@@ -123,7 +123,7 @@ public class VisitorListActivity extends BaseActivity<VisitorListPresenter> impl
         visitorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                MomentsActivity.startAlineActivity(visitorBeanList.get(i).getUserId(), (Context) mActivities, getUserBean(visitorBeanList.get(i)));
+                MomentsActivity.startActivity(visitorBeanList.get(i).getUserId(), (Context) mActivities, getUserBean(visitorBeanList.get(i)));
             }
         });
         visitorAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {

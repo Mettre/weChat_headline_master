@@ -37,7 +37,7 @@ public class PhotoPersonalMomentsProvider extends BasePersonalMomentsProvider {
             public void onClick(View v) {
 //                ArrayList<String> mUrls = new ArrayList<String>();
 //                mUrls.add(moments.getMomentsImage());
-//                ImageViewPagerActivity.startAlineActivity(mUrls, 0, mContext);
+//                ImageViewPagerActivity.startActivity(mUrls, 0, mContext);
 
                 MomentsDetailsActivity.startAlineActivity(moments, mContext);
             }

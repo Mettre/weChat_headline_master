@@ -191,6 +191,13 @@ public interface ApiService2 {
     Observable<ResultResponse<BasePageEntity<FollowBean>>> RefreshFansListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
 
+    /**
+     * 查找用户
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/findUserList")
+    Observable<ResultResponse<BasePageEntity<FollowBean>>> findUserListRequest(@Header("authorities") String authorities, @Query("findUserId") String findUserId);
+
 
     /**
      * 新增评论
