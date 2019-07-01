@@ -6,7 +6,8 @@ public class ResultResponse2<T> {
 
     public String has_more;
     public String message;
-    public String success;
+    public Boolean success;
+    public String code;
     public List<T> data;
 
     public ResultResponse2(String more, String _message, List<T> result) {

@@ -1,13 +1,14 @@
 package com.chaychan.news.view;
 
-import com.chaychan.news.model.entity.BasePageEntity;
+import java.util.List;
+
 /**
  * 查找用户
  * @param <T>
  */
 public interface FindUserListener<T> {
 
-    void onGetRefreshListSuccess(BasePageEntity<T> response);
+    void onGetRefreshListSuccess(List<T> response);
 
     void onError();
 

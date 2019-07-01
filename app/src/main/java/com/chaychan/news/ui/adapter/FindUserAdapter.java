@@ -7,29 +7,28 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
-import com.chaychan.news.model.entity.FollowBean;
+import com.chaychan.news.model.entity.FindUserBean;
 import com.chaychan.news.utils.GlideUtils;
-import com.chaychan.news.utils.TimeUtils;
 
 import java.util.List;
 
-public class FindUserAdapter extends BaseQuickAdapter<FollowBean, BaseViewHolder> {
+public class FindUserAdapter extends BaseQuickAdapter<FindUserBean, BaseViewHolder> {
 
     private Context mContext;
 
-    public FindUserAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<FollowBean> data) {
+    public FindUserAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<FindUserBean> data) {
         super(layoutResId, data);
         mContext = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FollowBean visitorBean) {
+    protected void convert(BaseViewHolder helper, FindUserBean followBean) {
 
-        GlideUtils.loadRound(mContext, "http://img4.duitang.com/uploads/item/201407/16/20140716132526_TcyTY.thumb.600_0.jpeg", helper.getView(R.id.icon_head));
-        helper.setText(R.id.moments_word, visitorBean.getFollowedUser());
+        GlideUtils.loadRound(mContext, followBean.getHeadAvatar(), helper.getView(R.id.icon_head));
+        helper.setText(R.id.userId_text, followBean.getUserId());
 
-        helper.setText(R.id.user_name, visitorBean.getFollowedUserName())
-                .setText(R.id.tv_time, TimeUtils.getShortTime(visitorBean.getUpdateTime()));
+        helper.setText(R.id.user_name, followBean.getUserName());
+        helper.getView(R.id.tv_button).setEnabled(followBean.isIsFollow());
 
     }
 }

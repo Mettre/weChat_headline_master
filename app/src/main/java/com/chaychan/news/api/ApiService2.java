@@ -2,6 +2,7 @@ package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FeedbackBean;
+import com.chaychan.news.model.entity.FindUserBean;
 import com.chaychan.news.model.entity.FollowBean;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.LoginBean;
@@ -13,6 +14,7 @@ import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.entity.VisitorBean;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.ResultResponse;
+import com.chaychan.news.model.response.ResultResponse2;
 
 import java.util.HashMap;
 import java.util.List;
@@ -195,8 +197,8 @@ public interface ApiService2 {
      * 查找用户
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/findUserList")
-    Observable<ResultResponse<BasePageEntity<FollowBean>>> findUserListRequest(@Header("authorities") String authorities, @Query("findUserId") String findUserId);
+    @GET("/account/loginEd/findUserList")
+    Observable<ResultResponse2<FindUserBean>> findUserListRequest(@Header("authorities") String authorities, @Query("findUserId") String findUserId);
 
 
     /**

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -16,9 +17,9 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.BasePageEntity;
+import com.chaychan.news.model.entity.FindUserBean;
 import com.chaychan.news.model.entity.FollowBean;
 import com.chaychan.news.ui.adapter.FindUserAdapter;
-import com.chaychan.news.ui.adapter.FollowAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.FindUserPresenter;
 import com.chaychan.news.utils.DisplayUtils;
@@ -39,7 +40,7 @@ import flyn.Eyes;
 /**
  * 查找好友
  */
-public class FindUserActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<FollowBean> {
+public class FindUserActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<FindUserBean> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -66,7 +67,7 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
     PowerfulRecyclerView mRvComment;
 
     private FindUserAdapter findUserAdapter;
-    private List<FollowBean> visitorBeanList = new ArrayList<>();
+    private List<FindUserBean> visitorBeanList = new ArrayList<>();
 
 
     public static void startActivity(Context mContext) {
@@ -91,7 +92,7 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (!TextUtils.isEmpty(v.getText().toString())) {
-                        mPresenter.getfindUserList(v.getText().toString());
+                        mPresenter.getFindUserList(v.getText().toString());
                     }
                 }
                 return false;
@@ -114,7 +115,7 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
         mRvComment.setLayoutManager(new GridLayoutManager(this, 1));
         mRvComment.addItemDecoration(new DisplayUtils.SimpleDividerItemDecoration(1));
 
-        findUserAdapter = new FindUserAdapter(this, R.layout.item_visitor, visitorBeanList);
+        findUserAdapter = new FindUserAdapter(this, R.layout.item_find_user, visitorBeanList);
         mRvComment.setAdapter(findUserAdapter);
 
     }
@@ -158,16 +159,18 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
 
 
     @Override
-    public void onGetRefreshListSuccess(BasePageEntity<FollowBean> response) {
-        if (ListUtils.isEmpty(response.getRecords())) {
+    public void onGetRefreshListSuccess(List<FindUserBean> response) {
+        Log.e("mettre::::   ","--------------22222----------------");
+        if (ListUtils.isEmpty(response)) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
+        Log.e("mettre::::   ","--------------1111----------------");
         mStateView.showContent();//显示内容
 
         visitorBeanList.clear();
-        visitorBeanList.addAll(response.getRecords());
+        visitorBeanList.addAll(response);
         findUserAdapter.notifyDataSetChanged();
     }
 
