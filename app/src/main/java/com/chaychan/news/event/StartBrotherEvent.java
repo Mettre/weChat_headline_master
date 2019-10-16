@@ -13,6 +13,8 @@ public class StartBrotherEvent {
     public final static int LOUGINOUT = 1003;//退出  刷新我的--个人信息网络请求
     public final static int MOMENTSFRAGMENT = 1004;//个人信息发生变化后 刷新朋友圈页面
 
+    public final static int RELEASEMOMENTS = 1005;//发完说说后刷新朋友圈
+
     public UserInfo userBean;
     public int EventType;
 

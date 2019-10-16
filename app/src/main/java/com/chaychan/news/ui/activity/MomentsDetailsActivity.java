@@ -70,6 +70,9 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     @Bind(R.id.editText_comment)
     EditText editText;
 
+    @Bind(R.id.tv_author)
+    TextView mTvAuthor;
+
     private LinearLayoutManager layoutManager;
     private String replyParentId;
 
@@ -89,6 +92,7 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     public void initView() {
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色\
         SoftUtils.setupUI(this, groupView);
+        mTvAuthor.setText("详情");
         layoutManager = (LinearLayoutManager) mRvComment.getLayoutManager();
         mRvComment.setLayoutManager(layoutManager);
     }

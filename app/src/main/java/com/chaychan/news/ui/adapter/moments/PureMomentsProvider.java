@@ -1,8 +1,12 @@
 package com.chaychan.news.ui.adapter.moments;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.Moments;
+import com.chaychan.news.ui.activity.ImageViewPagerActivity;
+import com.chaychan.news.ui.activity.MomentsDetailsActivity;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
 
 public class PureMomentsProvider extends BaseMomentsItemProvider {

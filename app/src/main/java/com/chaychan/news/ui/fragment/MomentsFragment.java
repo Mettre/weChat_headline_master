@@ -3,17 +3,21 @@ package com.chaychan.news.ui.fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.constants.Constant;
+import com.chaychan.news.enum_.MomentsEnum;
 import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
 import com.chaychan.news.model.entity.UserHeadInfo;
 import com.chaychan.news.model.entity.UserInfo;
+import com.chaychan.news.ui.activity.MomentsDetailsActivity;
+import com.chaychan.news.ui.activity.ReleaseMomentsActivity;
 import com.chaychan.news.ui.adapter.MomentsAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.MomentsListPresenter;
@@ -60,6 +64,9 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
     @Bind(R.id.fl_content)
     FrameLayout mFlContent;
+
+    @Bind(R.id.iv_detail)
+    ImageView iv_detail;
 
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
@@ -111,6 +118,8 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     public void startBrother(StartBrotherEvent event) {
         if (event.EventType == StartBrotherEvent.MOMENTSFRAGMENT) {
 //            getInformation();
+        } else if (event.EventType == StartBrotherEvent.RELEASEMOMENTS) {
+            mRefreshLayout.beginRefreshing();
         }
     }
 
@@ -155,6 +164,26 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 
         mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
 //        mCommentAdapter.setHeaderAndEmpty(true);
+
+        iv_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReleaseMomentsActivity.startActivity(mActivity, MomentsEnum.PHOTO);
+            }
+        });
+        iv_detail.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ReleaseMomentsActivity.startActivity(mActivity, MomentsEnum.PURE_TEXT);
+                return true;
+            }
+        });
+        mCommentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                MomentsDetailsActivity.startAlineActivity(momentsList.get(i), mActivity);
+            }
+        });
     }
 
     @Override

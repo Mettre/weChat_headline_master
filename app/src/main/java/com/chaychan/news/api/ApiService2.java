@@ -215,6 +215,15 @@ public interface ApiService2 {
     @GET("/information/loginEd/deleteReplyFromUser{replyId}")
     Observable<ResultResponse<MomentsDetailsEntity>> deleteReplyMoments(@Header("authorities") String Authorization, @Path("replyId") String replyId);
 
+
+    /**
+     * 发布说说
+     */
+    @Headers({"urlName:information"})
+    @POST("/information/loginEd/addMoments")
+    Observable<ResultResponse> releaseMoments(@Header("authorities") String Authorization, @Body HashMap<String, Object> map);
+
+
     /**
      * 上传文件
      *

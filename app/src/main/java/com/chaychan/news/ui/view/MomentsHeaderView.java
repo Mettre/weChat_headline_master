@@ -80,5 +80,7 @@ public class MomentsHeaderView extends FrameLayout {
                 ImageViewPagerActivity.startAlineActivity(mUrls, 0, mContext, true);
             }
         });
+
+
     }
 }
