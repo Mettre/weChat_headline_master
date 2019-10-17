@@ -25,6 +25,7 @@ import com.chaychan.news.ui.presenter.FindUserPresenter;
 import com.chaychan.news.utils.DisplayUtils;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.SoftUtils;
+import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.FindUserListener;
 import com.chaychan.uikit.TipView;
@@ -35,12 +36,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import flyn.Eyes;
 
 /**
  * 查找好友
  */
-public class FindUserActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<FindUserBean> {
+public class FindUserActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<FindUserBean>, FindUserAdapter.FollowListener {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -68,6 +70,7 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
 
     private FindUserAdapter findUserAdapter;
     private List<FindUserBean> visitorBeanList = new ArrayList<>();
+    private int position;
 
 
     public static void startActivity(Context mContext) {
@@ -115,7 +118,7 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
         mRvComment.setLayoutManager(new GridLayoutManager(this, 1));
         mRvComment.addItemDecoration(new DisplayUtils.SimpleDividerItemDecoration(1));
 
-        findUserAdapter = new FindUserAdapter(this, R.layout.item_find_user, visitorBeanList);
+        findUserAdapter = new FindUserAdapter(this, R.layout.item_find_user, visitorBeanList, this);
         mRvComment.setAdapter(findUserAdapter);
 
     }
@@ -160,13 +163,11 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
 
     @Override
     public void onGetRefreshListSuccess(List<FindUserBean> response) {
-        Log.e("mettre::::   ","--------------22222----------------");
         if (ListUtils.isEmpty(response)) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
-        Log.e("mettre::::   ","--------------1111----------------");
         mStateView.showContent();//显示内容
 
         visitorBeanList.clear();
@@ -186,11 +187,27 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
 
     @Override
     public void addFollowSuccess() {
-
+        ToastUtils.showShortToast("关注成功");
+        visitorBeanList.get(position).setIsFollow(!visitorBeanList.get(position).isIsFollow());
+        findUserAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onFollowedError() {
+    public void cancelFollowSuccess() {
+        ToastUtils.showShortToast("已取消关注");
+        visitorBeanList.get(position).setIsFollow(!visitorBeanList.get(position).isIsFollow());
+        findUserAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void addFollow(String followedUser, int position) {
+        mPresenter.addFollowRequest(followedUser);
+        this.position = position;
+    }
+
+    @Override
+    public void cancelFollow(String followedUser, int position) {
+        mPresenter.cancelFollowRequest(followedUser);
+        this.position = position;
     }
 }

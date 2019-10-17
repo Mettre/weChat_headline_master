@@ -14,7 +14,16 @@ public class FollowBean {
     private String followedUser;
     private long updateTime;
     private String followedUserName;
+    private String headAvatar;
     private boolean eachOther;
+
+    public String getHeadAvatar() {
+        return headAvatar;
+    }
+
+    public void setHeadAvatar(String headAvatar) {
+        this.headAvatar = headAvatar;
+    }
 
     public int getFollowId() {
         return followId;

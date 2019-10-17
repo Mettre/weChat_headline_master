@@ -67,13 +67,6 @@ public interface ApiService2 {
 
 
     /**
-     * 好友列表
-     */
-    @Headers({"urlName:account"})
-    @GET("/account/loginEd/myFriendsList")
-    Observable<ResultResponse<ResultList>> FriendsList(@Header("authorities") String authorities);
-
-    /**
      * 获取评论列表数据
      *
      * @param groupId
@@ -192,15 +185,6 @@ public interface ApiService2 {
     @POST("/account/loginEd/myFansList")
     Observable<ResultResponse<BasePageEntity<FollowBean>>> RefreshFansListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
-
-    /**
-     * 查找用户
-     */
-    @Headers({"urlName:account"})
-    @GET("/account/loginEd/findUserList")
-    Observable<ResultResponse2<FindUserBean>> findUserListRequest(@Header("authorities") String authorities, @Query("findUserId") String findUserId);
-
-
     /**
      * 新增评论
      */
@@ -222,6 +206,36 @@ public interface ApiService2 {
     @Headers({"urlName:information"})
     @POST("/information/loginEd/addMoments")
     Observable<ResultResponse> releaseMoments(@Header("authorities") String Authorization, @Body HashMap<String, Object> map);
+
+    /**
+     * 好友列表
+     */
+    @Headers({"urlName:account"})
+    @GET("/account/loginEd/myFriendsList")
+    Observable<ResultResponse<ResultList<Friends>>> FriendsList(@Header("authorities") String authorities);
+
+    /**
+     * 查找用户
+     */
+    @Headers({"urlName:account"})
+    @GET("/account/loginEd/findUserList")
+    Observable<ResultResponse<ResultList<FindUserBean>>> findUserListRequest(@Header("authorities") String authorities, @Query("findUserId") String findUserId);
+
+
+    /**
+     * 添加关注
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/addFollow")
+    Observable<ResultResponse> addFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+
+    /**
+     * 取消关注
+     */
+    @Headers({"urlName:account"})
+    @POST("/account/loginEd/cancelFollow")
+    Observable<ResultResponse> cancelFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+
 
 
     /**

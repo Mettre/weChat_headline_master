@@ -2,15 +2,15 @@ package com.chaychan.news.model.entity;
 
 import java.util.List;
 
-public class ResultList {
+public class ResultList<T> {
 
-    private List<Friends> list;
+    private List<T> list;
 
-    public List<Friends> getList() {
+    public List<T> getList() {
         return list;
     }
 
-    public void setList(List<Friends> list) {
+    public void setList(List<T> list) {
         this.list = list;
     }
 }

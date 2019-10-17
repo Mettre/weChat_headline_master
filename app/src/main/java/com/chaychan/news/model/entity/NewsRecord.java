@@ -8,7 +8,7 @@ import org.litepal.crud.DataSupport;
  * @date 2017/6/26  16:07
  */
 
-public class NewsRecord extends DataSupport{
+public class NewsRecord extends DataSupport {
 
     private String channelCode;
     private int page;

@@ -134,11 +134,13 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
 
         mHeaderView = new MomentsHeaderView(this);
         UserHeadInfo userHeadInfo = new UserHeadInfo();
-        userHeadInfo.setBackGroundWall(userBean.getPublisherBackgroundWall());
-        userHeadInfo.setUserId(userBean.getPublisherUserId());
-        userHeadInfo.setHeadAvatar(userBean.getPublisherHeadAvatar());
-        userHeadInfo.setUserName(userBean.getPublisherUserName());
-        userHeadInfo.setSignature(userBean.getSignature());
+        if (userBean != null) {
+            userHeadInfo.setBackGroundWall(userBean.getPublisherBackgroundWall());
+            userHeadInfo.setUserId(userBean.getPublisherUserId());
+            userHeadInfo.setHeadAvatar(userBean.getPublisherHeadAvatar());
+            userHeadInfo.setUserName(userBean.getPublisherUserName());
+            userHeadInfo.setSignature(userBean.getSignature());
+        }
         mHeaderView.setDetail(userHeadInfo);
         mCommentAdapter.addHeaderView(mHeaderView);
 

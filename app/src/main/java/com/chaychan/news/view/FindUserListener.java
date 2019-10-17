@@ -14,5 +14,5 @@ public interface FindUserListener<T> {
 
     void addFollowSuccess();
 
-    void onFollowedError();
+    void cancelFollowSuccess();
 }

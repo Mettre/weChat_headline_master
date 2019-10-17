@@ -10,8 +10,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignBottom="@+id/back_line"
-        android:layout_margin="@dimen/threeMargin"
-        android:src="@mipmap/my_avatar" />
+        android:layout_margin="@dimen/threeMargin" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -23,7 +22,6 @@
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
-        android:text="姜文"
         android:textColor="@color/color_222222"
         android:textSize="@dimen/bigNormal" />
 

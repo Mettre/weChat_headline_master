@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
     private int[] mStatusColors = new int[]{
             R.color.color_D33D3C,
             R.color.color_BDBDBD,
-            R.color.color_BDBDBD,
+            R.color.color_3333,
     };
 
     @Override

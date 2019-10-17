@@ -1,7 +1,9 @@
 package com.chaychan.news.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -9,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FollowBean;
+import com.chaychan.news.ui.activity.MomentsActivity;
 import com.chaychan.news.ui.adapter.FollowAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.FollowPresenter;
@@ -28,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+
+import static com.chaychan.news.ui.base.BaseActivity.mActivities;
 
 /**
  * 我的关注
@@ -86,9 +91,16 @@ public class MyFollowFragment extends BaseFragment<FollowPresenter> implements F
         mRefreshLayout.shouldHandleRecyclerViewLoadingMore(mRvComment);
 
 
-        followAdapter = new FollowAdapter(mActivity, R.layout.item_visitor, followBeanList);
+        followAdapter = new FollowAdapter(mActivity, R.layout.item_follow, followBeanList);
         mRvComment.setAdapter(followAdapter);
         followAdapter.setOnLoadMoreListener(this, mRvComment);
+
+        followAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                MomentsActivity.startActivity(followBeanList.get(i).getFollowedUser(), mActivity, null);
+            }
+        });
 
         followAdapter.setEmptyView(R.layout.pager_no_faceback);
     }

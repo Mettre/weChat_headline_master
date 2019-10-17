@@ -22,13 +22,12 @@ public class FollowAdapter extends BaseQuickAdapter<FollowBean, BaseViewHolder> 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FollowBean visitorBean) {
+    protected void convert(BaseViewHolder helper, FollowBean followBean) {
 
-        GlideUtils.loadRound(mContext, "http://img4.duitang.com/uploads/item/201407/16/20140716132526_TcyTY.thumb.600_0.jpeg", helper.getView(R.id.icon_head));
-        helper.setText(R.id.moments_word, "访问了你的空间");
-
-        helper.setText(R.id.user_name, visitorBean.getFollowedUserName())
-                .setText(R.id.tv_time, TimeUtils.getShortTime(visitorBean.getUpdateTime()));
+        GlideUtils.loadRound(mContext, followBean.getHeadAvatar(), helper.getView(R.id.icon_head));
+        helper.setVisible(R.id.follow_each, followBean.isEachOther());
+        helper.setText(R.id.user_name, followBean.getFollowedUserName())
+                .setText(R.id.tv_time, TimeUtils.getShortTime(followBean.getUpdateTime()));
 
     }
 }

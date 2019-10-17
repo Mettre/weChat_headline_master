@@ -6,10 +6,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.ResultList;
+import com.chaychan.news.ui.activity.MomentsActivity;
 import com.chaychan.news.ui.adapter.FriendAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.FriendsPresenter;
@@ -19,8 +21,6 @@ import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.IFriendsListener;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
-import com.google.gson.Gson;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import flyn.Eyes;
 /**
  * 我的好友
  */
-public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<ResultList> {
+public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<ResultList<Friends>> {
 
     private FriendAdapter friendAdapter;
 
@@ -94,6 +94,14 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
         mRvComment.setAdapter(friendAdapter);
         friendAdapter.setEnableLoadMore(false);
 
+        friendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                MomentsActivity.startActivity(momentsList.get(i).getUserId(), mActivity, null);
+            }
+        });
+
+
         if (ListUtils.isEmpty(momentsList)) {
             //找不到记录，拉取网络数据
             mPresenter.getFriendsList(authorities);
@@ -106,7 +114,7 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
 
     @Override
-    public void onGetFriendsSuccess(ResultList response) {
+    public void onGetFriendsSuccess(ResultList<Friends> response) {
 //        KLog.e(new Gson().toJson(response));
         if (ListUtils.isEmpty(response.getList())) {
             //获取不到数据,显示空布局
