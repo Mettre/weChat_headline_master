@@ -238,7 +238,7 @@ public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter
 
     @Override
     public void onClickAddNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, ArrayList<String> models) {
-
+        choicePhotoWrapper();
     }
 
     @Override
