@@ -5,6 +5,7 @@ import android.view.animation.Animation;
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.chaychan.news.R;
+import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.event.TabRefreshCompletedEvent;
 import com.chaychan.news.ui.adapter.MainTabAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
@@ -14,6 +15,7 @@ import com.chaychan.news.ui.fragment.FriendFragment;
 import com.chaychan.news.ui.fragment.MomentsFragment;
 import com.chaychan.news.ui.fragment.MineFragment;
 import com.chaychan.uikit.NoScrollViewPager;
+import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -65,6 +67,28 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MineFragment());
     }
 
+    /**
+     * start other BrotherFragment
+     */
+    @Subscribe
+    public void startBrother(StartBrotherEvent event) {
+        KLog.i("EventBus接受");
+        if (event.EventType == StartBrotherEvent.RECOMMENDEDUSER) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        RecommendedUsersActivity.startActivity(MainActivity.this);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }
+    }
+
     @Override
     public void initListener() {
         mTabAdapter = new MainTabAdapter(mFragments, getSupportFragmentManager());
@@ -89,10 +113,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setStatusBarColor(int position) {
-        if (position == 1||position == 0){
+        if (position == 1 || position == 0) {
             //如果是我的页面，状态栏设置为透明状态栏
-            Eyes.translucentStatusBar(MainActivity.this,true);
-        }else{
+            Eyes.translucentStatusBar(MainActivity.this, true);
+        } else {
             Eyes.setStatusBarColor(MainActivity.this, com.chaychan.news.utils.UIUtils.getColor(mStatusColors[position]));
         }
     }

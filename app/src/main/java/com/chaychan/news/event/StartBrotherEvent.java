@@ -15,6 +15,8 @@ public class StartBrotherEvent {
 
     public final static int RELEASEMOMENTS = 1005;//发完说说后刷新朋友圈
 
+    public final static int RECOMMENDEDUSER = 1006;//首次登陆推荐用户
+
     public UserInfo userBean;
     public int EventType;
 

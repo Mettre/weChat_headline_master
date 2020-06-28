@@ -8,6 +8,7 @@ import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
+import com.chaychan.news.model.entity.RecommendesBean;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
@@ -235,6 +236,12 @@ public interface ApiService2 {
     @POST("/module-friend/follow/loginEd/cancelFollow")
     Observable<ResultResponse<Object>> cancelFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
 
+    /**
+     * 推荐用户
+     */
+    @Headers({"urlName:account"})
+    @POST("/module-friend/follow/loginEd/recommendedRequest")
+    Observable<ResultResponse<ResultList<RecommendesBean>>> recommendedRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
 
 
     /**

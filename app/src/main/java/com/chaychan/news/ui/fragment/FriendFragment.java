@@ -13,7 +13,9 @@ import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.DataBean;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.ResultList;
+import com.chaychan.news.ui.activity.MainActivity;
 import com.chaychan.news.ui.activity.MomentsActivity;
+import com.chaychan.news.ui.activity.RecommendedUsersActivity;
 import com.chaychan.news.ui.adapter.FriendAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.FriendsPresenter;
@@ -36,7 +38,7 @@ import flyn.Eyes;
 /**
  * 我的好友
  */
-public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<Friends> {
+public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<Friends>, View.OnClickListener {
 
     private FriendAdapter friendAdapter;
 
@@ -54,6 +56,9 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
+
+    @Bind(R.id.tuijian_btn)
+    TipView tuijian_btn;
 
     private List<DataBean> momentsList = new ArrayList<>();
     private String authorities = MyApp.getInstances().getToken();
@@ -101,7 +106,7 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void initListener() {
-
+        tuijian_btn.setOnClickListener(this);
     }
 
     @Override
@@ -170,4 +175,12 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
         unregisterEventBus(FriendFragment.this);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tuijian_btn:
+                RecommendedUsersActivity.startActivity(mActivity);
+                break;
+        }
+    }
 }

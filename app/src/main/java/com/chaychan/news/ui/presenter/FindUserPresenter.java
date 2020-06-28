@@ -3,6 +3,8 @@ package com.chaychan.news.ui.presenter;
 import com.chaychan.news.api.SubscriberCallBack;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.FindUserBean;
+import com.chaychan.news.model.entity.FollowBean;
+import com.chaychan.news.model.entity.RecommendesBean;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BasePresenter;
@@ -27,6 +29,28 @@ public class FindUserPresenter extends BasePresenter<FindUserListener> {
             @Override
             protected void onSuccess(ResultList<FindUserBean> response) {
                 mView.onGetRefreshListSuccess(response);
+
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+        });
+    }
+
+    /**
+     * 推荐用户
+     */
+    public void recommendedRequest() {
+
+        String authorities = MyApp.getInstances().getToken();
+        HashMap<String, String> map = new HashMap<String, String>();
+        addSubscription(mApiService2.recommendedRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultList<RecommendesBean>>() {
+
+            @Override
+            protected void onSuccess(ResultList<RecommendesBean> response) {
+                mView.cancelFollowSuccess();
 
             }
 

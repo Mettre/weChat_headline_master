@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/icon_head"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignBottom="@+id/back_line"
+                android:layout_marginRight="@dimen/eightMargin"
+                android:src="@mipmap/my_avatar" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/icon_head"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="ChayChan"
+                android:textColor="@color/jet"
+                android:textSize="@dimen/SmallSmallNormal" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/allow_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_bg_red"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="3dp"
+        android:text="点击关注"
+        android:textColor="@color/white" />
+</LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.enum_.SmsTypeEnum;
+import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BaseActivity;
@@ -20,6 +21,8 @@ import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.ISendRequestListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -120,6 +123,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     public void onRequestFirstSuccess(LoginBean response) {
 
         ToastUtils.showShortToast("注册成功", 200);
+        EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.RECOMMENDEDUSER));
         finish();
     }
 
