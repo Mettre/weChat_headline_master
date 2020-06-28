@@ -55,7 +55,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * 个人信息编写
  */
 
-public class InformationActivity extends BaseActivity<FilePresster> implements View.OnClickListener, EasyPermissions.PermissionCallbacks, IRequestListener<ResultResponse> {
+public class InformationActivity extends BaseActivity<FilePresster> implements View.OnClickListener, EasyPermissions.PermissionCallbacks, IRequestListener<Object> {
 
     public static final String IMAGE_FILE_NAME = "clip_temp.jpg";
     private final int RC_SETTINGS_SCREEN = 126;
@@ -533,7 +533,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
     }
 
     @Override
-    public void onRequestFirstSuccess(ResultResponse response) {
+    public void onRequestFirstSuccess(Object response) {
         if (fileList != null && fileList.size() > 0) {
             fileList.clear();
         }

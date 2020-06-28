@@ -7,16 +7,15 @@ package com.chaychan.news.model.response;
  */
 public class ResultResponse<T> {
 
-    public String has_more;
-    public String message;
-    public Boolean success;
-    public String code;
-    public T data;
+    public Long timestamp;
+    public String msg;
+    public int code;
+    public T result;
 
-    public ResultResponse(String more, String _message, T result,String code) {
-        has_more = more;
-        message = _message;
-        data = result;
-        code = code;
+    public ResultResponse(Long timestamp, String msg, T result, int code) {
+        this.timestamp = timestamp;
+        this.msg = msg;
+        this.result = result;
+        this.code = code;
     }
 }

@@ -12,10 +12,19 @@ public class FollowBean {
 
     private int followId;
     private String followedUser;
-    private long updateTime;
+    private String updateTime;
     private String followedUserName;
     private String headAvatar;
+    private String userId;
     private boolean eachOther;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getHeadAvatar() {
         return headAvatar;
@@ -41,11 +50,11 @@ public class FollowBean {
         this.followedUser = followedUser;
     }
 
-    public long getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

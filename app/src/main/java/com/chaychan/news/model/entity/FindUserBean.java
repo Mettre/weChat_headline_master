@@ -17,7 +17,7 @@ public class FindUserBean {
     private int followId;
     private String userId;
     private String userName;
-    private long updateTime;
+    private String updateTime;
     private String headAvatar;
     private String backgroundWall;
     private String gender;
@@ -48,11 +48,11 @@ public class FindUserBean {
         this.userName = userName;
     }
 
-    public long getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -95,5 +95,4 @@ public class FindUserBean {
     public void setIsFans(boolean isFans) {
         this.isFans = isFans;
     }
-
 }

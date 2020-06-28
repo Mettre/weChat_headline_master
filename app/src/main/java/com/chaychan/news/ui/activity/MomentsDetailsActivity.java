@@ -70,6 +70,9 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
     @Bind(R.id.editText_comment)
     EditText editText;
 
+    @Bind(R.id.send_text)
+    TextView send_text;
+
     @Bind(R.id.tv_author)
     TextView mTvAuthor;
 
@@ -178,7 +181,6 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Log.i("---", "搜索操作执行");
                     if (!TextUtils.isEmpty(v.getText().toString())) {
                         mPresenter.addReplyMoments(momentsId, v.getText().toString(), replyParentId, DynamicTypeEnum.MOMENTS);
                     }
@@ -190,10 +192,18 @@ public class MomentsDetailsActivity extends BaseActivity<MomentsDetailsPresenter
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("---", "setOnClickListener");
                 editText.setHint("评论");
                 editText.setText("");
                 replyParentId = "";
+            }
+        });
+
+        send_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(editText.getText().toString())) {
+                    mPresenter.addReplyMoments(momentsId, editText.getText().toString(), replyParentId, DynamicTypeEnum.MOMENTS);
+                }
             }
         });
     }

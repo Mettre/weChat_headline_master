@@ -31,9 +31,9 @@ public class FilePresster extends BasePresenter<IRequestListener> {
             builder.addFormDataPart("file", f.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), f));
         }
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.upLoadFile("Bearer " + authorities, builder.build()), new SubscriberCallBack<LoginBean>() {
+        addSubscription(mApiService2.upLoadFile("Bearer " + authorities, builder.build()), new SubscriberCallBack<Object>() {
             @Override
-            protected void onSuccess(LoginBean response) {
+            protected void onSuccess(Object response) {
                 mView.onRequestFirstSuccess(response);
             }
 

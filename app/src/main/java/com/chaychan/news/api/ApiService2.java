@@ -14,7 +14,6 @@ import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.entity.VisitorBean;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.ResultResponse;
-import com.chaychan.news.model.response.ResultResponse2;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,7 @@ public interface ApiService2 {
      * 好友的朋友圈
      */
     @Headers({"urlName:information"})
-    @POST("/information/loginEd/circleFriendsList")
+    @POST("/module-friend/moments/loginEd/circleFriendsList")
     Observable<ResultResponse<BasePageEntity<Moments>>> circleFriendsList(
             @Header("authorities") String Authorization,
             @Body HashMap<String, Object> map);
@@ -47,14 +46,14 @@ public interface ApiService2 {
      * 个人朋友圈
      */
     @Headers({"urlName:information"})
-    @POST("/information/loginEd/findMomentsListWithPublisherUserId")
+    @POST("/module-friend/moments/loginEd/findMomentsListWithPublisherUserId")
     Observable<ResultResponse<BasePageEntity<Moments>>> PersonalMomentsList(@Header("authorities") String Authorization, @Body HashMap<String, Object> map);
 
     /**
      * 朋友圈详情
      */
     @Headers({"urlName:information"})
-    @GET("/information/loginEd/selectMomentsDetails/{momentsId}")
+    @GET("/module-friend/moments/loginEd/selectMomentsDetails/{momentsId}")
     Observable<ResultResponse<MomentsDetailsEntity>> momentsDetails(@Header("authorities") String Authorization, @Path("momentsId") String momentsId);
 
 
@@ -62,7 +61,7 @@ public interface ApiService2 {
      * 说说详情
      */
     @Headers({"urlName:information"})
-    @POST("/information/findMomentsListWithPublisherUserId")
+    @POST("/module-friend/moments/findMomentsListWithPublisherUserId")
     Observable<ResultResponse<BasePageEntity<Moments>>> MomentsDetails(@Body HashMap<String, Object> map);
 
 
@@ -93,72 +92,72 @@ public interface ApiService2 {
      * 登陆
      */
     @Headers({"urlName:information"})
-    @POST("/account/login")
+    @POST("/module-client/login")
     Observable<ResultResponse<LoginBean>> loginRequest(@Query("phone") String phone, @Query("password") String password);
 
     /**
      * 注册
      */
     @Headers({"urlName:information"})
-    @POST("/account/register")
-    Observable<ResultResponse> registerRequest(@Body HashMap<String, Object> map);
+    @POST("/module-client/register")
+    Observable<ResultResponse<LoginBean>> registerRequest(@Body HashMap<String, Object> map);
 
     /**
      * 主人删除空间访问某个人记录
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/deletePersonalVisitor")
-    Observable<ResultResponse> deleteVisitorRequest(@Header("authorities") String authorities, @Query("visitorId") Long visitorId);
+    @POST("/module-client/loginEd/deletePersonalVisitor")
+    Observable<ResultResponse<VisitorBean>> deleteVisitorRequest(@Header("authorities") String authorities, @Query("visitorId") Long visitorId);
 
 
     /**
      * 手机验证码
      */
     @Headers({"urlName:information"})
-    @POST("/account/sendMessage")
-    Observable<ResultResponse> sendMessageRequest(@Body HashMap<String, Object> map);
+    @POST("/module-client/sendMessage")
+    Observable<ResultResponse<LoginBean>> sendMessageRequest(@Body HashMap<String, Object> map);
 
     /**
      * 忘记密码
      */
     @Headers({"urlName:information"})
-    @POST("/account/forgetPassword")
-    Observable<ResultResponse> forgetPasswordRequest(@Body HashMap<String, Object> map);
+    @POST("/module-client/forgetPassword")
+    Observable<ResultResponse<Object>> forgetPasswordRequest(@Body HashMap<String, Object> map);
 
     /**
      * 修改个人信息
      */
     @Headers({"urlName:information"})
-    @POST("/account/loginEd/modifyUserInfo")
-    Observable<ResultResponse> modifyUserInfoRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+    @POST("/module-client/loginEd/modifyUserInfo")
+    Observable<ResultResponse<Object>> modifyUserInfoRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
     /**
      * 修改密码
      */
     @Headers({"urlName:information"})
-    @POST("/account/loginEd/modifyPassword")
-    Observable<ResultResponse> modifyPasswordRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+    @POST("/module-client/loginEd/modifyPassword")
+    Observable<ResultResponse<Object>> modifyPasswordRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
 
     /**
      * 获取用户信息
      */
     @Headers({"urlName:information"})
-    @GET("/account/loginEd/getUserInfo")
+    @GET("/module-client/loginEd/getUserInfo")
     Observable<ResultResponse<UserInfo>> getUserInfo(@Header("authorities") String authorities);
 
     /**
      * 用户反馈
      */
     @Headers({"urlName:usually"})
-    @POST("/usually/loginEd/addFeedback")
-    Observable<ResultResponse> FeedbackRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+    @POST("/module-friend/loginEd/addFeedback")
+    Observable<ResultResponse<Object>> FeedbackRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
 
     /**
      * 用户反馈列表
      */
     @Headers({"urlName:usually"})
-    @POST("/usually/loginEd/FeedbackPageVo")
+    @POST("/module-friend/loginEd/FeedbackPageVo")
     Observable<ResultResponse<BasePageEntity<FeedbackBean>>> findFeedbackListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
 
@@ -166,7 +165,7 @@ public interface ApiService2 {
      * 我的访客记录
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/myVisitorList")
+    @POST("/module-friend/visitor/loginEd/myVisitorList")
     Observable<ResultResponse<BasePageEntity<VisitorBean>>> RefreshVisitorListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
 
@@ -174,7 +173,7 @@ public interface ApiService2 {
      * 我的关注
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/myFollowList")
+    @POST("/module-friend/follow/loginEd/myFollowList")
     Observable<ResultResponse<BasePageEntity<FollowBean>>> RefreshFollowListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
 
@@ -182,21 +181,21 @@ public interface ApiService2 {
      * 我的粉丝
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/myFansList")
+    @POST("/module-friend/follow/loginEd/myFansList")
     Observable<ResultResponse<BasePageEntity<FollowBean>>> RefreshFansListRequest(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
     /**
      * 新增评论
      */
     @Headers({"urlName:information"})
-    @POST("/information/loginEd/addReply")
-    Observable<ResultResponse> addReply(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+    @POST("/module-friend/loginEd/addReply")
+    Observable<ResultResponse<MomentsDetailsEntity>> addReply(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
     /**
      * 删除评论
      */
     @Headers({"urlName:information"})
-    @GET("/information/loginEd/deleteReplyFromUser{replyId}")
+    @GET("/module-friend/loginEd/deleteReplyFromUser{replyId}")
     Observable<ResultResponse<MomentsDetailsEntity>> deleteReplyMoments(@Header("authorities") String Authorization, @Path("replyId") String replyId);
 
 
@@ -204,21 +203,21 @@ public interface ApiService2 {
      * 发布说说
      */
     @Headers({"urlName:information"})
-    @POST("/information/loginEd/addMoments")
-    Observable<ResultResponse> releaseMoments(@Header("authorities") String Authorization, @Body HashMap<String, Object> map);
+    @POST("/module-friend/moments/loginEd/addMoments")
+    Observable<ResultResponse<Object>> releaseMoments(@Header("authorities") String Authorization, @Body HashMap<String, Object> map);
 
     /**
      * 好友列表
      */
     @Headers({"urlName:account"})
-    @GET("/account/loginEd/myFriendsList")
-    Observable<ResultResponse<ResultList<Friends>>> FriendsList(@Header("authorities") String authorities);
+    @GET("/module-friend/follow/loginEd/myFriendsList")
+    Observable<ResultResponse<Friends>> FriendsList(@Header("authorities") String authorities);
 
     /**
      * 查找用户
      */
     @Headers({"urlName:account"})
-    @GET("/account/loginEd/findUserList")
+    @GET("/module-friend/follow/loginEd/findUserList")
     Observable<ResultResponse<ResultList<FindUserBean>>> findUserListRequest(@Header("authorities") String authorities, @Query("findUserId") String findUserId);
 
 
@@ -226,15 +225,15 @@ public interface ApiService2 {
      * 添加关注
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/addFollow")
-    Observable<ResultResponse> addFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+    @POST("/module-friend/follow/loginEd/addFollow")
+    Observable<ResultResponse<Object>> addFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
 
     /**
      * 取消关注
      */
     @Headers({"urlName:account"})
-    @POST("/account/loginEd/cancelFollow")
-    Observable<ResultResponse> cancelFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+    @POST("/module-friend/follow/loginEd/cancelFollow")
+    Observable<ResultResponse<Object>> cancelFollowRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
 
 
 
@@ -245,8 +244,8 @@ public interface ApiService2 {
      * @return
      */
     @Headers({"urlName:information"})
-    @POST("/usually/qiniu/upload")
-    Observable<ResultResponse> upLoadFile(
+    @POST("/module-friend/qiniu/upload")
+    Observable<ResultResponse<Object>> upLoadFile(
             @Header("authorities") String Authorization,
             @Body RequestBody Body);
 

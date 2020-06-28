@@ -2,7 +2,6 @@ package com.chaychan.news.ui.presenter;
 
 import com.chaychan.news.api.SubscriberCallBack;
 import com.chaychan.news.model.entity.Friends;
-import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.view.IFriendsListener;
 
@@ -18,10 +17,10 @@ public class FriendsPresenter extends BasePresenter<IFriendsListener> {
      */
     public void getFriendsList(String authorities) {
 
-        addSubscription(mApiService2.FriendsList("Bearer " + authorities), new SubscriberCallBack<ResultList<Friends>>() {
+        addSubscription(mApiService2.FriendsList("Bearer " + authorities), new SubscriberCallBack<Friends>() {
 
             @Override
-            protected void onSuccess(ResultList<Friends> response) {
+            protected void onSuccess(Friends response) {
                 mView.onGetFriendsSuccess(response);
             }
 

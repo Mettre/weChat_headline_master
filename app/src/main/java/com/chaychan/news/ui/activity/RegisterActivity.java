@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.enum_.SmsTypeEnum;
+import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.RegisterPresenter;
@@ -21,6 +22,7 @@ import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.ISendRequestListener;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import flyn.Eyes;
 
 /**
@@ -28,7 +30,7 @@ import flyn.Eyes;
  * 注册
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements View.OnClickListener, ISendRequestListener<ResultResponse> {
+public class RegisterActivity extends BaseActivity<RegisterPresenter> implements View.OnClickListener, ISendRequestListener<LoginBean> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -97,6 +99,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         }
     }
 
+    @OnClick(R.id.iv_back)
+    public void onViewClicked() {
+        finish();
+    }
+
+
     @Override
     protected RegisterPresenter createPresenter() {
         return new RegisterPresenter(this);
@@ -109,13 +117,16 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
-    public void onRequestFirstSuccess(ResultResponse response) {
+    public void onRequestFirstSuccess(LoginBean response) {
+
         ToastUtils.showShortToast("注册成功", 200);
+        finish();
     }
 
+
     @Override
-    public void onRequestSecondSuccess(ResultResponse response) {
-        ToastUtils.showShortToast("验证码已发送到手机，请注意查收", 200);
+    public void onRequestSecondSuccess(LoginBean response) {
+        ToastUtils.showShortToast("验证码( " + response.getMessage() + " )", 200);
         CountdownControl.changeBtnGetCode(verificationCode, this);
 
     }

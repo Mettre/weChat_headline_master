@@ -19,6 +19,7 @@ import com.chaychan.news.R;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FindUserBean;
 import com.chaychan.news.model.entity.FollowBean;
+import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.adapter.FindUserAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.FindUserPresenter;
@@ -42,7 +43,7 @@ import flyn.Eyes;
 /**
  * 查找好友
  */
-public class FindUserActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<FindUserBean>, FindUserAdapter.FollowListener {
+public class FindUserActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<ResultList<FindUserBean>>, FindUserAdapter.FollowListener {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -162,8 +163,8 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
 
 
     @Override
-    public void onGetRefreshListSuccess(List<FindUserBean> response) {
-        if (ListUtils.isEmpty(response)) {
+    public void onGetRefreshListSuccess(ResultList<FindUserBean> response) {
+        if (ListUtils.isEmpty(response.getData())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
@@ -171,14 +172,12 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
         mStateView.showContent();//显示内容
 
         visitorBeanList.clear();
-        visitorBeanList.addAll(response);
+        visitorBeanList.addAll(response.getData());
         findUserAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onError() {
-        mTipView.show();//弹出提示
-
         if (ListUtils.isEmpty(visitorBeanList)) {
             //如果一开始进入没有数据
             mStateView.showRetry();//显示重试的布局

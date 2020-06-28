@@ -39,10 +39,10 @@ public class ReleaseMomentsPresenter extends BasePresenter<MomentsReleaseListene
             map.put("momentsImage", releaseMoments.getMomentsImage());
         }
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.releaseMoments("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.releaseMoments("Bearer " + authorities, map), new SubscriberCallBack<Object>() {
 
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
 
                 mView.onReleaseSuccess(response);
             }

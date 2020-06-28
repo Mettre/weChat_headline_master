@@ -28,7 +28,7 @@ import static com.chaychan.news.utils.LoginUtils.isMobileNO;
  * Created by app on 2017/7/26.
  * 忘记密码
  */
-public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<ResultResponse> {
+public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<Object> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -104,15 +104,16 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     }
 
     @Override
-    public void onRequestFirstSuccess(ResultResponse response) {
+    public void onRequestFirstSuccess(Object response) {
         ToastUtils.showShortToast("密码修改成功", 200);
     }
 
     @Override
-    public void onRequestSecondSuccess(ResultResponse response) {
+    public void onRequestSecondSuccess(Object response) {
         ToastUtils.showShortToast("验证码已发送到手机，请注意查收", 200);
         CountdownControl.changeBtnGetCode(verificationCode, this);
     }
+
 
     @Override
     public void onError() {

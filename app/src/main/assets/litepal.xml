@@ -9,6 +9,6 @@
         <mapping class="com.chaychan.news.model.entity.MomentsRecord"></mapping>
         <mapping class="com.chaychan.news.model.entity.PersonalMomentsRecord"></mapping>
         <mapping class="com.chaychan.news.model.entity.MomentsDetailsEntity"></mapping>
-        <mapping class="com.chaychan.news.model.entity.Friends"></mapping>
+        <mapping class="com.chaychan.news.model.entity.DataBean"></mapping>
     </list>
 </litepal>

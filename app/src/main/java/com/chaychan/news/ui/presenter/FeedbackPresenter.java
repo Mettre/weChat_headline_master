@@ -32,9 +32,9 @@ public class FeedbackPresenter extends BasePresenter<IRequestListener> {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("content", content);
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.FeedbackRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.FeedbackRequest("Bearer " + authorities, map), new SubscriberCallBack<Object>() {
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
                 mView.onRequestFirstSuccess(response);
             }
 

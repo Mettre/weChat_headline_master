@@ -34,8 +34,8 @@ public class UserInfo implements Serializable {
     private String city;
     private int age;
     private String backgroundWall;
-    private long creationTime;
-    private long updateTime;
+    private String creationTime;
+    private String updateTime;
     private String e_mall;
 
     public GenderEnum getGender() {
@@ -126,19 +126,19 @@ public class UserInfo implements Serializable {
         this.backgroundWall = backgroundWall;
     }
 
-    public long getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(long creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 
-    public long getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }

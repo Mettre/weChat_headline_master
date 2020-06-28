@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
-import com.chaychan.news.constants.Constant;
 import com.chaychan.news.enum_.MomentsEnum;
 import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.BasePageEntity;
@@ -120,6 +119,11 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
 //            getInformation();
         } else if (event.EventType == StartBrotherEvent.RELEASEMOMENTS) {
             mRefreshLayout.beginRefreshing();
+        } else if (event.EventType == StartBrotherEvent.REFRESHTAGE) {
+            mRefreshLayout.beginRefreshing();
+        } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
+            momentsList.clear();
+            mCommentAdapter.notifyDataSetChanged();
         }
     }
 
@@ -162,7 +166,7 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mCommentAdapter.setEnableLoadMore(false);
         mCommentAdapter.setOnLoadMoreListener(this, mRvComment);
 
-        mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
+//        mCommentAdapter.setEmptyView(R.layout.pager_no_comment);
 //        mCommentAdapter.setHeaderAndEmpty(true);
 
         iv_detail.setOnClickListener(new View.OnClickListener() {
@@ -212,17 +216,11 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
         mRefreshLayout.endRefreshing();// 加载完毕后在 UI 线程结束下拉刷新
         mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
 
-
-        if (ListUtils.isEmpty(response.getRecords())) {
-            //获取不到数据,显示空布局
-            mStateView.showEmpty();
-            return;
-        }
         mStateView.showContent();//显示内容
 
         if (ListUtils.isEmpty(response.getRecords())) {
             //已经获取不到新闻了，处理出现获取不到新闻的情况
-            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
+//            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
         momentsList.clear();
@@ -290,5 +288,17 @@ public class MomentsFragment extends BaseFragment<MomentsListPresenter> implemen
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        registerEventBus(MomentsFragment.this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterEventBus(MomentsFragment.this);
     }
 }

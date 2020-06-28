@@ -30,7 +30,7 @@ public abstract class BasePersonalMomentsProvider extends BaseItemProvider<Momen
                 helper.setVisible(R.id.first_item_title, false);
             }
         }
-        helper.setText(R.id.tv_time, TimeUtils.getShortTime2(moments.getCreationTime()));
+        helper.setText(R.id.tv_time, (moments.getCreationTime()));
         setData(helper, moments);
     }
 

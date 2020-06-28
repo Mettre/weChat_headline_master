@@ -16,6 +16,16 @@ public class LoginBean {
     private int expires_in;
     private String userId;
 
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public String getAccess_token() {
         return access_token;
     }

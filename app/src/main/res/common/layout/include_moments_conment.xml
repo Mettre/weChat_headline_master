@@ -29,17 +29,18 @@
             android:background="@drawable/shape_moments_comment"
             android:gravity="center|left"
             android:hint="@string/write_comment"
+            android:imeOptions="actionDone"
             android:paddingLeft="@dimen/sixMargin"
             android:singleLine="true"
-            android:imeOptions="actionDone"
             android:textColor="@color/color_222222"
             android:textColorHint="@color/color_999999"
             android:textSize="@dimen/normal" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/send_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/enjoy_icon" />
+            android:text="发送" />
 
     </LinearLayout>
 </LinearLayout>

@@ -172,16 +172,8 @@ public class MomentsActivity extends BaseActivity<PersonalMomentsListPresenter> 
     public void onGetNewsListSuccess(BasePageEntity<Moments> response) {
 
         mCommentAdapter.setEnableLoadMore(response.getPages() > response.getCurrent());
-
-        if (ListUtils.isEmpty(response.getRecords())) {
-            //获取不到数据,显示空布局
-            mStateView.showEmpty();
-            return;
-        }
         mStateView.showContent();//显示内容
         if (ListUtils.isEmpty(response.getRecords())) {
-            //已经获取不到新闻了，处理出现获取不到新闻的情况
-            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
         momentsList.clear();

@@ -29,9 +29,9 @@ public class ForgetPasswordPresenter extends BasePresenter<ISendRequestListener>
         map.put("phone", phone);
         map.put("password", password);
         map.put("captchaCode", captchaCode);
-        addSubscription(mApiService2.forgetPasswordRequest(map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.forgetPasswordRequest(map), new SubscriberCallBack<Object>() {
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
                 mView.onRequestFirstSuccess(response);
             }
 
@@ -54,9 +54,9 @@ public class ForgetPasswordPresenter extends BasePresenter<ISendRequestListener>
         map.put("newPassword", newPassword);
         map.put("oldPassword", oldPassword);
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.modifyPasswordRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.modifyPasswordRequest("Bearer " + authorities, map), new SubscriberCallBack<Object>() {
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
                 mView.onRequestFirstSuccess(response);
             }
 
@@ -77,7 +77,7 @@ public class ForgetPasswordPresenter extends BasePresenter<ISendRequestListener>
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("phone", phone);
-        map.put("captchaCode", smsTypeEnum.getCode());
+        map.put("captchaCode", smsTypeEnum.name());
         addSubscription(mApiService2.sendMessageRequest(map), new SubscriberCallBack<LoginBean>() {
             @Override
             protected void onSuccess(LoginBean response) {

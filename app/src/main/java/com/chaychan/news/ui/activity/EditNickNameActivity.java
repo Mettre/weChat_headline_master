@@ -33,7 +33,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by app on 2017/10/20.
  * 修改信息
  */
-public class EditNickNameActivity extends BaseActivity<EditInformationPresenter> implements View.OnClickListener, EasyPermissions.PermissionCallbacks, IRequestListener<ResultResponse> {
+public class EditNickNameActivity extends BaseActivity<EditInformationPresenter> implements View.OnClickListener, EasyPermissions.PermissionCallbacks, IRequestListener<Object> {
 
     public final static int NICKNAME = 1;
     public final static int SEX = 2;
@@ -241,7 +241,7 @@ public class EditNickNameActivity extends BaseActivity<EditInformationPresenter>
     }
 
     @Override
-    public void onRequestFirstSuccess(ResultResponse response) {
+    public void onRequestFirstSuccess(Object response) {
         if (type == SEX) {
             Intent intent = new Intent();
             switch (radioGroup.getCheckedRadioButtonId()) {

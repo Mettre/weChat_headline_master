@@ -1,6 +1,6 @@
 package com.chaychan.news.utils;
 
-import com.chaychan.news.model.entity.Friends;
+import com.chaychan.news.model.entity.DataBean;
 
 import org.litepal.crud.DataSupport;
 
@@ -8,15 +8,15 @@ import java.util.List;
 
 public class FriendsRecordHelper {
 
-    public static List<Friends> selectFriendsRecords(String myUserId) {
+    public static List<DataBean> selectFriendsRecords(String myUserId) {
         return DataSupport
                 .where("myUserId = ?", myUserId)
-                .find(Friends.class);
+                .find(DataBean.class);
     }
 
-    public static void save(List<Friends> friendsList) {
+    public static void save(List<DataBean> friendsList) {
         //保存新的记录
-        for (Friends friends : friendsList) {
+        for (DataBean friends : friendsList) {
             friends.saveOrUpdate("myUserId = ?", friends.getMyUserId());
         }
     }

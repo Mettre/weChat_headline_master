@@ -97,7 +97,7 @@ public class FansFragment extends BaseFragment<FollowPresenter> implements Follo
         followAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                MomentsActivity.startActivity(followBeanList.get(i).getFollowedUser(), mActivity, null);
+                MomentsActivity.startActivity(followBeanList.get(i).getUserId(), mActivity, null);
             }
         });
 

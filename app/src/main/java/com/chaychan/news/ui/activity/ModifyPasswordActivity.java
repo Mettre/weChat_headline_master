@@ -20,7 +20,7 @@ import butterknife.Bind;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import flyn.Eyes;
 
-public class ModifyPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<ResultResponse> {
+public class ModifyPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<Object> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -83,7 +83,7 @@ public class ModifyPasswordActivity extends BaseActivity<ForgetPasswordPresenter
 
 
     @Override
-    public void onRequestFirstSuccess(ResultResponse response) {
+    public void onRequestFirstSuccess(Object response) {
         new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("")
                 .setContentText("密码修改成功")
@@ -92,7 +92,7 @@ public class ModifyPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     }
 
     @Override
-    public void onRequestSecondSuccess(ResultResponse response) {
+    public void onRequestSecondSuccess(Object response) {
 
     }
 

@@ -19,7 +19,7 @@ public abstract class BaseMomentsItemProvider extends BaseItemProvider<Moments, 
     public void convert(BaseViewHolder helper, Moments moments, int i) {
         GlideUtils.load(mContext, moments.getUserBean().getPublisherHeadAvatar(), helper.getView(R.id.icon_head));
         helper.setText(R.id.user_name, moments.getUserBean().getPublisherUserName())
-                .setText(R.id.tv_time, TimeUtils.getShortTime(moments.getCreationTime()));
+                .setText(R.id.tv_time, moments.getCreationTime());
 
 
         helper.setOnClickListener(R.id.icon_head, new View.OnClickListener() {

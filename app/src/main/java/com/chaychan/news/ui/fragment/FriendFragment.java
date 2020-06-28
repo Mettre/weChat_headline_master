@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
+import com.chaychan.news.event.StartBrotherEvent;
+import com.chaychan.news.model.entity.DataBean;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.activity.MomentsActivity;
@@ -21,6 +23,9 @@ import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.IFriendsListener;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
+import com.socks.library.KLog;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +36,7 @@ import flyn.Eyes;
 /**
  * 我的好友
  */
-public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<ResultList<Friends>> {
+public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<Friends> {
 
     private FriendAdapter friendAdapter;
 
@@ -50,7 +55,7 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
 
-    private List<Friends> momentsList = new ArrayList<>();
+    private List<DataBean> momentsList = new ArrayList<>();
     private String authorities = MyApp.getInstances().getToken();
 
     @Override
@@ -74,6 +79,20 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
         mTvAuthor.setText("好友列表");
         Eyes.setStatusBarColor(mActivity, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
+    }
+
+    /**
+     * start other BrotherFragment
+     */
+    @Subscribe
+    public void startBrother(StartBrotherEvent event) {
+        KLog.i("EventBus接受");
+        if (event.EventType == StartBrotherEvent.REFRESHTAGE) {
+            mPresenter.getFriendsList(authorities);
+        } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
+            momentsList.clear();
+            friendAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -114,16 +133,16 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
 
     @Override
-    public void onGetFriendsSuccess(ResultList<Friends> response) {
+    public void onGetFriendsSuccess(Friends response) {
 //        KLog.e(new Gson().toJson(response));
-        if (ListUtils.isEmpty(response.getList())) {
+        if (ListUtils.isEmpty(response.getData())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
             return;
         }
         mStateView.showContent();//显示内容
         momentsList.clear();
-        momentsList.addAll(response.getList());
+        momentsList.addAll(response.getData());
         friendAdapter.notifyDataSetChanged();
         //保存到数据库
         FriendsRecordHelper.save(momentsList);
@@ -138,4 +157,17 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
             mStateView.showRetry();//显示重试的布局
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        registerEventBus(FriendFragment.this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterEventBus(FriendFragment.this);
+    }
+
 }

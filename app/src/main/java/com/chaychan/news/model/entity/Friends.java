@@ -1,69 +1,18 @@
 package com.chaychan.news.model.entity;
 
-import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
-public class Friends extends DataSupport implements Serializable {
+public class Friends implements Serializable {
 
-    private Long followId;
+    public List<DataBean> data;
 
-    private String myUserId;
-
-    private String userId;
-
-    private String userName;
-
-    private String headAvatar;
-
-    private Long updateTime;
-
-    public String getMyUserId() {
-        return myUserId;
+    public List<DataBean> getData() {
+        return data;
     }
 
-    public void setMyUserId(String myUserId) {
-        this.myUserId = myUserId;
-    }
-
-    public Long getFollowId() {
-        return followId;
-    }
-
-    public void setFollowId(Long followId) {
-        this.followId = followId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getHeadAvatar() {
-        return headAvatar;
-    }
-
-    public void setHeadAvatar(String headAvatar) {
-        this.headAvatar = headAvatar;
-    }
-
-    public Long getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 }

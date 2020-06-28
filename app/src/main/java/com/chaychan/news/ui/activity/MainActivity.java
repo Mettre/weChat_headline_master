@@ -6,19 +6,15 @@ import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.chaychan.news.R;
 import com.chaychan.news.model.event.TabRefreshCompletedEvent;
-import com.chaychan.news.model.event.TabRefreshEvent;
 import com.chaychan.news.ui.adapter.MainTabAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.ui.fragment.FriendFragment;
-import com.chaychan.news.ui.fragment.HomeFragment;
 import com.chaychan.news.ui.fragment.MomentsFragment;
 import com.chaychan.news.ui.fragment.MineFragment;
-import com.chaychan.news.ui.fragment.VideoFragment;
 import com.chaychan.uikit.NoScrollViewPager;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -63,9 +59,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mFragments = new ArrayList<>(5);
-        mFragments.add(new HomeFragment());
-        mFragments.add(new VideoFragment());
+        mFragments = new ArrayList<>(3);
         mFragments.add(new FriendFragment());
         mFragments.add(new MomentsFragment());
         mFragments.add(new MineFragment());
@@ -85,24 +79,9 @@ public class MainActivity extends BaseActivity {
 
                 JCVideoPlayer.releaseAllVideos();//底部页签切换或者是下拉刷新，释放资源
 
-                if (position == 0 || position == 1) {
-                    //如果点击的是首页
-                    if (mBottomBarLayout.getCurrentItem() == position) {
-                        //如果当前页码和点击的页码一致,进行下拉刷新
-                        String channelCode = "";
-                        if (position == 0) {
-                            channelCode = ((HomeFragment) mFragments.get(0)).getCurrentChannelCode();//获取到首页当前显示的fragment的频道
-                        } else {
-                            channelCode = ((VideoFragment) mFragments.get(1)).getCurrentChannelCode();//获取到视频当前显示的fragment的频道
-                        }
-                        postTabRefreshEvent(bottomBarItem, position, channelCode);//发送下拉刷新的事件
-                    }
-                    return;
-                }
-
                 //如果点击了其他条目
                 BottomBarItem bottomItem = mBottomBarLayout.getBottomItem(0);
-                bottomItem.setIconSelectedResourceId(R.mipmap.tab_home_selected);//更换为原来的图标
+                bottomItem.setIconSelectedResourceId(R.mipmap.tab_micro_selected);//更换为原来的图标
 
                 cancelTabLoading(bottomItem);//停止旋转动画
             }
@@ -110,20 +89,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setStatusBarColor(int position) {
-        if (position == 4||position == 3){
+        if (position == 1||position == 0){
             //如果是我的页面，状态栏设置为透明状态栏
             Eyes.translucentStatusBar(MainActivity.this,true);
         }else{
             Eyes.setStatusBarColor(MainActivity.this, com.chaychan.news.utils.UIUtils.getColor(mStatusColors[position]));
         }
-    }
-
-    private void postTabRefreshEvent(BottomBarItem bottomBarItem, int position, String channelCode) {
-        TabRefreshEvent event = new TabRefreshEvent();
-        event.setChannelCode(channelCode);
-        event.setBottomBarItem(bottomBarItem);
-        event.setHomeTab(position == 0);
-        EventBus.getDefault().post(event);//发送下拉刷新事件
     }
 
     /**
@@ -143,7 +114,7 @@ public class MainActivity extends BaseActivity {
 
         cancelTabLoading(bottomItem);//停止旋转动画
 
-        bottomItem.setIconSelectedResourceId(R.mipmap.tab_home_selected);//更换成首页原来图标
+        bottomItem.setIconSelectedResourceId(R.mipmap.tab_micro_selected);//更换成首页原来图标
         bottomItem.setStatus(true);//刷新图标
     }
 

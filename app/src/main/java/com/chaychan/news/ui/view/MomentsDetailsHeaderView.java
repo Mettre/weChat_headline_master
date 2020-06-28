@@ -59,7 +59,7 @@ public class MomentsDetailsHeaderView extends FrameLayout {
     public void setDetail(Moments moments) {
         userName.setText(moments.getUserBean().getPublisherUserName());
         momentsWord.setText(moments.getMomentsTitle());
-        tvTime.setText(TimeUtils.getShortTime(moments.getCreationTime()));
+        tvTime.setText(moments.getCreationTime());
         GlideUtils.load(mContext, moments.getUserBean().getPublisherHeadAvatar(), iconHeader);
         iconHeader.setOnClickListener(new View.OnClickListener() {
             @Override

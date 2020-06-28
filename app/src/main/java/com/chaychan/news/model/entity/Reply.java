@@ -12,7 +12,7 @@ public class Reply {
 
     private String replyContent;
 
-    private Long creationTime;
+    private String creationTime;
 
     private String replyParentUserName;//被回复人的昵称
 
@@ -78,11 +78,11 @@ public class Reply {
         this.replyContent = replyContent;
     }
 
-    public Long getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Long creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 

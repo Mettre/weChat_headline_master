@@ -46,10 +46,10 @@ public class VisitorListPresenter extends BasePresenter<VisitorListListener> {
      */
     public void deleteVisitor(long visitorId, int position) {
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.deleteVisitorRequest("Bearer " + authorities, visitorId), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.deleteVisitorRequest("Bearer " + authorities, visitorId), new SubscriberCallBack<VisitorBean>() {
 
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(VisitorBean response) {
                 mView.onDeleteSuccess(position);
             }
 

@@ -19,8 +19,8 @@ public class FeedbackBean {
 
     private int feedbackId;
     private String userId;
-    private long creationTime;
-    private long updateTime;
+    private String creationTime;
+    private String updateTime;
     private String content;
     private String state;
     private String userName;
@@ -43,19 +43,19 @@ public class FeedbackBean {
         this.userId = userId;
     }
 
-    public long getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(long creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 
-    public long getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

@@ -34,9 +34,9 @@ public class EditInformationPresenter extends BasePresenter<IRequestListener> {
             map.put("e_mall", e_mall);
         }
         String authorities = MyApp.getInstances().getToken();
-        addSubscription(mApiService2.modifyUserInfoRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.modifyUserInfoRequest("Bearer " + authorities, map), new SubscriberCallBack<Object>() {
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
                 mView.onRequestFirstSuccess(response);
             }
 

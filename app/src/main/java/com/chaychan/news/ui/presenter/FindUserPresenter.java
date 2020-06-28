@@ -1,20 +1,14 @@
 package com.chaychan.news.ui.presenter;
 
 import com.chaychan.news.api.SubscriberCallBack;
-import com.chaychan.news.api.SubscriberCallBack2;
 import com.chaychan.news.app.MyApp;
-import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FindUserBean;
-import com.chaychan.news.model.entity.FollowBean;
-import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.model.response.ResultResponse;
-import com.chaychan.news.model.response.ResultResponse2;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.view.FindUserListener;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class FindUserPresenter extends BasePresenter<FindUserListener> {
 
@@ -32,7 +26,7 @@ public class FindUserPresenter extends BasePresenter<FindUserListener> {
 
             @Override
             protected void onSuccess(ResultList<FindUserBean> response) {
-                mView.onGetRefreshListSuccess(response.getList());
+                mView.onGetRefreshListSuccess(response);
 
             }
 
@@ -51,10 +45,10 @@ public class FindUserPresenter extends BasePresenter<FindUserListener> {
         String authorities = MyApp.getInstances().getToken();
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("followedUser", followedUser);
-        addSubscription(mApiService2.addFollowRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.addFollowRequest("Bearer " + authorities, map), new SubscriberCallBack<Object>() {
 
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
                 mView.addFollowSuccess();
 
             }
@@ -75,10 +69,10 @@ public class FindUserPresenter extends BasePresenter<FindUserListener> {
         String authorities = MyApp.getInstances().getToken();
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("followedUser", followedUser);
-        addSubscription(mApiService2.cancelFollowRequest("Bearer " + authorities, map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.cancelFollowRequest("Bearer " + authorities, map), new SubscriberCallBack<Object>() {
 
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(Object response) {
                 mView.cancelFollowSuccess();
 
             }

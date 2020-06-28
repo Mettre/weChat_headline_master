@@ -47,7 +47,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * 发布说说
  */
-public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter> implements EasyPermissions.PermissionCallbacks, View.OnClickListener, MomentsReleaseListener<ResultResponse>, BGASortableNinePhotoLayout.Delegate {
+public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter> implements EasyPermissions.PermissionCallbacks, View.OnClickListener, MomentsReleaseListener<Object>, BGASortableNinePhotoLayout.Delegate {
 
     private static final int PRC_PHOTO_PICKER = 1;
 
@@ -188,6 +188,7 @@ public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter
                             List<File> fileList = CompressImageUtils.CompressImage(mPhotosSnpl.getData(), ReleaseMomentsActivity.this);
                             mPresenter.uploadFileRequest(fileList);
                         } else {
+                            releaseMoments.setMomentsType(MomentsEnum.PURE_TEXT);
                             mPresenter.releaseMoments(releaseMoments);
                         }
                         break;
@@ -211,7 +212,7 @@ public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter
 
 
     @Override
-    public void onReleaseSuccess(ResultResponse response) {
+    public void onReleaseSuccess(Object response) {
         EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.RELEASEMOMENTS));
         new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("")
@@ -226,8 +227,9 @@ public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter
                 .show();
     }
 
+
     @Override
-    public void onUpFileSuccess(ResultResponse response) {
+    public void onUpFileSuccess(Object response) {
         releaseMoments.setMomentsImage(faceBackContent);
     }
 

@@ -21,9 +21,9 @@ public class RegisterPresenter extends BasePresenter<ISendRequestListener> {
         map.put("phone", phone);
         map.put("password", password);
         map.put("captchaCode", captchaCode);
-        addSubscription(mApiService2.registerRequest(map), new SubscriberCallBack<ResultResponse>() {
+        addSubscription(mApiService2.registerRequest(map), new SubscriberCallBack<LoginBean>() {
             @Override
-            protected void onSuccess(ResultResponse response) {
+            protected void onSuccess(LoginBean response) {
                 mView.onRequestFirstSuccess(response);
             }
 
@@ -37,8 +37,8 @@ public class RegisterPresenter extends BasePresenter<ISendRequestListener> {
     public void verificationRequest(String phone,SmsTypeEnum smsTypeEnum) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("phone", phone);
-        map.put("captchaCode", smsTypeEnum.getCode());
+        map.put("smsPhone", phone);
+        map.put("smsType", smsTypeEnum.name());
         addSubscription(mApiService2.sendMessageRequest(map), new SubscriberCallBack<LoginBean>() {
             @Override
             protected void onSuccess(LoginBean response) {

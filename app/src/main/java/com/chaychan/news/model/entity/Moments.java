@@ -19,17 +19,17 @@ public class Moments extends DataSupport implements Serializable {
 
     private String momentsId;
     private String momentsTitle;
-    private long creationTime;
+    private String creationTime;
     private String momentsImage;
-    private long date;//日期  2019-12-12
+    private String date;//日期  2019-12-12
     private UserBean userBean;
     private MomentsEnum momentsType;
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -49,11 +49,11 @@ public class Moments extends DataSupport implements Serializable {
         this.momentsTitle = momentsTitle;
     }
 
-    public long getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(long creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 

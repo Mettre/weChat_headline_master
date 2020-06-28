@@ -39,5 +39,5 @@ public class Comment {
     public int digg_count;
     public String user_name;
     public String user_profile_image_url;
-    public long create_time;
+    public String create_time;
 }
