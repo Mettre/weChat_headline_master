@@ -1,5 +1,6 @@
 package com.chaychan.news.api;
 
+import com.chaychan.news.model.entity.AccountClassification;
 import com.chaychan.news.model.entity.AccountList;
 import com.chaychan.news.model.entity.AccountStatistics;
 import com.chaychan.news.model.entity.BasePageEntity;
@@ -259,6 +260,14 @@ public interface ApiService2 {
     @Headers({"urlName:information"})
     @GET("/module-client/account/loginEd/statistics")
     Observable<ResultResponse<AccountStatistics>> getStatistics(@Header("authorities") String authorities);
+
+    /**
+     * 推荐用户
+     */
+    @Headers({"urlName:information"})
+    @GET("/module-client/accountClassification/add")
+    Observable<ResultResponse<ResultList<AccountClassification>>> accountClassification();
+
 
     /**
      * 上传文件

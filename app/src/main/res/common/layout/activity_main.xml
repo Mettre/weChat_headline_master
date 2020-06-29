@@ -14,7 +14,7 @@
     <com.chaychan.library.BottomBarLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:background="@color/color_F3F5F4">
 
 
@@ -25,41 +25,51 @@
             app:iconNormal="@mipmap/tab_micro_normal"
             app:iconSelected="@mipmap/tab_micro_selected"
             app:itemMarginTop="-5dp"
+            app:itemText="好友"
+            app:itemTextSize="8sp"
+            app:openTouchBg="true"
+            app:textColorNormal="@color/color_515051"
+            app:textColorSelected="@color/color_D33D3C"
+            app:touchDrawable="@drawable/selector_bottom_tab" />
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@mipmap/tab_home_normal"
+            app:iconSelected="@mipmap/tab_home_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="@string/tab_micro"
+            app:itemTextSize="8sp"
+            app:openTouchBg="true"
+            app:textColorNormal="@color/color_515051"
+            app:textColorSelected="@color/color_D33D3C"
+            app:touchDrawable="@drawable/selector_bottom_tab" />
+
+        <TextView
+            android:id="@+id/account_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/add_icon"
+            android:gravity="center"
+            android:text="记账"
+            android:textSize="10dp" />
+
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@mipmap/tab_home_normal"
+            app:iconSelected="@mipmap/tab_home_selected"
+            app:itemMarginTop="-5dp"
             app:itemText="记账本"
             app:itemTextSize="8sp"
             app:openTouchBg="true"
             app:textColorNormal="@color/color_515051"
             app:textColorSelected="@color/color_D33D3C"
             app:touchDrawable="@drawable/selector_bottom_tab" />
-
-        <com.chaychan.library.BottomBarItem
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:iconNormal="@mipmap/tab_home_normal"
-            app:iconSelected="@mipmap/tab_home_selected"
-            app:itemMarginTop="-5dp"
-            app:itemText="@string/tab_micro"
-            app:itemTextSize="8sp"
-            app:openTouchBg="true"
-            app:textColorNormal="@color/color_515051"
-            app:textColorSelected="@color/color_D33D3C"
-            app:touchDrawable="@drawable/selector_bottom_tab" />
-
-        <com.chaychan.library.BottomBarItem
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:iconNormal="@mipmap/tab_home_normal"
-            app:iconSelected="@mipmap/tab_home_selected"
-            app:itemMarginTop="-5dp"
-            app:itemText="@string/tab_micro"
-            app:itemTextSize="8sp"
-            app:openTouchBg="true"
-            app:textColorNormal="@color/color_515051"
-            app:textColorSelected="@color/color_D33D3C"
-            app:touchDrawable="@drawable/selector_bottom_tab" />
-
 
         <com.chaychan.library.BottomBarItem
             android:layout_width="0dp"

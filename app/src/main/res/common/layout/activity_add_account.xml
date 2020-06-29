@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/group_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_basics" />
+
+    <com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView
+        android:id="@+id/rv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        app:dividerColor="@color/color_d8d8d8"
+        app:dividerSize="0dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_grey_300"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="备注："
+                android:textColor="@color/oil2"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="null"
+                android:hint="点击编写备注"
+                android:padding="10dp"
+                android:textColor="@color/oil2"
+                android:textColorHint="@color/base"
+                android:textSize="@dimen/normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="0.00"
+                android:textColor="@color/oil"
+                android:textSize="22sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_BDBDBD"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_num7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="7"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="8"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="9"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_day"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="今天"
+                android:textColor="@color/oil"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_BDBDBD"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_num4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="4"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="5"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="6"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_add"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="+"
+                android:textColor="@color/oil"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_BDBDBD"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_num1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="1"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="2"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="3"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_del"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="-"
+                android:textColor="@color/oil"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_BDBDBD"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_dian"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="."
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_num0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="0"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_numx"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/md_grey_300"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="x"
+                android:textColor="@color/oil"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/complete_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0.5dp"
+                android:layout_weight="1"
+                android:background="#FADA63"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="完成"
+                android:textColor="@color/oil"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
