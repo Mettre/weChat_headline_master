@@ -38,6 +38,8 @@ public class UserInfo implements Serializable {
     private String updateTime;
     private String e_mall;
 
+
+
     public GenderEnum getGender() {
         return gender;
     }

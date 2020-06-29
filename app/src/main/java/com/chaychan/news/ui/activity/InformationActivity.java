@@ -347,6 +347,7 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
                 LoginUtils.getInstance().signOutRemoveToken();
                 EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.LOUGINOUT));
                 finish();
+                LoginActivity.startLoginActivity(InformationActivity.this, true);
                 break;
             case R.id.nickname_linearLayout:
                 EditNickNameActivity.startActivity(this, userBean, EditNickNameActivity.NICKNAME);

@@ -1,5 +1,6 @@
 package com.chaychan.news.utils;
 
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.DataBean;
 
 import org.litepal.crud.DataSupport;
@@ -9,9 +10,8 @@ import java.util.List;
 public class FriendsRecordHelper {
 
     public static List<DataBean> selectFriendsRecords(String myUserId) {
-        return DataSupport
-                .where("myUserId = ?", myUserId)
-                .find(DataBean.class);
+        String authorities = MyApp.getInstances().getToken();
+        return DataSupport.where("myUserId = ?", authorities).find(DataBean.class);
     }
 
     public static void save(List<DataBean> friendsList) {

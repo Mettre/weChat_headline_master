@@ -1,5 +1,7 @@
 package com.chaychan.news.api;
 
+import com.chaychan.news.model.entity.AccountList;
+import com.chaychan.news.model.entity.AccountStatistics;
 import com.chaychan.news.model.entity.BasePageEntity;
 import com.chaychan.news.model.entity.FeedbackBean;
 import com.chaychan.news.model.entity.FindUserBean;
@@ -8,7 +10,8 @@ import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsDetailsEntity;
-import com.chaychan.news.model.entity.RecommendesBean;
+import com.chaychan.news.model.entity.RecommendeBean;
+import com.chaychan.news.model.entity.ResponseList;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
@@ -17,7 +20,6 @@ import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.ResultResponse;
 
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -240,9 +242,23 @@ public interface ApiService2 {
      * 推荐用户
      */
     @Headers({"urlName:account"})
-    @POST("/module-friend/follow/loginEd/recommendedRequest")
-    Observable<ResultResponse<ResultList<RecommendesBean>>> recommendedRequest(@Header("authorities") String authorities, @Body HashMap<String, String> map);
+    @GET("/module-friend/follow/loginEd/recommendedList")
+    Observable<ResultResponse<ResultList<RecommendeBean>>> recommendedRequest(@Header("authorities") String authorities);
 
+
+    /**
+     * 统计月份记账记录
+     */
+    @Headers({"urlName:information"})
+    @POST("/module-client/account/loginEd/statisticsMonth")
+    Observable<ResultResponse<ResponseList<AccountList>>> getMonthBillList(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
+
+    /**
+     * 记账统计信息
+     */
+    @Headers({"urlName:information"})
+    @GET("/module-client/account/loginEd/statistics")
+    Observable<ResultResponse<AccountStatistics>> getStatistics(@Header("authorities") String authorities);
 
     /**
      * 上传文件

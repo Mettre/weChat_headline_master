@@ -15,7 +15,7 @@ public class ApiConstant {
     /**
      * 信息接口跟地址
      */
-//    public static final String BASE_INFORMATION_URL = "http://192.168.1.103:8762/";//公司
-    public static final String BASE_INFORMATION_URL = "http://192.168.2.228:8762/";//家里
+    public static final String BASE_INFORMATION_URL = "http://192.168.1.103:8762/";//公司
+//    public static final String BASE_INFORMATION_URL = "http://192.168.2.228:8762/";//家里
 
 }

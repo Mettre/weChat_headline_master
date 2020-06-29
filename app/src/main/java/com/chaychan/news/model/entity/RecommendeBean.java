@@ -1,11 +1,20 @@
 package com.chaychan.news.model.entity;
 
-public class RecommendesBean {
+public class RecommendeBean {
 
+    private String recommendId;
     private String userId;
     private String userName;
     private String headAvatar;
     private Boolean hasFollow;
+
+    public String getRecommendId() {
+        return recommendId;
+    }
+
+    public void setRecommendId(String recommendId) {
+        this.recommendId = recommendId;
+    }
 
     public String getUserId() {
         return userId;

@@ -1,8 +1,10 @@
 package com.chaychan.news.ui.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.chaychan.news.R;
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.utils.UIUtils;
@@ -34,13 +36,17 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        Eyes.translucentStatusBar(this,false);//
+        Eyes.translucentStatusBar(this, false);
         UIUtils.postTaskDelay(new Runnable() {
             @Override
             public void run() {
-                 startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                if (TextUtils.isEmpty(MyApp.getInstances().getToken())) {
+                    LoginActivity.startLoginActivity(SplashActivity.this,false);
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
                 finish();
             }
-        },2000);
+        }, 2000);
     }
 }

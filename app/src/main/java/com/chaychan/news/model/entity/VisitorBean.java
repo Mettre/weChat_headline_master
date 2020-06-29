@@ -11,7 +11,7 @@ public class VisitorBean {
      */
 
     private Long visitorId;
-    private long creationTime;
+    private String creationTime;
     private String userId;//访问者
     private String userName;
     private String headAvatar;
@@ -24,11 +24,11 @@ public class VisitorBean {
         this.visitorId = visitorId;
     }
 
-    public long getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(long creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 

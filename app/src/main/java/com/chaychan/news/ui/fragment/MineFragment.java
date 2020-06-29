@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
 import com.chaychan.news.event.StartBrotherEvent;
+import com.chaychan.news.model.entity.AccountStatistics;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.ui.activity.FeedbackActivity;
 import com.chaychan.news.ui.activity.FindUserActivity;
@@ -19,6 +20,7 @@ import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.UserInfoPresenter;
 import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.view.IRequestListener;
+import com.chaychan.news.view.IRequestMineListener;
 import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @date 2017/6/12  21:47
  */
 
-public class MineFragment extends BaseFragment<UserInfoPresenter> implements View.OnClickListener, IRequestListener<UserInfo> {
+public class MineFragment extends BaseFragment<UserInfoPresenter> implements View.OnClickListener, IRequestMineListener<UserInfo> {
 
     @Bind(R.id.ll_top)
     LinearLayout ll_top;
@@ -56,6 +58,12 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Bind(R.id.find_friend_LinearLayout)
     LinearLayout findFriendLinearLayout;
 
+    @Bind(R.id.account_num)
+    TextView account_num;
+
+    @Bind(R.id.day_num)
+    TextView day_num;
+
     private UserInfo userBean;
 
     @Override
@@ -75,10 +83,10 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
 
     @Override
     public void initData() {
-        KLog.i("initData");
         if (!MyApp.getInstances().NotLogged()) {
             KLog.i("获取个人信息接口请求");
             mPresenter.getUserInfo(MyApp.getInstances().getToken());
+            mPresenter.getStatistics(MyApp.getInstances().getToken());
         }
     }
 
@@ -106,6 +114,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
             //登录获取用户信息
             if (!MyApp.getInstances().NotLogged()) {
                 mPresenter.getUserInfo(MyApp.getInstances().getToken());
+                mPresenter.getStatistics(MyApp.getInstances().getToken());
             }
         } else if (event.EventType == StartBrotherEvent.REFRESHTAGEEDIT) {
             userBean = event.userBean;
@@ -119,7 +128,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     @Override
     public void onClick(View v) {
         if (MyApp.getInstances().NotLogged()) {
-            LoginActivity.startLoginActivity(mActivity);
+            LoginActivity.startLoginActivity(mActivity, true);
             return;
         }
         switch (v.getId()) {
@@ -127,7 +136,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
                 if (userBean != null) {
                     InformationActivity.startActivity(mActivity, userBean);
                 } else {
-                    LoginActivity.startLoginActivity(mActivity);
+                    LoginActivity.startLoginActivity(mActivity, true);
                 }
                 break;
             case R.id.feedback_RelativeLayout:
@@ -149,6 +158,12 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
     public void onRequestFirstSuccess(UserInfo response) {
         userBean = response;
         getInformation();
+    }
+
+    @Override
+    public void onRequestSecondSuccess(AccountStatistics response) {
+        account_num.setText(response.getTotalAccountNum()+"");
+        day_num.setText(response.getTotalAccountDay()+"");
     }
 
 

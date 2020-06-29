@@ -19,12 +19,16 @@ import com.chaychan.news.ui.activity.RecommendedUsersActivity;
 import com.chaychan.news.ui.adapter.FriendAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.FriendsPresenter;
+import com.chaychan.news.utils.DisplayUtils;
 import com.chaychan.news.utils.FriendsRecordHelper;
 import com.chaychan.news.utils.ListUtils;
+import com.chaychan.news.utils.NetWorkUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.IFriendsListener;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
+import com.chaychan.uikit.refreshlayout.BGANormalRefreshViewHolder;
+import com.chaychan.uikit.refreshlayout.BGARefreshLayout;
 import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -38,7 +42,7 @@ import flyn.Eyes;
 /**
  * 我的好友
  */
-public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<Friends>, View.OnClickListener {
+public class FriendFragment extends BaseFragment<FriendsPresenter> implements IFriendsListener<Friends>, View.OnClickListener, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private FriendAdapter friendAdapter;
 
@@ -57,8 +61,11 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
     @Bind(R.id.rv_comment)
     PowerfulRecyclerView mRvComment;
 
-    @Bind(R.id.tuijian_btn)
-    TipView tuijian_btn;
+    @Bind(R.id.refresh_layout)
+    BGARefreshLayout mRefreshLayout;
+
+    @Bind(R.id.recommend_btn)
+    TextView recommend_btn;
 
     private List<DataBean> momentsList = new ArrayList<>();
     private String authorities = MyApp.getInstances().getToken();
@@ -84,6 +91,22 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
         mTvAuthor.setText("好友列表");
         Eyes.setStatusBarColor(mActivity, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
         mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
+
+        mRefreshLayout.setDelegate(this);
+        mRvComment.setLayoutManager(new GridLayoutManager(mActivity, 1));
+        mRvComment.addItemDecoration(new DisplayUtils.SimpleDividerItemDecoration(1));
+        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(mActivity, false);
+        // 设置下拉刷新
+        refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.color_F3F5F4);//背景色
+        refreshViewHolder.setPullDownRefreshText(UIUtils.getString(R.string.refresh_pull_down_text));//下拉的提示文字
+        refreshViewHolder.setReleaseRefreshText(UIUtils.getString(R.string.refresh_release_text));//松开的提示文字
+        refreshViewHolder.setRefreshingText(UIUtils.getString(R.string.refresh_ing_text));//刷新中的提示文字
+
+
+        // 设置下拉刷新和上拉加载更多的风格
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
+        mRefreshLayout.shouldHandleRecyclerViewLoadingMore(mRvComment);
     }
 
     /**
@@ -93,12 +116,25 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
     public void startBrother(StartBrotherEvent event) {
         KLog.i("EventBus接受");
         if (event.EventType == StartBrotherEvent.REFRESHTAGE) {
-            mPresenter.getFriendsList(authorities);
+            mRefreshLayout.beginRefreshing();
         } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
             momentsList.clear();
             friendAdapter.notifyDataSetChanged();
+        } else if (event.EventType == StartBrotherEvent.RECOMMENDEDUSER) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        RecommendedUsersActivity.startActivity(mActivity);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
+
 
     @Override
     public void initData() {
@@ -106,7 +142,7 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
     @Override
     public void initListener() {
-        tuijian_btn.setOnClickListener(this);
+        recommend_btn.setOnClickListener(this);
     }
 
     @Override
@@ -128,18 +164,18 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
 
         if (ListUtils.isEmpty(momentsList)) {
             //找不到记录，拉取网络数据
-            mPresenter.getFriendsList(authorities);
+            mPresenter.getFriendsList();
             return;
         }
 
         mStateView.showContent();//显示内容
-        mPresenter.getFriendsList(authorities);
+        mPresenter.getFriendsList();
     }
 
 
     @Override
     public void onGetFriendsSuccess(Friends response) {
-//        KLog.e(new Gson().toJson(response));
+        mRefreshLayout.endRefreshing();// 加载完毕后在 UI 线程结束下拉刷新
         if (ListUtils.isEmpty(response.getData())) {
             //获取不到数据,显示空布局
             mStateView.showEmpty();
@@ -178,9 +214,27 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tuijian_btn:
+            case R.id.recommend_btn:
                 RecommendedUsersActivity.startActivity(mActivity);
                 break;
         }
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        if (!NetWorkUtils.isNetworkAvailable(mActivity)) {
+            //网络不可用弹出提示
+            mTipView.show();
+            if (mRefreshLayout.getCurrentRefreshStatus() == BGARefreshLayout.RefreshStatus.REFRESHING) {
+                mRefreshLayout.endRefreshing();
+            }
+            return;
+        }
+        mPresenter.getFriendsList();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
     }
 }

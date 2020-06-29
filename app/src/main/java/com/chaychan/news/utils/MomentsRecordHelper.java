@@ -1,5 +1,6 @@
 package com.chaychan.news.utils;
 
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.entity.Moments;
 import com.chaychan.news.model.entity.MomentsRecord;
 import com.google.gson.Gson;
@@ -21,7 +22,8 @@ public class MomentsRecordHelper {
      * @return
      */
     public static MomentsRecord getLastNewsRecord(String publisherUserId) {
-        return DataSupport.where("publisherUserId=?and page = ?", publisherUserId, String.valueOf(1)).findFirst(MomentsRecord.class);
+        String authorities = MyApp.getInstances().getToken();
+        return DataSupport.where("publisherUserId=?and page = ?", authorities, String.valueOf(1)).findFirst(MomentsRecord.class);
     }
 
     /**

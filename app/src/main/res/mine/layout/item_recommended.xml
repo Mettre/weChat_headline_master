@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/icon_head"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignBottom="@+id/back_line"
                 android:layout_marginRight="@dimen/eightMargin"
                 android:src="@mipmap/my_avatar" />
@@ -54,5 +54,6 @@
         android:paddingRight="10dp"
         android:paddingBottom="3dp"
         android:text="点击关注"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_smaller" />
 </LinearLayout>

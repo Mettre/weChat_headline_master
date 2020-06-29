@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.enum_.SmsTypeEnum;
+import com.chaychan.news.model.entity.LoginBean;
 import com.chaychan.news.model.response.ResultResponse;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.ForgetPasswordPresenter;
@@ -20,6 +21,7 @@ import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.ISendRequestListener;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import flyn.Eyes;
 
 import static com.chaychan.news.utils.LoginUtils.isMobileNO;
@@ -28,7 +30,7 @@ import static com.chaychan.news.utils.LoginUtils.isMobileNO;
  * Created by app on 2017/7/26.
  * 忘记密码
  */
-public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<Object> {
+public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, ISendRequestListener<LoginBean> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -77,6 +79,12 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
         onListener();
     }
 
+    @OnClick(R.id.iv_back)
+    public void onViewClicked() {
+        finish();
+    }
+
+
     @Override
     protected ForgetPasswordPresenter createPresenter() {
         return new ForgetPasswordPresenter(this);
@@ -104,13 +112,14 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     }
 
     @Override
-    public void onRequestFirstSuccess(Object response) {
+    public void onRequestFirstSuccess(LoginBean response) {
         ToastUtils.showShortToast("密码修改成功", 200);
+        finish();
     }
 
     @Override
-    public void onRequestSecondSuccess(Object response) {
-        ToastUtils.showShortToast("验证码已发送到手机，请注意查收", 200);
+    public void onRequestSecondSuccess(LoginBean response) {
+        ToastUtils.showShortToast("验证码( " + response.getMessage() + " )", 200);
         CountdownControl.changeBtnGetCode(verificationCode, this);
     }
 

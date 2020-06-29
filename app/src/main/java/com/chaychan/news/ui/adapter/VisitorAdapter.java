@@ -29,7 +29,7 @@ public class VisitorAdapter extends BaseQuickAdapter<VisitorBean, BaseViewHolder
         helper.setText(R.id.moments_word, "访问了你的空间");
 
         helper.setText(R.id.user_name, visitorBean.getUserName())
-                .setText(R.id.tv_time, TimeUtils.getShortTime(visitorBean.getCreationTime()));
+                .setText(R.id.tv_time, visitorBean.getCreationTime());
 
     }
 }

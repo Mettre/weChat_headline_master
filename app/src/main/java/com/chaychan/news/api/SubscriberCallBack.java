@@ -23,7 +23,7 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
             onSuccess((T) response.result);
         } else {
             if (401 == response.code) {
-                LoginActivity.startLoginActivity(UIUtils.getContext());
+                LoginActivity.startLoginActivity(UIUtils.getContext(),false);
                 EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.LOUGINOUT));
             }
             UIUtils.showToast(response.msg);

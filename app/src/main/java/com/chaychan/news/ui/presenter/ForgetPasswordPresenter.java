@@ -76,8 +76,8 @@ public class ForgetPasswordPresenter extends BasePresenter<ISendRequestListener>
     public void verificationRequest(String phone, SmsTypeEnum smsTypeEnum) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("phone", phone);
-        map.put("captchaCode", smsTypeEnum.name());
+        map.put("smsPhone", phone);
+        map.put("smsType", smsTypeEnum.name());
         addSubscription(mApiService2.sendMessageRequest(map), new SubscriberCallBack<LoginBean>() {
             @Override
             protected void onSuccess(LoginBean response) {

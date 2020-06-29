@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
-import com.chaychan.news.model.entity.RecommendesBean;
+import com.chaychan.news.model.entity.RecommendeBean;
 import com.chaychan.news.model.entity.ResultList;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.FindUserPresenter;
@@ -32,7 +32,7 @@ import flyn.Eyes;
 /**
  * 推荐用户
  */
-public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<ResultList<RecommendesBean>> {
+public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> implements View.OnClickListener, FindUserListener<ResultList<RecommendeBean>> {
 
     @Bind(R.id.group_view)
     LinearLayout groupView;
@@ -41,7 +41,7 @@ public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> im
     PowerfulRecyclerView mRvComment;
 
     private RecommendedAdapter recommendedAdapter;
-    private List<RecommendesBean> followBeanList = new ArrayList<>();
+    private List<RecommendeBean> followBeanList = new ArrayList<>();
 
     @Bind(R.id.iv_back)
     ImageView iv_back;
@@ -52,7 +52,7 @@ public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> im
     private int position = -1;
 
     public static void startActivity(Context mContext) {
-        Intent intent = new Intent(mContext, FollowActivity.class);
+        Intent intent = new Intent(mContext, RecommendedUsersActivity.class);
         mContext.startActivity(intent);
     }
 
@@ -92,7 +92,7 @@ public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> im
             }
         });
 
-        recommendedAdapter.setEmptyView(R.layout.pager_no_faceback);
+//        recommendedAdapter.setEmptyView(R.layout.pager_no_faceback);
         mPresenter.recommendedRequest();
     }
 
@@ -106,7 +106,7 @@ public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> im
     }
 
     @Override
-    public void onGetRefreshListSuccess(ResultList<RecommendesBean> response) {
+    public void onGetRefreshListSuccess(ResultList<RecommendeBean> response) {
         followBeanList = response.getData();
         recommendedAdapter.setNewData(followBeanList);
     }
@@ -134,16 +134,16 @@ public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> im
         recommendedAdapter.notifyDataSetChanged();
     }
 
-    public class RecommendedAdapter extends BaseQuickAdapter<RecommendesBean, BaseViewHolder> {
+    public class RecommendedAdapter extends BaseQuickAdapter<RecommendeBean, BaseViewHolder> {
         private Context mContext;
 
-        public RecommendedAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<RecommendesBean> data) {
+        public RecommendedAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<RecommendeBean> data) {
             super(layoutResId, data);
             mContext = context;
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, RecommendesBean followBean) {
+        protected void convert(BaseViewHolder helper, RecommendeBean followBean) {
             GlideUtils.loadRound(mContext, followBean.getHeadAvatar(), helper.getView(R.id.icon_head));
             helper.setText(R.id.user_name, followBean.getUserName());
             helper.setOnClickListener(R.id.allow_text, new View.OnClickListener() {
@@ -157,7 +157,7 @@ public class RecommendedUsersActivity extends BaseActivity<FindUserPresenter> im
                     }
                 }
             });
-
+            helper.getView(R.id.allow_text).setEnabled(!followBean.getHasFollow());
             if (followBean.getHasFollow()) {
                 helper.setText(R.id.allow_text, "已关注");
                 helper.setTextColor(R.id.allow_text, mContext.getResources().getColor(R.color.gray_light));

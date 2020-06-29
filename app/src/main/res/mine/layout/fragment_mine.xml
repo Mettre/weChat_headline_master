@@ -160,11 +160,111 @@
                 </LinearLayout>
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/account_lin"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_count"
+                android:background="@color/jet"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="10.0dip"
+                    android:paddingBottom="14.0dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.9"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:alpha="0.5"
+                        android:text="连续打卡"
+                        android:textColor="@color/white"
+                        android:textSize="12.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="10.0dip"
+                    android:paddingBottom="14.0dip">
+
+                    <TextView
+                        android:id="@+id/day_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:alpha="0.5"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:alpha="0.5"
+                        android:text="记账总天数"
+                        android:textColor="@color/white"
+                        android:textSize="12.0sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="10.0dip"
+                    android:paddingBottom="14.0dip">
+
+                    <TextView
+                        android:id="@+id/account_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:alpha="0.5"
+                        android:drawablePadding="5dp"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:alpha="0.5"
+                        android:drawablePadding="5dp"
+                        android:text="记账总笔数"
+                        android:textColor="@color/white"
+                        android:textSize="12.0sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <!--内容-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_count"
+                android:layout_below="@+id/account_lin"
                 android:orientation="vertical">
 
                 <View style="@style/MineFunctionDivider" />

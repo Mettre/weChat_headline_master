@@ -2,6 +2,7 @@ package com.chaychan.news.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import com.chaychan.news.utils.SoftUtils;
 import com.chaychan.news.utils.ToastUtils;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.ISendRequestListener;
+import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,9 +59,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     TextView mTvAuthor;
 
 
-    public static void startActivity(Context mContext) {
+    public static void startActivity(AppCompatActivity mContext) {
         Intent intent = new Intent(mContext, RegisterActivity.class);
-        mContext.startActivity(intent);
+        mContext.startActivityForResult(intent, 1000);
     }
 
     private void onListener() {
@@ -123,7 +125,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     public void onRequestFirstSuccess(LoginBean response) {
 
         ToastUtils.showShortToast("注册成功", 200);
-        EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.RECOMMENDEDUSER));
+        LoginUtils.loginSaveToken(phone.getText().toString(), response.getAccess_token());
+
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         finish();
     }
 

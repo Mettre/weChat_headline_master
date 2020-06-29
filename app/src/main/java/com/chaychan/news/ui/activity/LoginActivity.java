@@ -2,6 +2,7 @@ package com.chaychan.news.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.chaychan.news.view.IRequestListener;
 import com.socks.library.KLog;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -51,9 +53,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
     @Bind(R.id.password)
     EditText passwordEdt;
 
+    private Boolean hasHome = false;
 
-    public static void startLoginActivity(Context mContext) {
+
+    public static void startLoginActivity(Context mContext, Boolean hasHome) {
         Intent intent = new Intent(mContext, LoginActivity.class);
+        intent.putExtra("hasHome", hasHome);
         mContext.startActivity(intent);
     }
 
@@ -72,6 +77,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
     @Override
     public void initView() {
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
+        hasHome = getIntent().getBooleanExtra("hasHome", false);
         SoftUtils.setupUI(this, groupView);
         inListener();
     }
@@ -95,6 +101,27 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
         }
     }
 
+
+    // 为了获取结果
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1000) {
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
+                EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.RECOMMENDEDUSER));
+
+                if (hasHome) {
+                    finish();
+                } else {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }
+
+            }
+        }
+    }
+
     @Override
     protected LoginPresenter createPresenter() {
         return new LoginPresenter(this);
@@ -110,7 +137,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements View.
         LoginUtils.loginSaveToken(phoneNum, response.getAccess_token());
         EventBus.getDefault().post(new StartBrotherEvent(StartBrotherEvent.REFRESHTAGE));
         KLog.i("EventBus发送");
-        finish();
+        if (hasHome) {
+            finish();
+        } else {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
     @Override
