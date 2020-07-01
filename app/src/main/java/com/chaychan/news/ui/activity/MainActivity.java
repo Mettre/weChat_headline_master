@@ -36,9 +36,6 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.bottom_bar)
     BottomBarLayout mBottomBarLayout;
 
-    @Bind(R.id.account_btn)
-    TextView account_btn;
-
     private List<BaseFragment> mFragments;
     private MainTabAdapter mTabAdapter;
 
@@ -92,13 +89,6 @@ public class MainActivity extends BaseActivity {
                 bottomItem.setIconSelectedResourceId(R.mipmap.tab_micro_selected);//更换为原来的图标
 
                 cancelTabLoading(bottomItem);//停止旋转动画
-            }
-        });
-
-        account_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
     }

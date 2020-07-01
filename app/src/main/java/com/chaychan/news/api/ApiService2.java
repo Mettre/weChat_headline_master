@@ -262,11 +262,18 @@ public interface ApiService2 {
     Observable<ResultResponse<AccountStatistics>> getStatistics(@Header("authorities") String authorities);
 
     /**
-     * 推荐用户
+     * 记账分类列表
      */
     @Headers({"urlName:information"})
-    @GET("/module-client/accountClassification/add")
-    Observable<ResultResponse<ResultList<AccountClassification>>> accountClassification();
+    @GET("/module-client/accountClassification/list/{type}")
+    Observable<ResultResponse<ResultList<AccountClassification>>> accountClassification( @Path("type") int type);
+
+    /**
+     * 添加记账
+     */
+    @Headers({"urlName:information"})
+    @POST("/module-client/account/loginEd/add")
+    Observable<ResultResponse<Object>> addAccount(@Header("authorities") String authorities, @Body HashMap<String, Object> map);
 
 
     /**

@@ -25,7 +25,7 @@
         android:layout_alignBottom="@+id/back_line"
         android:layout_alignParentRight="true"
         android:layout_margin="12dp"
-        android:src="@mipmap/my_avatar" />
+        android:src="@mipmap/ic_circle_default" />
 
     <TextView
         android:id="@+id/user_name"

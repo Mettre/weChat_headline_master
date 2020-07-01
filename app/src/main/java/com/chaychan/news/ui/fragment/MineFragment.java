@@ -121,6 +121,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Vie
             getInformation();
         } else if (event.EventType == StartBrotherEvent.LOUGINOUT) {
             userBean = null;
+            account_num.setText("0");
+            day_num.setText("0");
             getInformation();
         }
     }

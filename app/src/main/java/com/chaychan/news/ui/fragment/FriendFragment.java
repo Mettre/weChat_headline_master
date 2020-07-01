@@ -1,6 +1,8 @@
 package com.chaychan.news.ui.fragment;
 
+import android.app.Application;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.DataBean;
 import com.chaychan.news.model.entity.Friends;
 import com.chaychan.news.model.entity.ResultList;
+import com.chaychan.news.ui.activity.LoginActivity;
 import com.chaychan.news.ui.activity.MainActivity;
 import com.chaychan.news.ui.activity.MomentsActivity;
 import com.chaychan.news.ui.activity.RecommendedUsersActivity;
@@ -215,7 +218,11 @@ public class FriendFragment extends BaseFragment<FriendsPresenter> implements IF
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recommend_btn:
-                RecommendedUsersActivity.startActivity(mActivity);
+                if (TextUtils.isEmpty(MyApp.getInstances().getToken())) {
+                    LoginActivity.startLoginActivity(mActivity, true);
+                } else {
+                    RecommendedUsersActivity.startActivity(mActivity);
+                }
                 break;
         }
     }

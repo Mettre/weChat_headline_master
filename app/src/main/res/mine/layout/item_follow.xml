@@ -27,7 +27,7 @@
                 android:layout_height="45dp"
                 android:layout_alignBottom="@+id/back_line"
                 android:layout_marginRight="@dimen/eightMargin"
-                android:src="@mipmap/my_avatar" />
+                android:src="@mipmap/ic_circle_default" />
 
             <TextView
                 android:id="@+id/user_name"

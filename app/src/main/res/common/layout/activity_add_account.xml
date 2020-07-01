@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:id="@+id/group_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/include_basics" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#FADA63">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:scaleType="center"
+            android:src="@mipmap/back_icon_white" />
+
+        <LinearLayout
+            android:id="@+id/ll_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#FADA63"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                tl:tl_indicator_color="@color/oil"
+                tl:tl_indicator_width="28dp"
+                tl:tl_textSelectColor="@color/oil"
+                tl:tl_textUnselectColor="@color/oil"
+                tl:tl_textsize="20sp"
+                tl:tl_underline_color="#FADA63"
+                tl:tl_underline_height="1dp" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_d8d8d8" />
+    </RelativeLayout>
+
 
     <com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView
         android:id="@+id/rv_comment"
@@ -14,6 +65,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/white"
+        android:padding="16dp"
         app:dividerColor="@color/color_d8d8d8"
         app:dividerSize="0dp" />
 
@@ -41,10 +93,11 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/content_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="null"
+                android:background="@null"
                 android:hint="点击编写备注"
                 android:padding="10dp"
                 android:textColor="@color/oil2"
@@ -52,6 +105,7 @@
                 android:textSize="@dimen/normal" />
 
             <TextView
+                android:id="@+id/money_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

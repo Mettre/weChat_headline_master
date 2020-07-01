@@ -17,6 +17,8 @@ public class StartBrotherEvent {
 
     public final static int RECOMMENDEDUSER = 1006;//首次登陆推荐用户
 
+    public final static int REFRESHACCOUNT = 1007;//记账后刷新账目列表
+
     public UserInfo userBean;
     public int EventType;
 

@@ -148,9 +148,9 @@ public class FindUserActivity extends BaseActivity<FindUserPresenter> implements
                 finish();
                 break;
             case R.id.cancel_button:
-                userIdEdit.setText("");
-                visitorBeanList.clear();
-                findUserAdapter.notifyDataSetChanged();
+                if (!TextUtils.isEmpty(userIdEdit.getText().toString())) {
+                    mPresenter.getFindUserList(userIdEdit.getText().toString());
+                }
                 break;
         }
     }

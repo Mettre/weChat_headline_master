@@ -1,6 +1,7 @@
 package com.chaychan.news.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -12,6 +13,8 @@ import com.chaychan.news.R;
 import com.chaychan.news.event.StartBrotherEvent;
 import com.chaychan.news.model.entity.AccountList;
 import com.chaychan.news.model.entity.ResponseList;
+import com.chaychan.news.ui.activity.AddAccountActivity;
+import com.chaychan.news.ui.activity.MainActivity;
 import com.chaychan.news.ui.activity.RecommendedUsersActivity;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.AccountsPresenter;
@@ -28,6 +31,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import flyn.Eyes;
+
+import static android.app.Activity.RESULT_OK;
 
 public class AccountsFragment extends BaseFragment<AccountsPresenter> implements IFriendsListener<ResponseList<AccountList>> {
 
@@ -55,6 +60,9 @@ public class AccountsFragment extends BaseFragment<AccountsPresenter> implements
     @Bind(R.id.month_text)
     TextView month_text;
 
+    @Bind(R.id.account_btn)
+    TextView account_btn;
+
     private String year = "2020";
     private String month = "06";
 
@@ -76,7 +84,7 @@ public class AccountsFragment extends BaseFragment<AccountsPresenter> implements
     public void initView(View rootView) {
         iv_back.setVisibility(View.GONE);
         mTvAuthor.setText("我的记账本");
-        Eyes.setStatusBarColor(mActivity, UIUtils.getColor(R.color.color_3333));//设置状态栏的颜色为灰色
+        Eyes.setStatusBarColor(mActivity, UIUtils.getColor(R.color.yellow));//设置状态栏的颜色为灰色
 
 
     }
@@ -103,9 +111,10 @@ public class AccountsFragment extends BaseFragment<AccountsPresenter> implements
             accountsAdapter.notifyDataSetChanged();
             shouru_text.setText("0.00");
             zhichu_text.setText("0.00");
+        }else if (event.EventType == StartBrotherEvent.REFRESHACCOUNT) {
+            mPresenter.getMonthBillList(year, month);
         }
     }
-
 
     @Override
     public void initData() {
@@ -120,6 +129,12 @@ public class AccountsFragment extends BaseFragment<AccountsPresenter> implements
 
     @Override
     public void initListener() {
+        account_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddAccountActivity.startActivity(mActivity);
+            }
+        });
 
     }
 
