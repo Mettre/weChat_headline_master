@@ -415,7 +415,6 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
         initPopWindow(popView, mPopupWindow);
 
         // 设置按钮的点击事件
-
         ppBtnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -431,8 +430,6 @@ public class InformationActivity extends BaseActivity<FilePresster> implements V
                     // Ask for both permissions
                     EasyPermissions.requestPermissions(InformationActivity.this, "需要拍照相关权限", RC_LOCATION_CONTACTS_PERM, perms);
                 }
-
-
             }
         });
         ppBtnGallery.setOnClickListener(new View.OnClickListener() {

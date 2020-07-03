@@ -231,6 +231,7 @@ public class ReleaseMomentsActivity extends BaseActivity<ReleaseMomentsPresenter
     @Override
     public void onUpFileSuccess(Object response) {
         releaseMoments.setMomentsImage(faceBackContent);
+        mPresenter.releaseMoments(releaseMoments);
     }
 
     @Override
